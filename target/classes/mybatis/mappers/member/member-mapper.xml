@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	
+	<select id="selectMember"	parameterType="java.lang.String" 
+	resultType="bit.project.imagic.vo.MemberVO">
+		select * from member
+		where m_id=#{m_id}
+	</select>
+	
+	
+	<insert id="registerMember" parameterType="bit.project.imagic.vo.MemberVO">
+		insert into member
+				 values(
+				 #{id},
+				 #{password},
+				 #{email},
+				 now()
+				 )
+	</insert>
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

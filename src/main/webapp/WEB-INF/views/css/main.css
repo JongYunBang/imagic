@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+#sortable {
+    margin: 10px;
+    padding: 45px;
+    width: 500px;
+}
+
+.image {
+    margin: 50px 30px 20px 0;
+    padding: 1px;
+    float: left;
+    width: 120px;
+    height: 120px;
+    border: 1px solid #000;
+}
