@@ -103,7 +103,6 @@ $(function() {
 			output.push('<li><strong>' + f.name + '</strong> (' + f.type
 					+ ') - ' + f.size + 'bytes, last modified : '
 					+ f.lastModifiedDate.toLocaleDateString() + '</li>');
-			Debugger.log(files[i], "handleDragSelect");
 		}
 		get('drop_zone').innerHTML = '<ul>' + output.join(' ') + '</ul>';
 	}
