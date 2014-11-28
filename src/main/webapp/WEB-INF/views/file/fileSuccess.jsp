@@ -1,9 +1,5 @@
-<%@page import="java.io.IOException"%>
-<%@page import="java.io.File"%>
-<%@page import="java.util.UUID"%>
 <%@page import="bit.project.imagic.vo.FileUploadVO"%>
 <%@page import="org.springframework.web.multipart.MultipartFile"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
