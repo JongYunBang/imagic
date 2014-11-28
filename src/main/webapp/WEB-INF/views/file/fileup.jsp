@@ -8,7 +8,7 @@
 <head>
 <meta charset="utf-8">
 <title>jQuery File Upload Example</title>
-<link rel="stylesheet" href="../css/dropzone.css">
+<link rel="stylesheet" href="../css/newdropzone.css">
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 <script src="js/newdropzone.js"></script>
 <script>
@@ -23,10 +23,13 @@
 <body>
 	<input type="file" id="files" name="files []" style="display: none;"
 		multiple />
-	<div id="drop_zone"
-		style="width: 400px; height: 400px; border: 1px solid #000000"
-		class="dropzone">Drop files</div>
+	<div id="drop_zone" class="dropzone">Drop files
 	<output id="list"></output>
-	<button id="clear-dropzone">Clear Dropzone</button>
+	</div>
+	
+	<div id="progress_bar">
+    <div class="percent">0%</div>
+</div>
+	<button id="upload_dropzone">Upload File</button>
 </body>
 </html>

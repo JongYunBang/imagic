@@ -2,43 +2,20 @@ package bit.project.imagic.vo;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
-@JsonIgnoreProperties({ "bytes" })
 public class FileVO  implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private String fileName;
-	private String fileSize;
-	private String fileType;
-
+	private int length;
 	private byte[] bytes;
+	private String name;
+	private String type;
 
-	public String getFileName() {
-		return fileName;
+	public int getLength() {
+		return length;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getFileSize() {
-		return fileSize;
-	}
-
-	public void setFileSize(String fileSize) {
-		this.fileSize = fileSize;
-	}
-
-	public String getFileType() {
-		return fileType;
-	}
-
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	public byte[] getBytes() {
@@ -48,5 +25,24 @@ public class FileVO  implements Serializable{
 	public void setBytes(byte[] bytes) {
 		this.bytes = bytes;
 	}
+
+	
+	public String getName() {
+		return name;
+	}
+
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 }
