@@ -9,6 +9,7 @@
 .dropzone {
 	border: 1px solid #000;
 	min-height: 360px;
+	cursor: pointer;
 }
 
 .dz-preview {
@@ -19,6 +20,7 @@
 	display: inline-block;
 	margin: 10px;
 	vertical-align:  top;
+	cursor: default;
 }
 
 .dz-default.dz-message {

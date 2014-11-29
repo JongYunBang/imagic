@@ -49,7 +49,7 @@ public class FileUploadController {
 		System.out.println(itr.size());
 		
 		MultipartFile mpf = null;
-//		
+		
 //		while (itr.hasNext()){
 //			String fileName = itr.next();
 //			System.out.println("iterator : " + fileName);
@@ -60,7 +60,7 @@ public class FileUploadController {
 //				file.setBytes(mpf.getBytes());
 //				file.setType(mpf.getContentType());
 //				file.setName(mpf.getOriginalFilename());
-//				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("/Users/ProgrammingPearls/Documents/Upload/" + mpf.getOriginalFilename()));
+//				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("d:/down/upload/" + mpf.getOriginalFilename()));
 //			} catch (IOException e) {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();

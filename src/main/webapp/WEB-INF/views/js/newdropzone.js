@@ -13,7 +13,7 @@ $(function() {
 	var method = "POST";
 	var url;
 	
-	var previewTemplate = "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>";
+	
 	var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
 	
 	/* console 디버깅을 편하게 하기 위한 함수 객체
@@ -44,7 +44,10 @@ $(function() {
 	   밑에 보면 div = <div></div>가 생성 되고 
 	   div.innerHTML = "<div class='asd' id='asd'></div>" 를 입력하면
 	   <div>
-			<div class='asd' id='asd'></div>
+			<div class='asd' id='asd'>
+				<div class="asdsadasdad" id="asdasdsad">
+				</div>
+			</div>
 	   </div>
 	   이 형태로 만들어지는데 여기서 return으로 div.childNodes[0] 을 해주면
 	   <div class='asd' id='asd'></div> 값만 리턴되기 때문에 
@@ -110,11 +113,11 @@ $(function() {
 		message = get('drop_zone').querySelector('.dz-message');
 		message.classList.remove("dz-default");
 		message.classList.add("dz-started");
-
+		
 		//파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성(개별 존재)
-			template = dropzone.createElement(previewTemplate);
+			template = dropzone.createElement( "<div class=\"dz-preview dz-file-preview\" id=\""+f.name+"\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>");
 			get('drop_zone').appendChild(template);
 			name = template.querySelector('[data-dz-name]');
 			name.textContent = f.name;
@@ -123,10 +126,22 @@ $(function() {
 			thumbnail = template.querySelector('[data-dz-thumbnail]');
 			thumbnail.alt = f.name;
 			dropzone.createThumbnail(f, thumbnail);
-			
+			output.push(f);
+			console.log(output);
 //			이 부분은 나중에 클래스를 동적으로 변경시키기 해서 필요한 소스(CSS할때 중요)
 //			template.classList.remove("dz-file-preview");
 //			template.classList.add("dz-image-preview");
+		}
+	}
+	
+	// 파일 이름으로 태그및 파일리스트에서 해당 파일 삭제
+	dropzone.removeFileElement = function(files, filename) {
+		for (var i=0; files.length>=0; i++) {
+			if (files[i]==filename) {
+				document.getElementById(filename).remove;
+				files.splice(i);
+			}
+			return ;
 		}
 	}
 			
@@ -181,7 +196,7 @@ $(function() {
 		dropzone.createFileElement(files);
 	}
 
-	dropzone.handleDragOver = function(evt) {
+	    dropzone.handleDragOver = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		evt.dataTransfer.dropEffect = 'copy';
@@ -192,9 +207,9 @@ $(function() {
 		Debugger.log("fileUpload 접속");
 
 		var formData = new FormData();
-		$.each(files, function(i, file) {
+		$.each(output, function(i, file) {
 			formData.append('file-' + i, file);
-			Debugger.log(files);
+			Debugger.log(output);
 			Debugger.log(file);
 		});
 		// 데이터 전송을 위해 XHR을 생성한다.
