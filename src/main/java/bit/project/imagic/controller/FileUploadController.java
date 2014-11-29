@@ -1,13 +1,10 @@
 package bit.project.imagic.controller;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,25 +44,28 @@ public class FileUploadController {
 	public String upload(MultipartHttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println("controller 접속");
-		Iterator<String> itr = request.getFileNames();
+		List<MultipartFile> itr = request.getFiles("files");
+		
+		System.out.println(itr.size());
 		
 		MultipartFile mpf = null;
-		
-		while (itr.hasNext()){
-			System.out.println("iterator 들어옴");
-			mpf = request.getFile(itr.next());
-			System.out.println(mpf.getOriginalFilename() +" uploaded!");
-	        try {
-				file.setLength(mpf.getBytes().length);
-				file.setBytes(mpf.getBytes());
-				file.setType(mpf.getContentType());
-				file.setName(mpf.getOriginalFilename());
-				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("/Users/ProgrammingPearls/Documents/Upload/" + mpf.getOriginalFilename()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		
+//		while (itr.hasNext()){
+//			String fileName = itr.next();
+//			System.out.println("iterator : " + fileName);
+//			mpf = request.getFile(fileName);
+//			System.out.println(mpf.getOriginalFilename() +" uploaded!");
+//	        try {
+//				file.setLength(mpf.getBytes().length);
+//				file.setBytes(mpf.getBytes());
+//				file.setType(mpf.getContentType());
+//				file.setName(mpf.getOriginalFilename());
+//				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("/Users/ProgrammingPearls/Documents/Upload/" + mpf.getOriginalFilename()));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		return null;
 		
 	}

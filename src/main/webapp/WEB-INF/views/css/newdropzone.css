@@ -8,8 +8,45 @@
 
 .dropzone {
 	border: 1px solid #000;
-	margin: 0 auto;
 	min-height: 360px;
+}
+
+.dz-preview {
+	position :relative;
+	border: 1px solid #000;
+	width: 102px;
+	height: 180px;
+	display: inline-block;
+	margin: 10px;
+	vertical-align:  top;
+}
+
+.dz-default.dz-message {
+	opacity: 1;
+	-ms-filter: none;
+	filter: none;
+	-webkit-transition: opacity 0.3s ease-in-out;
+	-moz-transition: opacity 0.3s ease-in-out;
+	-o-transition: opacity 0.3s ease-in-out;
+	-ms-transition: opacity 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
+	background-image: url("../img/spritemap.png");
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	position: absolute;
+	width: 428px;
+	height: 123px;
+	margin-left: -214px;
+	top: 20%;
+	left: 50%;
+}
+
+.dz-started .dz-message {
+	display: none;
+}
+
+.dropzone .dz-default.dz-message span, .dz-started.dz-message span {
+	display: none;
 }
 
 #progress_bar {
@@ -32,4 +69,11 @@
 	background-color: #99ccff;
 	height: auto;
 	width: 0;
+}
+
+[data-dz-thumbnail] {
+	width: 100px;
+	height: 100px;
+	margin: 10px 5px 0 0;
+	border: 1px solid #000;
 }

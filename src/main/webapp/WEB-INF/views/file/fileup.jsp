@@ -23,12 +23,13 @@
 <body>
 	<input type="file" id="files" name="files []" style="display: none;"
 		multiple />
-	<div id="drop_zone" class="dropzone">Drop files
-	<output id="list"></output>
+	<div id="drop_zone" class="dropzone">
+	<div class="dz-default dz-message"><span>Drop files here to upload</span>
+	</div>
 	</div>
 	
 	<div id="progress_bar">
-    <div class="percent">0%</div>
+    <div class="percent"></div>
 </div>
 	<button id="upload_dropzone">Upload File</button>
 </body>
