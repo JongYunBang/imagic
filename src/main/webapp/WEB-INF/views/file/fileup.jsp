@@ -22,7 +22,7 @@
 </head>
 <body>
 	<input type="file" id="files" name="files []" style="display: none;"
-		multiple />
+		multiple/>
 	<div id="drop_zone" class="dropzone">
 	<div class="dz-default dz-message"><span>Drop files here to upload</span>
 	</div>

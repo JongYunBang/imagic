@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+#file_main {
+	position: relative;
+	width:  700px;
+}
+#file_main_aside {
+	position: absolute;
+	background-color: skyblue;
+}
+#file_main_bside {
+	margin-left: 200px;
+	width: 500px;
+	background-color: ;
+}

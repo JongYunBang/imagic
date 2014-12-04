@@ -15,20 +15,19 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int create(MemberVO member) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+//		System.out.println("DAO 에서의 member    " + member.getM_id());
+		return sqlSession.insert("registerMember", member);
 	}
 
 	@Override
 	public MemberVO read(String m_id) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("selectMember", m_id);
+		
+		return null;
 	}
 
 	@Override
 	public MemberVO read(MemberVO member) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("selectMember", member);
 	}
 
 	@Override
@@ -48,6 +47,7 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	
 
 

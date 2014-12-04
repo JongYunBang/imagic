@@ -14,6 +14,11 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO dao;
 
 	@Override
+	public MemberVO login(MemberVO member) throws Exception {
+		return dao.read(member);
+	}
+
+	@Override
 	public MemberVO checkLogin(MemberVO member) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
@@ -22,8 +27,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int registerMember(MemberVO member) throws Exception {
 		int insertResult =0;
+//		System.out.println("service member " + member.getM_id());
 		insertResult = dao.create(member);
-		System.out.println("memberserviceimp에서의 리턴값 "+insertResult);
+//		System.out.println("memberserviceimp에서의 리턴값 "+insertResult);
 		return insertResult;
 	}
 
@@ -35,7 +41,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberVO getMember(String m_id) throws Exception {
-		// TODO Auto-generated method stub
 		return dao.read(m_id);
 	}
 

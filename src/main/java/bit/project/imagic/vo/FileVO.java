@@ -2,47 +2,84 @@ package bit.project.imagic.vo;
 
 import java.io.Serializable;
 
-public class FileVO  implements Serializable{
+public class FileVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int length;
-	private byte[] bytes;
-	private String name;
-	private String type;
+	private String m_id;
+	private String dirNum;
+	private String dirName;
+	private String dirSrc;
+	private int imgNum;
+	private String imgName;
+	private int imgLength;
+	private byte[] imgBytes;
 
-	public int getLength() {
-		return length;
+	public String getM_id() {
+		return m_id;
 	}
 
-	public void setLength(int length) {
-		this.length = length;
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
 	}
 
-	public byte[] getBytes() {
-		return bytes;
+	public String getDirNum() {
+		return dirNum;
 	}
 
-	public void setBytes(byte[] bytes) {
-		this.bytes = bytes;
+	public void setDirNum(String dirNum) {
+		this.dirNum = dirNum;
 	}
 
-	
-	public String getName() {
-		return name;
+	public String getDirName() {
+		return dirName;
 	}
 
-	
-	public void setName(String name) {
-		this.name = name;
+	public void setDirName(String dirName) {
+		this.dirName = dirName;
 	}
 
-	public String getType() {
-		return type;
+	public String getDirSrc() {
+		return dirSrc;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setDirSrc(String dirSrc) {
+		this.dirSrc = dirSrc;
 	}
 
+	public int getImgNum() {
+		return imgNum;
+	}
+
+	public void setImgNum(int imgNum) {
+		this.imgNum = imgNum;
+	}
+
+	public String getImgName() {
+		return imgName;
+	}
+
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+
+	public int getImgLength() {
+		return imgLength;
+	}
+
+	public void setImgLength(int imgLength) {
+		this.imgLength = imgLength;
+	}
+
+	public byte[] getImgBytes() {
+		return imgBytes;
+	}
+
+	public void setImgBytes(byte[] imgBytes) {
+		this.imgBytes = imgBytes;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

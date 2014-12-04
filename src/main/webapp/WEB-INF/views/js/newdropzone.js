@@ -1,7 +1,11 @@
 /**
  * created by Sung Yeol Woo. (2014. 11. 26)
  */
+
 $(function() {
+	Array.prototype.fileSize = function(file) {
+		return file.size;
+	};
 
 	// 메인 객체
 	var dropzone = dropzone || {};
@@ -53,36 +57,36 @@ $(function() {
 	   <div class='asd' id='asd'></div> 값만 리턴되기 때문에 
 	   안에 있는 엘리먼트만 가져오는 기능을 갖게 된다. 
 	 */
-	dropzone.createElement = function (string) {
-        var div;
-        div = document.createElement("div");
-        div.innerHTML = string;
-        return div.childNodes[0];
-    };
+	dropzone.createElement = function(string) {
+		var div;
+		div = document.createElement("div");
+		div.innerHTML = string;
+		return div.childNodes[0];
+	};
 
-    /* 
-     *  filesize를 용량에 맞게 바꿔준다.
-     */
-    dropzone.filesize = function (size) {
-        var string;
-//        if (size >= 1024 * 1024 * 1024 * 1024 / 10) {
-//            size = size / (1024 * 1024 * 1024 * 1024 / 10);
-//            string = "TB";
-        if (size >= 1000 * 1000 * 1000) {
-            size = size / (1000 * 1000 * 1000 / 10);
-            string = "GB";
-        }else if (size >= 1000* 1000) {
-            size = size / (1000 * 1000 / 10);
-            string = "MB";
-        } else if (size >= 1000) {
-            size = size / (1000 / 10);
-            string = "KB";
-        } else {
-            size = size * 10;
-            string = "byte";
-        }
-        return "<strong>" + (Math.round(size)/10) + "</strong> " + string;
-    };
+	/*
+	 * filesize를 용량에 맞게 바꿔준다.
+	 */
+	dropzone.filesize = function(size) {
+		var string;
+		// if (size >= 1024 * 1024 * 1024 * 1024 / 10) {
+		// size = size / (1024 * 1024 * 1024 * 1024 / 10);
+		// string = "TB";
+		if (size >= 1000 * 1000 * 1000) {
+			size = size / (1000 * 1000 * 1000 / 10);
+			string = "GB";
+		} else if (size >= 1000 * 1000) {
+			size = size / (1000 * 1000 / 10);
+			string = "MB";
+		} else if (size >= 1000) {
+			size = size / (1000 / 10);
+			string = "KB";
+		} else {
+			size = size * 10;
+			string = "byte";
+		}
+		return "<strong>" + (Math.round(size) / 10) + "</strong> " + string;
+	};
 	// 최대 업로드 제한 체크
 	dropzone.canUpload = function(fileLength) {
 		if (!fileLength) {
@@ -107,14 +111,14 @@ $(function() {
 
 	// 파일 리스트 생성 함수
 	dropzone.createFileElement = function(files) {
-		var template, name, size, thumbnail, message; 
-		
+		var template, name, size, thumbnail, message;
+
 		// 메인에 뜨는 dropzone 그림 사라지게 하기
 		message = get('drop_zone').querySelector('.dz-message');
 		message.classList.remove("dz-default");
 		message.classList.add("dz-started");
 		
-		//파일이 파일객체들의 파일리스트로 존재한다.
+		// 파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성(개별 존재)
 			template = dropzone.createElement( "<div class=\"dz-preview dz-file-preview\" id=\""+f.name+"\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>");
@@ -204,19 +208,16 @@ $(function() {
 
 	dropzone.fileUpload = function(evt) {
 		url = "/upload";
-		Debugger.log("fileUpload 접속");
-
 		var formData = new FormData();
-		$.each(output, function(i, file) {
-			formData.append('file-' + i, file);
-			Debugger.log(output);
-			Debugger.log(file);
-		});
+	
 		// 데이터 전송을 위해 XHR을 생성한다.
 		var xhr = new XMLHttpRequest();
-
 		var progress = document.querySelector('.percent');
-
+		var fileSizes = [];
+		$.each(output, function(i, file) {
+			formData.append('file-' + i, file);
+			fileSizes.push(output.fileSize(file));
+		});
 		// XHR은 url을 open하고 요청을 보내면 된다. 맨 뒤에 true는 비동기방식으로 할 것인지 묻는 것이다.
 		xhr.open(method, url, true);
 
@@ -227,19 +228,23 @@ $(function() {
 		};
 
 		xhr.upload.onprogress = function(e) {
-			if (e.lengthComputable) {
+					var percentLoaded = Math.round((e.position / e.totalSize) * 100);
+					progress.style.width = percentLoaded + '%';
+					progress.textContent = percentLoaded + '% ' + '(' + 1 + '/'
+							+ 5 + ')';
+					console.log(e.position);
 				// Debugger.log(e);
 				// Debugger.log(e.totalSize, "totalSize : ");
 				// Debugger.log(e.position, "position : ");
 				// Debugger.log("-------------------");
 				// var percentComplete = (e.position / e.totalSize)*100;
-				var percentLoaded = Math.round((e.loaded / e.total) * 100);
 
-				if (percentLoaded < 100) {
-					progress.style.width = percentLoaded + '%';
-					progress.textContent = percentLoaded + '%';
-				}
-			}
+				//
+				// if (percentLoaded < 100) {
+				// progress.style.width = percentLoaded + '%';
+				// progress.textContent = percentLoaded + '% ' + '(' + i + '/' +
+				// sum + ')';
+				// }
 		};
 
 		xhr.onload = function(e) {
@@ -256,12 +261,26 @@ $(function() {
 		xhr.send(formData);
 	}
 
+	dropzone.handleMouseEnter = function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		get('files').setAttribute('disabled', 'disabled');
+	}
+
+	dropzone.handleMouseleave = function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		get('files').removeAttribute('disabled');
+	}
+	
 	// EventListener 등록
 	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,
 			false);
 	get('drop_zone').addEventListener('drop', dropzone.handleDragSelect, false);
 	get('drop_zone').addEventListener('click', dropzone.fileClick, false);
 	get('files').addEventListener('change', dropzone.handleFileSelect, false);
-	get('upload_dropzone')
-			.addEventListener('click', dropzone.fileUpload, false);
-})
+	get('drop_zone').addEventListener('mouseover', dropzone.handleMouseleave, false);
+	get('upload_dropzone').addEventListener('click', dropzone.fileUpload, false);
+}
+)
+

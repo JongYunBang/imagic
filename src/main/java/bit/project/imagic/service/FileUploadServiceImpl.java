@@ -1,0 +1,38 @@
+package bit.project.imagic.service;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import bit.project.imagic.dao.FileUploadDAO;
+import bit.project.imagic.vo.FileVO;
+
+@Service
+public class FileUploadServiceImpl implements FileUploadService {
+
+	@Inject
+	FileUploadDAO dao;
+
+	@Override
+	public int isDir(FileVO file) throws Exception {
+		return dao.select(file);
+	}
+	
+	@Override
+	public int createDir(FileVO file) throws Exception {
+		return dao.create(file);
+	}
+
+	@Override
+	public int deleteDir(String m_id, FileVO file) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int updatedir(String m_id, FileVO file) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

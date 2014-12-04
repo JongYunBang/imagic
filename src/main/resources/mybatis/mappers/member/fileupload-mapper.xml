@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fileupload">
+
+	<select id="isDir" parameterType="bit.project.imagic.vo.FileVO" resultType="int">
+		select count(*) from dir
+		where dir_m_id=#{m_id} 
+			and dir_name=#{dirName}
+	</select>
+	
+	<insert id="dirCeate" parameterType="bit.project.imagic.vo.FileVO" > 
+		insert into dir(dir_m_id, dir_name, dir_src) values(
+			#{m_id},
+			#{dirName},
+			#{dirSrc}
+			)
+	</insert>
+
+
+	
+	<!-- <select id="selectMember"	parameterType="bit.project.imagic.vo.MemberVO" 
+	resultType="bit.project.imagic.vo.MemberVO">
+		select * from member
+		where m_id=#{m_id} and m_pw=#{m_pw}
+	</select>
+	
+	
+	<insert id="registerMember" parameterType="bit.project.imagic.vo.MemberVO" >
+		insert into member
+				 values(
+				 #{m_id},
+				 #{m_pw},
+				 #{m_name},
+				 #{m_email},
+				 now()
+				 )
+	</insert>
+	 -->
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,19 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 	
-	<select id="selectMember"	parameterType="java.lang.String" 
+	<select id="selectMember"	parameterType="bit.project.imagic.vo.MemberVO" 
 	resultType="bit.project.imagic.vo.MemberVO">
 		select * from member
-		where m_id=#{m_id}
+		where m_id=#{m_id} and m_pw=#{m_pw}
 	</select>
 	
 	
 	<insert id="registerMember" parameterType="bit.project.imagic.vo.MemberVO">
 		insert into member
 				 values(
-				 #{id},
-				 #{password},
-				 #{email},
+				 #{m_id},
+				 #{m_pw},
+				 #{m_name},
+				 #{m_email},
 				 now()
 				 )
 	</insert>

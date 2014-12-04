@@ -7,20 +7,34 @@
 }
 
 .dropzone {
-	border: 1px solid #000;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	background: rgba(0, 0, 0, 0.02);
+	padding: 1em;
 	min-height: 360px;
 	cursor: pointer;
 }
 
 .dz-preview {
-	position :relative;
+	position: relative;
 	border: 1px solid #000;
-	width: 102px;
+	width: 130px;
 	height: 180px;
 	display: inline-block;
 	margin: 10px;
-	vertical-align:  top;
+	vertical-align: top;
 	cursor: default;
+	border: 1px solid #acacac;
+	padding: 6px 10px 6px 10px;
+}
+
+.dz-details img {
+	absolute : top left;
+	display: block;
+}
+
+.dropzone .dz-preview:hover .dz-details img,
+.dropzone-previews .dz-preview:hover .dz-details img {
+  display: none;
 }
 
 .dz-default.dz-message {

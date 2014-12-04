@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webflow-project-description>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.6.2.201410090854-RELEASE]]></pluginVersion>
+	<configs>
+		<config>
+			<file>src/main/resources/mybatis/mappers/member/fileupload-mapper.xml</file>
+			<name><![CDATA[fileupload-mapper]]></name>
+		</config>
+	</configs>
+</webflow-project-description>
