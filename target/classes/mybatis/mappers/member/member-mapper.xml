@@ -10,7 +10,6 @@
 		where m_id=#{m_id} and m_pw=#{m_pw}
 	</select>
 	
-	
 	<insert id="registerMember" parameterType="bit.project.imagic.vo.MemberVO">
 		insert into member
 				 values(
@@ -21,22 +20,4 @@
 				 now()
 				 )
 	</insert>
-	
-	
-	
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

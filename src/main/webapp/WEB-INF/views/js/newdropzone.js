@@ -17,7 +17,6 @@ $(function() {
 	var method = "POST";
 	var url;
 	
-	
 	var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
 	
 	/* console 디버깅을 편하게 하기 위한 함수 객체
@@ -281,6 +280,5 @@ $(function() {
 	get('files').addEventListener('change', dropzone.handleFileSelect, false);
 	get('drop_zone').addEventListener('mouseover', dropzone.handleMouseleave, false);
 	get('upload_dropzone').addEventListener('click', dropzone.fileUpload, false);
-}
-)
+})
 

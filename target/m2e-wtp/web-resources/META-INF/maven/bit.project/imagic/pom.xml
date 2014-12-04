@@ -191,7 +191,6 @@
 		
 
 		<!-- Test -->
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -241,7 +240,7 @@
 				<version>2.2</version>
 				<configuration>
 					<path>/</path>
-					<port>80</port>
+					<port>14150</port>
 				</configuration>
 				<dependencies>
 					<dependency>

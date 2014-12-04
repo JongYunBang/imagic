@@ -21,7 +21,6 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public MemberVO read(String m_id) throws Exception {
-		
 		return null;
 	}
 

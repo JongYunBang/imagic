@@ -18,7 +18,6 @@
 <body>
 
 <!-- header 부분 -->
-
 <input type="hidden" id="m_id" value="${member.m_id }">
 <div id="file_main">
 
@@ -30,11 +29,11 @@
 		<div id="file_dir_create">폴더 생성</div>
 		<!-- 아이디로 부터 디렉토리 받아오기  -->
 		<ul id="file_user_dir">
-			<c:forEach var="dir_result" items="${dir_result}" >
+			<c:forEach var="result" items="${dir_result}" varStatus="status">
 				<li id="${result}">
 					<c:out value="${result}"/>   <!-- 파일 목록 출력  -->
-					<button id="rename">이름변경</button>
-					<button id="delete">삭제</button>
+					<button id="${result}" class="rename">이름변경</button>
+					<button id="${result}" class="delete">삭제</button>
 				</li>
 			</c:forEach>
 		</ul>
@@ -44,8 +43,6 @@
 		<input type="file" id="files" name="files []" style="display: none;"	multiple/>
 		<div id="drop_zone" class="dropzone">
 			<div class="dz-default dz-message"><span>Drop files here to upload</span></div>
-				
-			
 			
 		</div>	
 		<div id="progress_bar">

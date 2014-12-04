@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
+<!DOCTYPE html>
 <html>
 <head>
 <title>Home</title>
@@ -18,8 +19,6 @@
 	href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="./js/main.js"></script>
-
-
 
 <script type="text/javascript">
 
@@ -71,7 +70,8 @@
 		if ("${member.m_id}"=="") {
 			alert("로그인을 해주세요!");
 		} else {
-			window.location.href="/fileupload";
+			/* window.location.href="/fileupload"; */
+			document.getElementById("upload_form").submit();
 		};
 	};
 </script>
@@ -80,18 +80,29 @@
 <body>
 
 	<!--  세션값 받아오는지 확인 하기 위한 코드 -->
-	<%=session.getAttribute("member")%><br /> ${member.m_id}
-	<br /> ${member.m_pw}
-	<br /> ${member.m_name}
-	<br /> ${member.m_email}
-	<br />
+	Object : <%=session.getAttribute("member")%>
+	<br />ID :  ${member.m_id}
+	<br />PW :  ${member.m_pw}
+	<br />NAME :  ${member.m_name}
+	<br />E-MAIL: ${member.m_email}
+	<br />STATE :
+				<c:choose>
+					<c:when test="${empty member.m_id}">
+						로그인되지 않았습니다. 로그인 해주세요!	
+					</c:when>
+					<c:otherwise>
+						${member.m_id} 로그인 중.....
+					</c:otherwise>
+				</c:choose> 
 	
 	<!-- 로그인 -->
 	<form id="login_form" method="post"
 		action="<%=request.getContextPath()%>/login">
-		ID <input type="text" name="m_id"></input><br /> pass <input
-			type="password" name="m_pw"></input><br /> <input type="submit"
-			value="로그인" id="login"></input><br />
+		<label  for="m_id">ID</label>
+		<input type="text" name="m_id" id="m_id" placeholder="imagic2014" required/><br/>
+		<label  for="m_pw">Password</label>
+		<input type="password" name="m_pw" id="m_pw" required/><br /> 
+		<input type="submit" value="로그인" id="login"/><br />
 	</form>
 
 	<!-- 로그아웃 -->
@@ -100,19 +111,23 @@
 	</c:if>
 	
 	<!-- 회원가입 -->
-	<form id="signup_form" method="post"
-		action="<%=request.getContextPath()%>/signup">
-		ID <input type="text" name="m_id"></input><br /> pass <input
-			type="password" name="m_pw"></input><br /> name<input type="text"
-			name="m_name""></input><br /> email <input type="text"
-			name="m_email"></input><br /> <input type="submit" value="가입하기"
-			id="signup"></input><br />
+	<form id="signup_form" method="post" action="<%=request.getContextPath()%>/signup">
+		<label  for="m_id">ID</label>
+		<input type="text" name="m_id" id="m_id" placeholder="imagic2014" required/><br/>
+		<label  for="m_pw">Password</label>
+		<input type="password" name="m_pw" id="m_pw" required/><br /> 
+		<label  for="m_name">Name</label>
+		<input type="text" name="m_name" id="m_name" placeholder="홍길동" required/><br />
+		<label  for="m_email">E-mail</label> 
+		<input type="email" name="m_email" id="m_email" placeholder="imagic@imagic.kr" required/><br /> 
+		<input type="submit" value="가입하기" id="signup"/><br />
 	</form>
 
-	<!--  버튼 클릭시 로그인 검사 -->
-	<button onClick="loginCheck()">다음</button>
-
-
+	<!--  버튼 클릭시 로그인 여부 검사 -->
+	<form id="upload_form" method="post" action="<%=request.getContextPath()%>/fileupload">
+		<input type="hidden" value="${member.m_id}" name="m_id"/>
+		<input type="button" onclick="loginCheck();" value="다음"/>
+	</form>
 
 </body>
 </html>

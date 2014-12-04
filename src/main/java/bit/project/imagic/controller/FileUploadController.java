@@ -5,10 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import bit.project.imagic.service.FileUploadService;
+import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
 
 @Controller
@@ -29,7 +32,9 @@ public class FileUploadController {
 	private FileUploadService fileService;
 	
 	FileVO file;		
-	
+	// 파일 저장 기본 경로
+	String path = "/Users/ProgrammingPearls/Documents/Upload/";
+//	String path = "d:/down/upload/";
 	public FileUploadController() {
 		System.out.println("init FileUploadController");
 		file = new FileVO();
@@ -38,8 +43,8 @@ public class FileUploadController {
 	//  폴더 생성 체크 
 	public boolean makeDirCheck(String m_id , String dirName){
 		try {
-			File userDir = new File("d:/down/upload/", m_id);
-			File userCreateDir = new File("d:/down/upload/"+m_id, dirName);
+			File userDir = new File(path, m_id);
+			File userCreateDir = new File(path+ m_id, dirName);
 			// user id 와 같은 이름의 폴더 생성 체크
 			if (!userDir.exists()) {
 				userDir.mkdir();
@@ -48,7 +53,7 @@ public class FileUploadController {
 			if (!userCreateDir.exists()) {
 				userCreateDir.mkdir();
 			}
-			file.setDirSrc("d:/down/upload/"+m_id+"/"+dirName);
+			file.setDirSrc(path+m_id+"/"+dirName);
 		} catch (Exception e) {
 			return false;	
 		}
@@ -57,8 +62,43 @@ public class FileUploadController {
 	
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.GET)
-	public String showFlieUploadPage() {
+	public void showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+			// 세션 검사를 통해서 접근 제어!
+//			if (!ImagicUtil.checkSession(request)) {
+				response.sendRedirect(request.getContextPath() + "/");
+//				return null;
+//			}
+//			return "file/fileupload";
+	}
+	
+	// 파일 업로드 창을 띄우기 위한 맵핑
+	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
+	public String showFlieUploadPage_2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 세션 검사를 통해서 접근 제어!
+		if (!ImagicUtil.checkSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/");
+			return null;
+		}
+		// 히든으로 가져온 아이디값을 가져온다.
+		String m_id = (String) request.getParameter("m_id");
 		
+		// 로그인 되어있는 아이디의 폴더가 존재하는지 여부를 찾기 시작!!!!!!!!!
+		
+		// 존재하는 아이디에 맞는 폴더가 존재하는지 여부를 확인하기 위한 파일
+		File userDir = new File(path, m_id);
+		
+		// 로그인 되어있는 아이디의 폴더가 존재한다면 그것은 폴더가 존재할 수 도 있다는 뜻이므로 어떤 폴더가 있는지 찾는다.
+		if (userDir.exists()) {
+			List<String> listDirs = ImagicUtil.getDirList(userDir);
+			// 만약 폴더가 존재한다면
+			if (listDirs.size() > 0) {
+				// 전송할 세션을 만들어 준다.
+				HttpSession session = request.getSession();
+				// 로그인 되어있는 폴더의 목록 검사를 마치면 세션에 담아준다. 
+				session.setAttribute("dir_result", listDirs);
+			}
+		}
+		// 로그인 되어있는 아이디의 폴더가 존재하지 않는다면 그것은 생성한 폴더가 없다는 뜻이므로 아무것도 세션에 담지 않는다.
 		return "file/fileupload";
 	}
 	
@@ -74,7 +114,6 @@ public class FileUploadController {
 		// 디렉토리 네임중 같은것이 있는지 확인
 		try {
 			if (fileService.isDir(file)==0) { // DB에 해당 폴더가 존재하지 않으면 0을 반환
-
 				// 폴더 생성이 성공하면
 				if(makeDirCheck(m_id, dirName)) {
 					// db에 디렉토리 내용 넣기
@@ -94,6 +133,23 @@ public class FileUploadController {
 			pw.flush();
 		}
 	}
+	
+	// 파일 이름 변경 처리를 위한 컨트롤러
+	@RequestMapping(value="/renamedir", method=RequestMethod.POST)
+	public void renameDir(@RequestParam(value="oldDirName") String oldDirName, 
+							  				@RequestParam(value="newDirName") String newDirName, 
+											@RequestParam(value="m_id") String m_id, 
+											HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// ajax에게 값을 넘겨주기 위해서
+		PrintWriter pw = response.getWriter();
+		pw.print(ImagicUtil.renameDir(path+m_id, oldDirName, newDirName));
+		pw.flush();
+	}
+	
+	
+	
+	
+	
 	
 	
 	// 파일 업로드 처리위한 맵핑
@@ -116,7 +172,7 @@ public class FileUploadController {
 				file.setImgLength(mpf.getBytes().length);
 				file.setImgBytes(mpf.getBytes());
 				file.setImgName(mpf.getOriginalFilename());
-				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("d:/down/upload/" + mpf.getOriginalFilename()));
+				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + mpf.getOriginalFilename()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();								

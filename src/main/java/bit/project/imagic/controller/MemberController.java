@@ -23,7 +23,7 @@ public class MemberController {
 	
 	@Inject
 	private MemberService service;
-	
+
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
 	public String register(HttpServletRequest req, HttpServletResponse res, MemberVO member) throws Exception {
 				
@@ -49,16 +49,18 @@ public class MemberController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public ModelAndView login(HttpServletRequest req, HttpServletResponse res, 
 			 @ModelAttribute MemberVO member) throws Exception {
-		
+		MemberVO storedMember = null;
 		// 로그인 처리후 로그인된 회원 정보를 가져와서 MemberVO 객체의 인스턴스인 storedMember에 저장
-		MemberVO storedMember = service.login(member);
-//		
-//		// request 에 m_id 값을 넘겨주는 것 (사용안함)
-//		req.setAttribute("m_id", storedMember.getM_id());
+		if (member != null) {
+			storedMember = service.login(member);
+		}
+//		}else {
+//			return new ModelAndView("index", "memeber", "loginFail");
+//		}
+		HttpSession login_session = req.getSession();
 //		
 		// 세션에 MemberVO객체를 통째로 넘기는 방법
-		HttpSession session = req.getSession();
-		session.setAttribute("member", storedMember);
+		login_session.setAttribute("member", storedMember);
 		
 		return new ModelAndView("index", "member", storedMember);
 		
