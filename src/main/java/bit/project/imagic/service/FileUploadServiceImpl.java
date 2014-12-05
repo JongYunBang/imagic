@@ -1,5 +1,7 @@
 package bit.project.imagic.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -19,8 +21,18 @@ public class FileUploadServiceImpl implements FileUploadService {
 	}
 	
 	@Override
+	public List<String> selectDir(FileVO file) throws Exception {
+		return dao.selectDir(file);
+	}
+	
+	@Override
 	public int createDir(FileVO file) throws Exception {
 		return dao.create(file);
+	}
+
+	@Override
+	public int renameDir(FileVO file) throws Exception {
+		return dao.rename(file);
 	}
 
 	@Override
@@ -34,5 +46,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 }

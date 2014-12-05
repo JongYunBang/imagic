@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,11 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -28,7 +27,6 @@ import bit.project.imagic.vo.FileVO;
 import bit.project.imagic.vo.MemberVO;
 
 @Controller
-//@SessionAttributes("member")
 public class FileUploadController {
 	
 	@Inject
@@ -44,7 +42,6 @@ public class FileUploadController {
 	}
 	
 	//  폴더 생성 체크
-	
 	public boolean makeDirCheck(String m_id , String dirName){
 		try {
 			File userDir = new File(path, m_id);
@@ -64,15 +61,11 @@ public class FileUploadController {
 		return true;
 	}
 	
-	// 파일 업로드 창을 띄우기 위한 맵핑
+	// 파일 업로드창을 주소를 쳐서 들어온 경우 처리
 	@RequestMapping(value="/fileupload", method=RequestMethod.GET)
 	public void showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
 			// 세션 검사를 통해서 접근 제어!
-//			if (!ImagicUtil.checkSession(request)) {
 				response.sendRedirect(request.getContextPath() + "/");
-//				return null;
-//			}
-//			return "file/fileupload";
 	}
 	
 	// 파일 업로드 창을 띄우기 위한 맵핑
@@ -87,21 +80,15 @@ public class FileUploadController {
 		}
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
-		String m_id = member.getM_id();
+		String m_id=member.getM_id();
+		file.setM_id(m_id);
+		List<String> listDirs = new ArrayList<String>();
+		listDirs = fileService.selectDir(file);
 		
-		// 로그인 되어있는 아이디의 폴더가 존재하는지 여부를 찾기 시작!!!!!!!!!
-		// 존재하는 아이디에 맞는 폴더가 존재하는지 여부를 확인하기 위한 파일
-		File userDir = new File(path, m_id);
+		// DB에서 넘어온 dirList session 에 넘기기
+		session.setAttribute("dir_result", listDirs);
 		
-		// 로그인 되어있는 아이디의 폴더가 존재한다면 그것은 폴더가 존재할 수 도 있다는 뜻이므로 어떤 폴더가 있는지 찾는다.
-		if (userDir.exists()) {
-			List<String> listDirs = ImagicUtil.getDirList(userDir);
-				// 전송할 세션을 만들어 준다.
-	
-				// 로그인 되어있는 폴더의 목록 검사를 마치면 세션에 담아준다. 
-				session.setAttribute("dir_result", listDirs);
-		}
-		// 로그인 되어있는 아이디의 폴더가 존재하지 않는다면 그것은 생성한 폴더가 없다는 뜻이므로 아무것도 세션에 담지 않는다.
+		 
 		return "file/fileupload";
 	}
 	
@@ -143,19 +130,31 @@ public class FileUploadController {
 	// 파일 이름 변경 처리를 위한 컨트롤러
 	@RequestMapping(value="/renamedir", method=RequestMethod.POST)
 	public void renameDir(@RequestParam(value="oldDirName") String oldDirName, 
-							  				@RequestParam(value="newDirName") String newDirName, 
-											@RequestParam(value="m_id") String m_id, 
-											HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// ajax에게 값을 넘겨주기 위해서
-		PrintWriter pw = response.getWriter();
-		System.out.println("oldDirName : " + oldDirName);
-		System.out.println("newDirName : " + newDirName);
-		boolean result = ImagicUtil.renameDir(path+m_id, oldDirName, newDirName);
-		System.out.println(result);
-		pw.print(result);
-		pw.flush();
+							@RequestParam(value="newDirName") String newDirName, 
+							@RequestParam(value="m_id") String m_id, 
+							HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// FileVO 객체를 새로 만들어서 값 입력
+		file.setM_id(m_id);
+		file.setDirName(newDirName);
+		
+		// 새로만들 디렉토리가 있는지부터 검사
+		if (fileService.isDir(file) == 0) { // DB 에 해당폴더 없으면 0 반환
+			file.setDirName(null);
+			file.setDirName(oldDirName);
+			file.setDirRename(newDirName);
+
+			if (fileService.renameDir(file) == 1) {  // DB에 이름 변경하면 1 반환
+				// ajax에게 값을 넘겨주기 위해서
+				PrintWriter pw = response.getWriter();
+				
+				boolean result = ImagicUtil.renameDir(path + m_id, oldDirName,
+						newDirName);
+				pw.print(result);
+				pw.flush();
+
+			}
+		}
 	}
-	
 	
 	
 	

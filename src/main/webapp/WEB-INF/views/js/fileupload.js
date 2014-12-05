@@ -34,11 +34,9 @@ $(document).ready(function() {
 		});
 		
 		function onSuccess(data) {
-			console.log(data);
 			if(data=="true"){
 				alert("변경되었습니다.");
 				var dirElement = e.target.parentElement;
-				console.log(dirElement);
 				dirElement.id=newDirName;
 				dirElement.innerHTML = newDirName + 
 				"<button id='"+ newDirName + "' class='rename'>이름변경</button> " +

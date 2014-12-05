@@ -29,7 +29,6 @@ public class ImagicUtil {
 			// 세션이 존재하지만 로그인 값은 없는 경우
 			member = (MemberVO) session.getAttribute("member");
 			if (member.getM_id()!= null){
-				System.out.println("m_id : " + member.getM_id());
 				return true;
 			}
 		}
@@ -41,16 +40,21 @@ public class ImagicUtil {
 		File currentDir = new File(userDirName, oldDirName);
 		File newDir = new File(userDirName, newDirName);
 		
-		if(isDirName(userDir, newDirName)){
+		// DB로 검사해버림
+		/*if(isDirName(userDir, newDirName)){
 			return false;
-		}
+		}*/
+		
+		//
 		if(!currentDir.renameTo(newDir)){
 			return false;	
 		}
 		return true;
 	}
 	
-	public static boolean isDirName(File userDir, String compareDirName){
+	// DB로 구현됨 (controller 에 있음)
+	// 디렉토리 존재 여부 java로 구현한 부분 
+	/*public static boolean isDirName(File userDir, String compareDirName){
 		List<String> listDirs  = getDirList(userDir);
 		boolean result  = false;
 		for(int i = 0; i<listDirs.size(); i++){
@@ -63,9 +67,11 @@ public class ImagicUtil {
 		}
 		System.out.println("isDirNameResult : " + result);
 		return result;
-	}
+	}*/
 	
-	// userDir에 있는 목록에서 디렉토리 목록만을 가져오는 메서드
+	
+	// DB로 구현함
+	/*// userDir에 있는 목록에서 디렉토리 목록만을 가져오는 메서드
 	public static List<String> getDirList(File userDir) {
 		// 폴더 안에 있는 파일과 디렉토리 목록을 저장할 변수
 		String[] fileList = userDir.list();
@@ -88,7 +94,7 @@ public class ImagicUtil {
 			}
 		}
 		return listDirs;
-	}
+	}*/
 	// userDir에 있는 파일을 가져오는 메서드
 	public static List<File> getFileList(File userDir){
 		// 폴더 안에 있는 파일과 디렉토리 목록을 저장할 변수
