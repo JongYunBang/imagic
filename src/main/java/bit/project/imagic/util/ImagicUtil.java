@@ -39,7 +39,7 @@ public class ImagicUtil {
 	public static boolean renameDir(String userDirName, String oldDirName, String newDirName){
 		File userDir = new File(userDirName);
 		File currentDir = new File(userDirName, oldDirName);
-		File newDir = new File(newDirName);
+		File newDir = new File(userDirName, newDirName);
 		
 		if(isDirName(userDir, newDirName)){
 			return false;
@@ -52,13 +52,17 @@ public class ImagicUtil {
 	
 	public static boolean isDirName(File userDir, String compareDirName){
 		List<String> listDirs  = getDirList(userDir);
+		boolean result  = false;
 		for(int i = 0; i<listDirs.size(); i++){
 			System.out.println("isDirName : " + listDirs.get(i));
+			System.out.println("compareDirName : " + compareDirName);
 			if (listDirs.get(i).equals(compareDirName)){
-				return true;
+				result = true;
+				break;
 			}
 		}
-		return false; 
+		System.out.println("isDirNameResult : " + result);
+		return result;
 	}
 	
 	// userDir에 있는 목록에서 디렉토리 목록만을 가져오는 메서드

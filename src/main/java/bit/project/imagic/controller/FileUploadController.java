@@ -90,13 +90,10 @@ public class FileUploadController {
 		// 로그인 되어있는 아이디의 폴더가 존재한다면 그것은 폴더가 존재할 수 도 있다는 뜻이므로 어떤 폴더가 있는지 찾는다.
 		if (userDir.exists()) {
 			List<String> listDirs = ImagicUtil.getDirList(userDir);
-			// 만약 폴더가 존재한다면
-			if (listDirs.size() > 0) {
 				// 전송할 세션을 만들어 준다.
 				HttpSession session = request.getSession();
 				// 로그인 되어있는 폴더의 목록 검사를 마치면 세션에 담아준다. 
 				session.setAttribute("dir_result", listDirs);
-			}
 		}
 		// 로그인 되어있는 아이디의 폴더가 존재하지 않는다면 그것은 생성한 폴더가 없다는 뜻이므로 아무것도 세션에 담지 않는다.
 		return "file/fileupload";
@@ -127,6 +124,9 @@ public class FileUploadController {
 					pw.print("dirFail");  // 폴더 생성 실패를 ajax에게 전달 
 					pw.flush();
 				}
+			} else {
+				pw.print("dirExist");
+				pw.flush();
 			}
 		} catch (Exception e) {
 			pw.print("dirDBInsertFail"); // DB 삽입 실패를 ajax에게 전달
@@ -142,7 +142,11 @@ public class FileUploadController {
 											HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// ajax에게 값을 넘겨주기 위해서
 		PrintWriter pw = response.getWriter();
-		pw.print(ImagicUtil.renameDir(path+m_id, oldDirName, newDirName));
+		System.out.println("oldDirName : " + oldDirName);
+		System.out.println("newDirName : " + newDirName);
+		boolean result = ImagicUtil.renameDir(path+m_id, oldDirName, newDirName);
+		System.out.println(result);
+		pw.print(result);
 		pw.flush();
 	}
 	
