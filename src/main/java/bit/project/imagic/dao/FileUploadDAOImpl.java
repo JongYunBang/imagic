@@ -20,9 +20,6 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 	
 	@Override
 	public int create(FileVO file) throws Exception {
-		System.out.println(file.getM_id());
-		System.out.println(file.getDirName());
-		System.out.println(file.getDirSrc());
 		return sqlSession.insert("dirCeate", file);
 	}
 

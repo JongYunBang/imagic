@@ -18,7 +18,7 @@ import bit.project.imagic.service.MemberService;
 import bit.project.imagic.vo.MemberVO;
 
 @Controller
-@SessionAttributes("storedMember")
+@SessionAttributes("member")
 public class MemberController {
 	
 	@Inject
@@ -28,7 +28,6 @@ public class MemberController {
 	public String register(HttpServletRequest req, HttpServletResponse res, MemberVO member) throws Exception {
 				
 		try {
-//			System.out.println("컨트롤단member" + member.getM_id());
 			int result = service.registerMember(member);
 			if (result==1) {
 				
@@ -50,20 +49,11 @@ public class MemberController {
 	public ModelAndView login(HttpServletRequest req, HttpServletResponse res, 
 			 @ModelAttribute MemberVO member) throws Exception {
 		MemberVO storedMember = null;
-		// 로그인 처리후 로그인된 회원 정보를 가져와서 MemberVO 객체의 인스턴스인 storedMember에 저장
 		if (member != null) {
 			storedMember = service.login(member);
 		}
-//		}else {
-//			return new ModelAndView("index", "memeber", "loginFail");
-//		}
-		HttpSession login_session = req.getSession();
-//		
-		// 세션에 MemberVO객체를 통째로 넘기는 방법
-		login_session.setAttribute("member", storedMember);
 		
 		return new ModelAndView("index", "member", storedMember);
-		
 	}
 	
 	// 로그아웃 처리부분

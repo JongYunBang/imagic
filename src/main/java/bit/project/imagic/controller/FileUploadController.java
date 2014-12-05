@@ -14,18 +14,21 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
+import bit.project.imagic.vo.MemberVO;
 
 @Controller
-@RequestMapping
+//@SessionAttributes("member")
 public class FileUploadController {
 	
 	@Inject
@@ -33,14 +36,15 @@ public class FileUploadController {
 	
 	FileVO file;		
 	// 파일 저장 기본 경로
-	String path = "/Users/ProgrammingPearls/Documents/Upload/";
-//	String path = "d:/down/upload/";
+//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
+	String path = "d:/down/upload/";
 	public FileUploadController() {
 		System.out.println("init FileUploadController");
 		file = new FileVO();
 	}
 	
-	//  폴더 생성 체크 
+	//  폴더 생성 체크
+	
 	public boolean makeDirCheck(String m_id , String dirName){
 		try {
 			File userDir = new File(path, m_id);
@@ -74,16 +78,18 @@ public class FileUploadController {
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
 	public String showFlieUploadPage_2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		System.out.println("/파일업로드페이지  "+member.getM_id());
+		
 		// 세션 검사를 통해서 접근 제어!
 		if (!ImagicUtil.checkSession(request)) {
 			response.sendRedirect(request.getContextPath() + "/");
 			return null;
 		}
-		// 히든으로 가져온 아이디값을 가져온다.
-		String m_id = (String) request.getParameter("m_id");
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String m_id = member.getM_id();
 		
 		// 로그인 되어있는 아이디의 폴더가 존재하는지 여부를 찾기 시작!!!!!!!!!
-		
 		// 존재하는 아이디에 맞는 폴더가 존재하는지 여부를 확인하기 위한 파일
 		File userDir = new File(path, m_id);
 		
@@ -91,7 +97,7 @@ public class FileUploadController {
 		if (userDir.exists()) {
 			List<String> listDirs = ImagicUtil.getDirList(userDir);
 				// 전송할 세션을 만들어 준다.
-				HttpSession session = request.getSession();
+	
 				// 로그인 되어있는 폴더의 목록 검사를 마치면 세션에 담아준다. 
 				session.setAttribute("dir_result", listDirs);
 		}
@@ -149,9 +155,6 @@ public class FileUploadController {
 		pw.print(result);
 		pw.flush();
 	}
-	
-	
-	
 	
 	
 	

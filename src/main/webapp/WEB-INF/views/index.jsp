@@ -24,6 +24,7 @@
 
 // 로그인 버튼 클릭시 Ajax로 로그인 처리 
 	$(document).ready(function() {
+		/**/
 		$('#login').click(function(event) {
 			var formData = $('#login_form').serialize();
 			$.ajax({
@@ -42,6 +43,7 @@
 				alert("error");   				// 정상적 처리가 되지 않았을때 에러창 띄움
 			}
 		});
+		/**/
 		
 // 회원가입 버튼 클릭시 ajax 회원가입 처리
 		$('#signup').click(function(event) {
@@ -80,7 +82,9 @@
 <body>
 
 	<!--  세션값 받아오는지 확인 하기 위한 코드 -->
-	Object : <%=session.getAttribute("member")%>
+	Session_Object : <%=session.getAttribute("member")%>
+	<br />Request_Object : <%=request.getAttribute("member") %>
+	<br />ModelAndView_Object : ${member}
 	<br />ID :  ${member.m_id}
 	<br />PW :  ${member.m_pw}
 	<br />NAME :  ${member.m_name}
@@ -99,7 +103,7 @@
 	<form id="login_form" method="post"
 		action="<%=request.getContextPath()%>/login">
 		<label  for="m_id">ID</label>
-		<input type="text" name="m_id" id="m_id" placeholder="imagic2014" required/><br/>
+		<input type="text" name="m_id" id="m_id"  required/><br/>
 		<label  for="m_pw">Password</label>
 		<input type="password" name="m_pw" id="m_pw" required/><br /> 
 		<input type="submit" value="로그인" id="login"/><br />
@@ -113,11 +117,11 @@
 	<!-- 회원가입 -->
 	<form id="signup_form" method="post" action="<%=request.getContextPath()%>/signup">
 		<label  for="m_id">ID</label>
-		<input type="text" name="m_id" id="m_id" placeholder="imagic2014" required/><br/>
+		<input type="text" name="m_id" id="m_id" required/><br/>
 		<label  for="m_pw">Password</label>
 		<input type="password" name="m_pw" id="m_pw" required/><br /> 
 		<label  for="m_name">Name</label>
-		<input type="text" name="m_name" id="m_name" placeholder="홍길동" required/><br />
+		<input type="text" name="m_name" id="m_name" required/><br />
 		<label  for="m_email">E-mail</label> 
 		<input type="email" name="m_email" id="m_email" placeholder="imagic@imagic.kr" required/><br /> 
 		<input type="submit" value="가입하기" id="signup"/><br />
@@ -125,7 +129,7 @@
 
 	<!--  버튼 클릭시 로그인 여부 검사 -->
 	<form id="upload_form" method="post" action="<%=request.getContextPath()%>/fileupload">
-		<input type="hidden" value="${member.m_id}" name="m_id"/>
+		<%-- <input type="hidden" value="${member.m_id}" name="m_id"/> --%>
 		<input type="button" onclick="loginCheck();" value="다음"/>
 	</form>
 

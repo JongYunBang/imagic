@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	
 	function createFolder(element, dirName){
 		element.innerHTML = dirName + 
 		"<button id='"+ dirName + "' class='rename'>이름변경</button> " +
@@ -51,12 +52,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	// 페이지 주소로 들어온 사람들에 대해 로그인 검사
-	if ("${member.m_id}" == "") { // 세션값을 자바스크립트에서 jstl 태그 로 값 불러오기 가능
-		alert("로그인 해주세요!");
-		window.location.href = "/";
-	}
-	
+
 	// 폴더 생성 클릭시 프롬프트창으로 폴더명 입력받아서 DB에 저장하고 태그로 폴더생성까지
 	$('#file_dir_create').click(function() {
 		var dirName = prompt("폴더명을 입력해주세요", "폴더명");
