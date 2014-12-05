@@ -17,6 +17,28 @@
 			#{dirSrc}
 			)
 	</insert>
+
+
+	
+	<!-- <select id="selectMember"	parameterType="bit.project.imagic.vo.MemberVO" 
+	resultType="bit.project.imagic.vo.MemberVO">
+		select * from member
+		where m_id=#{m_id} and m_pw=#{m_pw}
+	</select>
+	
+	
+	<insert id="registerMember" parameterType="bit.project.imagic.vo.MemberVO" >
+		insert into member
+				 values(
+				 #{m_id},
+				 #{m_pw},
+				 #{m_name},
+				 #{m_email},
+				 now()
+				 )
+	</insert>
+	 -->
+	
 	
 </mapper>
 
