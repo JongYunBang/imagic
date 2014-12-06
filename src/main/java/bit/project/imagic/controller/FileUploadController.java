@@ -195,6 +195,13 @@ public class FileUploadController {
 		Iterator<String> itr = request.getFileNames();
 		System.out.println(itr.hasNext());
 		
+		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
+//		boolean envMobile = false;
+//		 String userAgent = request.getHeader("user-agent");
+//		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
+//			 envMobile = true;
+//		 }
+		
 		MultipartFile mpf = null;
 //		
 		while (itr.hasNext()){

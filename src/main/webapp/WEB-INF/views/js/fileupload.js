@@ -53,6 +53,7 @@ $(document).ready(function() {
 	
 	// 폴더 삭제 버튼 클릭시
 	$(document).on('click', '.delete', function(e) {
+	if (confirm('경고 : 폴더 안에 있는 모든 데이터들이 삭제 됩니다. 계속 진행하시겠습니까?')) {
 		var m_id = document.getElementById('m_id').value;
 		var dirName = e.target.id;
 		$.ajax({
@@ -92,7 +93,8 @@ $(document).ready(function() {
 		function onError(data, status) {
 			alert("폴더 삭제하기가 실패하였습니다(응답없음)");
 		}
-	})
+		}
+	});
 
 	// 폴더 생성 클릭시 프롬프트창으로 폴더명 입력받아서 DB에 저장하고 태그로 폴더생성까지
 	$('#file_dir_create').click(function() {
