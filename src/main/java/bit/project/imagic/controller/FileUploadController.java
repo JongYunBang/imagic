@@ -54,7 +54,6 @@ public class FileUploadController {
 			if (!userCreateDir.exists()) {
 				userCreateDir.mkdir();
 			}
-			file.setDirSrc(path+m_id+"/"+dirName);
 		} catch (Exception e) {
 			return false;	
 		}
@@ -109,7 +108,6 @@ public class FileUploadController {
 					// db에 디렉토리 내용 넣기
 					int result=fileService.createDir(file);
 					if(result>0){
-						System.out.println("db에 dir 입력완료");
 						pw.print("dirDBInsert");  // DB 삽입 성공을 ajax 에게 전달 
 						pw.flush();
 					}
@@ -127,7 +125,7 @@ public class FileUploadController {
 		}
 	}
 	
-	// 파일 이름 변경 처리를 위한 컨트롤러
+	// 폴더 이름 변경 처리를 위한 컨트롤러
 	@RequestMapping(value="/renamedir", method=RequestMethod.POST)
 	public void renameDir(@RequestParam(value="oldDirName") String oldDirName, 
 							@RequestParam(value="newDirName") String newDirName, 
@@ -153,6 +151,36 @@ public class FileUploadController {
 				pw.flush();
 
 			}
+		}
+	}
+	
+	// 폴더 삭제를 처리를 위한 컨트롤러
+	@RequestMapping(value="/deleteDir", method=RequestMethod.POST)
+	public void deleteDir(@RequestParam(value="m_id") String m_id,
+						   @RequestParam(value="dirName") String dirName,
+						   HttpServletRequest request, HttpServletResponse response) throws IOException {
+		file.setDirName(null);
+		file.setM_id(m_id);
+		file.setDirName(dirName);
+		
+		PrintWriter pw = response.getWriter();
+		// DB에서 폴더명을 삭제하고 그에 해당하는 Image table 파일들을 삭제했다면
+		try {
+			if (fileService.deleteDir(file)==1) {   
+				if (ImagicUtil.deleteDir(path+m_id+"/"+file.getDirName())){
+					pw.print("deleteDirSuccess");  // DB, FileSystem 동시에 삭제 성공
+					pw.flush();
+				} else {
+					pw.print("deleteDirFail"); // DB는 삭제 했으나 FileSystem 존재 
+					pw.flush();
+				}
+			} else {
+				pw.print("deleteDirDBFail"); // DB 에서의 dirName 삭제 실패
+				pw.flush();
+			}
+		} catch (Exception e) {
+			pw.print("deleteDirEx"); // Exception 발생하고 삭제 실패
+			e.printStackTrace();
 		}
 	}
 	

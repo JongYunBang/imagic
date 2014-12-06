@@ -20,4 +20,9 @@
 				 now()
 				 )
 	</insert>
+	
+	<delete id="deleteMember" parameterType="bit.project.imagic.vo.MemberVO">
+		delete from member
+		where m_id=#{m_id}
+	</delete>
 </mapper>

@@ -52,6 +52,57 @@ public class ImagicUtil {
 		return true;
 	}
 	
+	// 파일 삭제 메서드
+	public static boolean removeDir(String userDirName, String dirName) {
+		
+		File path = new File(userDirName, dirName);
+		
+		// 경로의 파일이 존재하지 않는다면 삭제 실패
+		if(!path.exists()){
+			return false;
+		}
+		// 파일 리스트를 가져온다.
+		File[] files = path.listFiles();
+		for(File file : files){
+			// 파일이 디렉토리라면 그 안에 또 파일이 있을 수 있으므로 recursive를 통해 다시 이 메서드를 실행한다.
+			if(file.isDirectory()){
+				removeDir(userDirName+dirName, file.getName());
+			}else{
+				file.delete();
+			}
+		}
+		return path.delete();
+	}
+	
+	// 디렉토리가 존재하는지 여부를 검사하는 메서드
+	// 삭제하고픈 폴더 이름을 받아와 재귀함수로 파일부터 지운후 폴더까지 삭제
+	public static boolean deleteDir(String userDirName) {
+		File userDir = new File(userDirName);  // 폴더명
+		File[] listFile = new File(userDirName).listFiles();  // 폴더안의 파일을 리스트로 만들어줌
+		try {
+			if (listFile==null || listFile.length==0){
+				if (userDir.delete()) {
+					return true;
+				} else {
+					return false;
+				}
+			} else if (listFile.length>0) {
+				for (int i=0; i<listFile.length; i++) {
+					if (listFile[i].isFile()) {
+						listFile[i].delete();
+					} else {
+						deleteDir(listFile[i].getPath());
+					}
+					listFile[i].delete();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	// DB로 구현됨 (controller 에 있음)
 	// 디렉토리 존재 여부 java로 구현한 부분 
 	/*public static boolean isDirName(File userDir, String compareDirName){

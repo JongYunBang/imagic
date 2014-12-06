@@ -10,7 +10,7 @@ public interface FileUploadService {
 	List<String> selectDir(FileVO file) throws Exception;
 	int createDir(FileVO file) throws Exception;
 	int renameDir(FileVO file) throws Exception;
-	int deleteDir(String m_id, FileVO file) throws Exception;
+	int deleteDir(FileVO file) throws Exception;
 	int updatedir(String m_id, FileVO file) throws Exception;
 
 }

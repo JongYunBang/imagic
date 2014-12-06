@@ -36,9 +36,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 	}
 
 	@Override
-	public int deleteDir(String m_id, FileVO file) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteDir(FileVO file) throws Exception {
+		return dao.deleteDir(file);
 	}
 
 	@Override

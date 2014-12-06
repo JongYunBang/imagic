@@ -121,6 +121,9 @@ $(function() {
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성(개별 존재)
 			template = dropzone.createElement( "<div class=\"dz-preview dz-file-preview\" id=\""+f.name+"\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>");
+			// 생성된 엘리먼트를 클릭해도 파일 업로드 창이 뜨지 않는다.
+			template.addEventListener('mouseover', dropzone.handleMouseEnter);
+			template.addEventListener('mouseout', dropzone.handleMouseleave);
 			get('drop_zone').appendChild(template);
 			name = template.querySelector('[data-dz-name]');
 			name.textContent = f.name;

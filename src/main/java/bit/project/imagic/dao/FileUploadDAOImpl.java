@@ -43,9 +43,8 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 	}
 
 	@Override
-	public int delete(String m_id, String dirName) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteDir(FileVO file) throws Exception {
+		return sqlSession.delete("deleteDir", file);
 	}
 
 

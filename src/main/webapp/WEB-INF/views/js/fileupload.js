@@ -47,9 +47,52 @@ $(document).ready(function() {
 			}
 		}
 		function onError(data, status) {
+			alert("이름 변경하기가 실패하였습니다.(응답없음)");
 		}
 	});
 	
+	// 폴더 삭제 버튼 클릭시
+	$(document).on('click', '.delete', function(e) {
+		var m_id = document.getElementById('m_id').value;
+		var dirName = e.target.id;
+		$.ajax({
+			type : "POST",
+			url : "/deleteDir",
+			cache : false,
+			data : {
+				"m_id" : m_id,
+				"dirName" : dirName
+			},
+			success : onSuccess,
+			error : onError
+		});
+		
+		/**
+		 * 반환값 정리
+		 * deleteDirSuccess : DB, FileSystem 동시에 삭제 성공
+		 * deleteDirDBFail : DB 에서의 dirName 삭제 실패
+		 * deleteDirFail : DB는 삭제 했으나 FileSystem 존재
+		 * deleteDirEx : Exception 발생하고 삭제 실패
+		 */
+		
+		function onSuccess(data) {
+			console.log(data);
+			if(data=="deleteDirSuccess"){
+				alert("삭제하였습니다.");
+				e.target.parentElement.remove();
+				
+			}else if(data=="deleteDirDBFail"){
+				alert("실패 : DB 에서의 dirName 삭제 실패");
+			}else if(data=="deleteDirFail") {
+				alert("실패 : DB는 삭제 했으나 FileSystem 존재");
+			}else if(data=="deleteDirEx") {
+				alert("실패 : Exception 발생하고 삭제 실패");
+			}
+		}
+		function onError(data, status) {
+			alert("폴더 삭제하기가 실패하였습니다(응답없음)");
+		}
+	})
 
 	// 폴더 생성 클릭시 프롬프트창으로 폴더명 입력받아서 DB에 저장하고 태그로 폴더생성까지
 	$('#file_dir_create').click(function() {
@@ -102,6 +145,7 @@ $(document).ready(function() {
 			}
 		}
 		function onError(data, status) {
+			alert("폴더 생성에 실패하였습니다(응답없음)");
 		}
 	});
 });

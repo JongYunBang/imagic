@@ -19,21 +19,26 @@
 	
 	<!-- 디렉토리 생성하는 쿼리 -->
 	<insert id="dirCeate" parameterType="bit.project.imagic.vo.FileVO" > 
-		insert into dir(dir_m_id, dir_name, dir_src) values(
+		insert into dir(dir_m_id, dir_name) values(
 			#{m_id},
-			#{dirName},
-			#{dirSrc}
+			#{dirName}
 			)
 	</insert>
 	
+	<!-- 폴더이름 변경하는 쿼리 -->
 	<update id="renameDir" parameterType="bit.project.imagic.vo.FileVO" >
 		UPDATE dir
 		SET dir_name=#{dirRename}
 		WHERE dir_m_id=#{m_id}
-			and dir_name=#{dirName};
+			and dir_name=#{dirName}
 	</update>
 
-	
+	<!-- 폴더 삭제 하는 쿼리 -->
+	<delete id="deleteDir" parameterType="bit.project.imagic.vo.FileVO" >
+		delete from dir
+		where dir_m_id=#{m_id}
+			and dir_name=#{dirName}
+	</delete>
 	
 	
 	

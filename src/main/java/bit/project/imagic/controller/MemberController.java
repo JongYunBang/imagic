@@ -5,21 +5,31 @@ import java.io.IOException;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.service.MemberService;
+import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.MemberVO;
 
 @Controller
 @SessionAttributes("member")
 public class MemberController {
+	
+	MemberVO storedMember;
+	
+//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
+	String path = "d:/down/upload/";
+	
+	@Inject
+	private FileUploadService fileService;
 	
 	@Inject
 	private MemberService service;
@@ -57,17 +67,29 @@ public class MemberController {
 	}
 	
 	// 로그아웃 처리부분
-	@RequestMapping("/logout")
-	public void logout(HttpServletRequest request,
+	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	public void logout(@ModelAttribute MemberVO member, SessionStatus session, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		
+		session.setComplete();
 		response.sendRedirect(request.getContextPath() + "/");
-		
+	}
+	
+	// 회원 탈퇴
+	@RequestMapping(value="/withdraw", method=RequestMethod.POST)
+	public void withdraw(@ModelAttribute MemberVO member, 
+						    SessionStatus session, 
+							HttpServletRequest request, 
+							HttpServletResponse response) throws Exception {
+		String m_id=(String) request.getParameter("m_id");
+		member.setM_id(m_id);
+		if(service.withdrawMember(member)==1) {  // db에서 파일 삭제
+			if (ImagicUtil.deleteDir(path+m_id)){  // 파일시스템에서 파일 삭제
+				
+				session.setComplete();
+				response.sendRedirect(request.getContextPath() + "/");
+			}
+		}
 	}
 	
 

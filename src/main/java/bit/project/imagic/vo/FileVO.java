@@ -1,7 +1,6 @@
 package bit.project.imagic.vo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class FileVO implements Serializable {
 
@@ -10,7 +9,6 @@ public class FileVO implements Serializable {
 	private String dirNum;
 	private String dirName;
 	private String dirRename;
-	private String dirSrc;
 	private int imgNum;
 	private String imgName;
 	private String imgOriName;
@@ -47,14 +45,6 @@ public class FileVO implements Serializable {
 
 	public void setDirRename(String dirRename) {
 		this.dirRename = dirRename;
-	}
-
-	public String getDirSrc() {
-		return dirSrc;
-	}
-
-	public void setDirSrc(String dirSrc) {
-		this.dirSrc = dirSrc;
 	}
 
 	public int getImgNum() {

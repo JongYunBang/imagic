@@ -44,6 +44,11 @@ public class MemberServiceImpl implements MemberService {
 		return dao.read(m_id);
 	}
 
+	@Override
+	public int withdrawMember(MemberVO member) throws Exception {
+		return dao.delete(member);
+	}
+
 	
 	
 }

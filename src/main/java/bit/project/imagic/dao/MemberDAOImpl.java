@@ -37,8 +37,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int delete(MemberVO member) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("deleteMember", member);
 	}
 
 	@Override

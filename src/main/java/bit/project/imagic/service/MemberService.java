@@ -14,5 +14,7 @@ public interface MemberService {
 	int registerMember(MemberVO member) throws Exception;
 	
 	MemberVO modifyMember(MemberVO member) throws Exception;
+	
+	int withdrawMember(MemberVO member) throws Exception;
 
 }

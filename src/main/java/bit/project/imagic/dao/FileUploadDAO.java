@@ -11,6 +11,6 @@ public interface FileUploadDAO {
 	int create(FileVO file) throws Exception;
 	int rename(FileVO file) throws Exception;
 	int update(String m_id, String dirName) throws Exception;
-	int delete(String m_id, String dirName) throws Exception;
+	int deleteDir(FileVO file) throws Exception;
 
 }

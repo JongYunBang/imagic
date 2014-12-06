@@ -23,8 +23,8 @@
 <script type="text/javascript">
 
 // 로그인 버튼 클릭시 Ajax로 로그인 처리 
-	$(document).ready(function() {
-		/**/
+	 $(document).ready(function() {
+		
 		$('#login').click(function(event) {
 			var formData = $('#login_form').serialize();
 			$.ajax({
@@ -43,7 +43,7 @@
 				alert("error");   				// 정상적 처리가 되지 않았을때 에러창 띄움
 			}
 		});
-		/**/
+		
 		
 // 회원가입 버튼 클릭시 ajax 회원가입 처리
 		$('#signup').click(function(event) {
@@ -58,7 +58,7 @@
 			});
 			event.preventDefault();
 			function onSuccess(data) {
-				console.log("가입 성공");
+				window.location.href="/";
 			}
 			function onError(data, status) {
 				alert("error");
@@ -111,9 +111,17 @@
 
 	<!-- 로그아웃 -->
 	<c:if test="${ not empty member.m_id }">
-		<a href="<%=request.getContextPath()%>/logout">로그아웃</a>
+		<form method="post" action="<%=request.getContextPath()%>/logout">
+			<input type="submit" value="로그아웃">
+		</form>
 	</c:if>
-	
+	<!-- 회원탈퇴 -->
+	<c:if test="${ not empty member.m_id }">
+		<form method="post" action="<%=request.getContextPath()%>/withdraw">
+			<input type="hidden" name="m_id" value="${member.m_id}">
+			<input type="submit" value="회원탈퇴">
+		</form>
+	</c:if>
 	<!-- 회원가입 -->
 	<form id="signup_form" method="post" action="<%=request.getContextPath()%>/signup">
 		<label  for="m_id">ID</label>
@@ -129,7 +137,6 @@
 
 	<!--  버튼 클릭시 로그인 여부 검사 -->
 	<form id="upload_form" method="post" action="<%=request.getContextPath()%>/fileupload">
-		<%-- <input type="hidden" value="${member.m_id}" name="m_id"/> --%>
 		<input type="button" onclick="loginCheck();" value="다음"/>
 	</form>
 
