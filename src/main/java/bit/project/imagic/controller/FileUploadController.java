@@ -34,8 +34,8 @@ public class FileUploadController {
 	
 	FileVO file;		
 	// 파일 저장 기본 경로
-//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
-	String path = "d:/down/upload/";
+	String path = "/Users/ProgrammingPearls/Documents/Upload/";
+//	String path = "d:/down/upload/";
 	public FileUploadController() {
 		System.out.println("init FileUploadController");
 		file = new FileVO();
@@ -184,26 +184,23 @@ public class FileUploadController {
 		}
 	}
 	
-	
-	
-	// 파일 업로드 처리위한 맵핑
+	// 파일 업로드 처리위한 맵핑  (수정 동의 요청 (열우) -> 파일 업로드 버튼을 누르면 작동하는 Controller)
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
+	// Multipart 파일을 받아오기 위한 MultipartHttpServletRequest 인자 사용
 	public String upload(MultipartHttpServletRequest request, HttpServletResponse response) {
 		
-		System.out.println("controller 접속");
-		Iterator<String> itr = request.getFileNames();
-		System.out.println(itr.hasNext());
+		System.out.println("controller 접속");						// 삭제 동의 요청(열우)
+		Iterator<String> itr = request.getFileNames();		
+		System.out.println(itr.hasNext());							// 삭제 동의 요청(열우)
 		
-		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
-//		boolean envMobile = false;
-//		 String userAgent = request.getHeader("user-agent");
-//		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
-//			 envMobile = true;
-//		 }
-		
+		// 열우 2014. 12. 6 토 (03:00) : 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
+		boolean envMobile = false;
+		 String userAgent = request.getHeader("user-agent");
+		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
+			 envMobile = true;
+		 }
+		 
 		MultipartFile mpf = null;
-//		
 		while (itr.hasNext()){
 			String fileName = itr.next();
 			System.out.println("iterator : " + fileName);
@@ -220,6 +217,13 @@ public class FileUploadController {
 			}
 		}
 		return null;
+	}
+	
+	// 열우 2014. 12. 7 일 (01:22) : 사용자가 폴더를 선택하면 가져올 파일 목록 페이지 처리 Controller (Ajax) 
+	@RequestMapping(value="/filelist", method=RequestMethod.POST)
+	public void userFilePageLoad(@RequestParam(value="m_id") String m_id,
+			   @RequestParam(value="dirName") String dirName,MultipartHttpServletRequest request, HttpServletResponse response) throws IOException {
+		PrintWriter pw = response.getWriter();
 		
 	}
 }

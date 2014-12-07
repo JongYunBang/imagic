@@ -18,12 +18,21 @@
 	</select>
 	
 	<!-- 디렉토리 생성하는 쿼리 -->
-	<insert id="dirCeate" parameterType="bit.project.imagic.vo.FileVO" > 
-		insert into dir(dir_m_id, dir_name) values(
+	<insert id="dirCreate" parameterType="bit.project.imagic.vo.FileVO" >
+	 <!-- 열우 2014. 12. 6 일 (12:51) : dir_src Field에 저장하지 않았음 
+	
+			이전 소스(종윤이형 작업)
+			insert into dir(dir_m_id, dir_name) values(
 			#{m_id},
 			#{dirName}
 			)
-	</insert>
+ 	-->	
+			insert into dir(dir_m_id, dir_name, dir_src) values(
+			#{m_id},
+			#{dirName}
+			#{dirSrc}
+			) 	
+ </insert>
 	
 	<!-- 폴더이름 변경하는 쿼리 -->
 	<update id="renameDir" parameterType="bit.project.imagic.vo.FileVO" >

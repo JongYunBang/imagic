@@ -12,3 +12,7 @@
 	width: 500px;
 	background-color: ;
 }
+
+.folder {
+	cursor: pointer;
+}

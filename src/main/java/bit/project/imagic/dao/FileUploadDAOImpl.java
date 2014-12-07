@@ -28,7 +28,7 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 	
 	@Override
 	public int create(FileVO file) throws Exception {
-		return sqlSession.insert("dirCeate", file);
+		return sqlSession.insert("dirCreate", file);
 	}
 
 	@Override
