@@ -11,16 +11,20 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
-
+	
+	<beans:bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
 	<!-- Multipart를 받기 위한 리졸버 추가 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources directory -->
-	<resources location="/resources/**" mapping="/resources/" />
+	<resources location="/resources/**" mapping="/resources/**" />
 	<resources location="/WEB-INF/views/js/" mapping="/js/**" />
 	<resources location="/WEB-INF/views/img/" mapping="/img/**" />
 	<resources location="/WEB-INF/views/css/" mapping="/css/**" />
+	<resources location="/WEB-INF/views/elements/" mapping="/elements/**" />
+	
+	<resources location="/WEB-INF/views/bower_components/" mapping="/bower_components/**/**" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
