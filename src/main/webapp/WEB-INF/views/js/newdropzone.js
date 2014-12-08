@@ -230,11 +230,11 @@ $(function() {
 		};
 
 		xhr.upload.onprogress = function(e) {
-					var percentLoaded = Math.round((e.position / e.totalSize) * 100);
+					var percentLoaded = Math.round((e.loaded / e.total) * 100);
 					progress.style.width = percentLoaded + '%';
 					progress.textContent = percentLoaded + '% ' + '(' + 1 + '/'
 							+ 5 + ')';
-					console.log(e.position);
+					console.log(e.loaded);
 				// Debugger.log(e);
 				// Debugger.log(e.totalSize, "totalSize : ");
 				// Debugger.log(e.position, "position : ");

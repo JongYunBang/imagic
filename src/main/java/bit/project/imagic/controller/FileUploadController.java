@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class FileUploadController {
 //	String path = "/Users/ProgrammingPearls/Documents/Upload/";
 	String path = "d:/down/upload/";
 	public FileUploadController() {
-		System.out.println("init FileUploadController");
+		//System.out.println("init FileUploadController");
 		file = new FileVO();
 	}
 	
@@ -189,12 +190,13 @@ public class FileUploadController {
 	// 파일 업로드 처리위한 맵핑
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
-	public String upload(MultipartHttpServletRequest request, HttpServletResponse response) {
+	public String upload(@RequestParam(value="m_id") String m_id, MultipartHttpServletRequest request, HttpServletResponse response) {
 		
 		System.out.println("controller 접속");
 		Iterator<String> itr = request.getFileNames();
 		System.out.println(itr.hasNext());
 		
+		String userID=(String) request.getAttribute(m_id);
 		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
 //		boolean envMobile = false;
 //		 String userAgent = request.getHeader("user-agent");
@@ -205,12 +207,15 @@ public class FileUploadController {
 		MultipartFile mpf = null;
 //		
 		while (itr.hasNext()){
+			// 2014.12.06(11:13) : 실제 파일 시스템에 저장될 유일한 이름을 위한 id 생성
+			String genId = UUID.randomUUID().toString();
 			String fileName = itr.next();
 			System.out.println("iterator : " + fileName);
 			mpf = request.getFile(fileName);
-			System.out.println(mpf.getOriginalFilename() +" uploaded!");
+			System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
 	        try {
-				file.setImgLength(mpf.getBytes().length);
+				file.setM_id(m_id);
+	        	file.setImgLength(mpf.getBytes().length);
 				file.setImgBytes(mpf.getBytes());
 				file.setImgName(mpf.getOriginalFilename());
 				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + mpf.getOriginalFilename()));
