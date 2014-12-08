@@ -14,3 +14,14 @@
 	width: 500px;
 	background-color: ;
 }
+
+.folder {
+	cursor: pointer;
+}
+.folder > button {
+	display: none;
+	
+}
+.folder.clicked > button{
+	display: inline-block;
+} 

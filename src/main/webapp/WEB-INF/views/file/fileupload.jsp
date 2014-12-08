@@ -31,9 +31,10 @@
 		<ul id="file_user_dir">
 			<c:forEach var="result" items="${dir_result}" varStatus="status">
 				<li id="${result}">
-					<c:out value="${result}"/>   <!-- 파일 목록 출력  -->
-					<button id="${result}" class="rename">이름변경</button>
-					<button id="${result}" class="delete">삭제</button>
+					<span id="${result}" class='folder'>${result}
+						<button id="${result}" class="rename">이름변경</button>
+						<button id="${result}" class="delete">삭제</button>
+					</span>
 				</li>
 			</c:forEach>
 		</ul>

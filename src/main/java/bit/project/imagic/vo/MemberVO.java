@@ -5,15 +5,14 @@ import java.sql.Date;
 
 public class MemberVO implements Serializable {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private String m_id;
 	private String m_pw;
 	private String m_email;
 	private String m_name;
 	private Date m_regDate;
+	private String dirName;  // 2014.12.08(13:17) : 멤버VO에 현재 사용자가 선택한 폴더를 가져오기위한 변수 
 	
 	
 	public String getM_id() {
@@ -46,7 +45,14 @@ public class MemberVO implements Serializable {
 	public void setM_regDate(Date m_regDate) {
 		this.m_regDate = m_regDate;
 	}
-
-
-
+	public String getDirName() {
+		return dirName;
+	}
+	public void setDirName(String dirName) {
+		this.dirName = dirName;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 }

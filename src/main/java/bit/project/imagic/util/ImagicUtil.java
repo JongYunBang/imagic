@@ -15,25 +15,7 @@ import bit.project.imagic.vo.MemberVO;
  *
  */
 public class ImagicUtil {
-	// 그냥 생성된 session이 아닌 member정보가 들어있는지 확인해주는 메서드	
-	public static boolean checkSession(HttpServletRequest request) {
-		HttpSession session = null;
-		MemberVO member = null;
-		
-		session = request.getSession(false);
 
-		if (session == null) {
-			// 세션이 존재하지 않는 경우
-			return false;
-		} else {
-			// 세션이 존재하지만 로그인 값은 없는 경우
-			member = (MemberVO) session.getAttribute("member");
-			if (member.getM_id()!= null){
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	public static boolean renameDir(String userDirName, String oldDirName, String newDirName){
 		File userDir = new File(userDirName);
@@ -169,5 +151,12 @@ public class ImagicUtil {
 			}
 		}
 		return listDirs;
+	}
+
+	public static boolean checkSession(MemberVO member) {
+		if (member.getM_id()!= null){
+			return true;
+		}
+		return false;
 	}
 }

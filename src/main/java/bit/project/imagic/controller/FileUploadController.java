@@ -16,9 +16,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -28,6 +30,7 @@ import bit.project.imagic.vo.FileVO;
 import bit.project.imagic.vo.MemberVO;
 
 @Controller
+@SessionAttributes("member")
 public class FileUploadController {
 	
 	@Inject
@@ -63,23 +66,28 @@ public class FileUploadController {
 	
 	// 파일 업로드창을 주소를 쳐서 들어온 경우 처리
 	@RequestMapping(value="/fileupload", method=RequestMethod.GET)
-	public void showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-			// 세션 검사를 통해서 접근 제어!
-				response.sendRedirect(request.getContextPath() + "/");
+	public String showFlieUploadPage(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// 세션 검사를 통해서 접근 제어!
+		if (!ImagicUtil.checkSession(member)) {
+			response.sendRedirect(request.getContextPath() + "/");
+			return null;
+		}	
+		return "file/fileupload";
 	}
 	
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
-	public String showFlieUploadPage_2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		System.out.println("/파일업로드페이지  "+member.getM_id());
 		
 		// 세션 검사를 통해서 접근 제어!
-		if (!ImagicUtil.checkSession(request)) {
+		if (!ImagicUtil.checkSession(member)) {
 			response.sendRedirect(request.getContextPath() + "/");
 			return null;
 		}
 		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("member");
+//		MemberVO member = (MemberVO) session.getAttribute("member");
 		String m_id=member.getM_id();
 		file.setM_id(m_id);
 		List<String> listDirs = new ArrayList<String>();
@@ -190,13 +198,11 @@ public class FileUploadController {
 	// 파일 업로드 처리위한 맵핑
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
-	public String upload(@RequestParam(value="m_id") String m_id, MultipartHttpServletRequest request, HttpServletResponse response) {
+	public String upload(@ModelAttribute("member") MemberVO member,MultipartHttpServletRequest request, HttpServletResponse response) {
 		
-		System.out.println("controller 접속");
 		Iterator<String> itr = request.getFileNames();
-		System.out.println(itr.hasNext());
+		String userID=member.getM_id();
 		
-		String userID=(String) request.getAttribute(m_id);
 		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
 //		boolean envMobile = false;
 //		 String userAgent = request.getHeader("user-agent");
@@ -214,10 +220,12 @@ public class FileUploadController {
 			mpf = request.getFile(fileName);
 			System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
 	        try {
-				file.setM_id(m_id);
+				file.setM_id(userID);
+				file.setDirName(member.getDirName());
+				file.setImgName(genId+mpf.getOriginalFilename());
+				file.setImgOriName(mpf.getOriginalFilename());
 	        	file.setImgLength(mpf.getBytes().length);
 				file.setImgBytes(mpf.getBytes());
-				file.setImgName(mpf.getOriginalFilename());
 				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + mpf.getOriginalFilename()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
