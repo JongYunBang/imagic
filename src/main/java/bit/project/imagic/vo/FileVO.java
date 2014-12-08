@@ -6,7 +6,7 @@ public class FileVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String m_id;
-	private String dirNum;
+	private int dirNum;
 	private String dirName;
 	private String dirRename;
 	private int imgNum;
@@ -23,11 +23,11 @@ public class FileVO implements Serializable {
 		this.m_id = m_id;
 	}
 
-	public String getDirNum() {
+	public int getDirNum() {
 		return dirNum;
 	}
 
-	public void setDirNum(String dirNum) {
+	public void setDirNum(int dirNum) {
 		this.dirNum = dirNum;
 	}
 

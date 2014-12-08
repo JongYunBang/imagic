@@ -11,6 +11,6 @@ public interface FileUploadService {
 	int createDir(FileVO file) throws Exception;
 	int renameDir(FileVO file) throws Exception;
 	int deleteDir(FileVO file) throws Exception;
-	int updatedir(String m_id, FileVO file) throws Exception;
-
+	List<FileVO> fileList(FileVO file) throws Exception;
+	int fileUpload(FileVO file) throws Exception;
 }

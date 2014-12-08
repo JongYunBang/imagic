@@ -47,5 +47,15 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 		return sqlSession.delete("deleteDir", file);
 	}
 
+	@Override
+	public List<FileVO> fileList(FileVO file) throws Exception {
+		return sqlSession.selectList("fileList", file);
+	}
+
+	@Override
+	public int fileUpload(FileVO file) throws Exception {
+		return sqlSession.insert("fileUpload", file);
+	}
+
 
 }

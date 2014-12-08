@@ -40,6 +40,39 @@
 			and dir_name=#{dirName}
 	</delete>
 	
+	<!-- 해당 폴더 파일 리스트를 만들어서 가져오는 곳 -->
+	<select id="fileList" parameterType="bit.project.imagic.vo.FileVO" resultType="bit.project.imagic.vo.FileListVO">
+		 select img.img_num, 
+				img.img_m_id as m_id, 
+				img.img_dir_num as dirNum, 
+				img.img_o_name as imgOriName, 
+				img.img_size as imgLength,
+				img.img_s_name as imgName
+		 from image img, dir
+		 where img.img_dir_num=dir.dir_num
+		   and img.img_dir_num=(select dir_num from dir where dir_m_id=#{m_id} and dir_name=#{dirName})
+	</select>
+	
+	<!-- 파일 한개마다 정보를 저장하는 쿼리 -->
+	<insert id="fileUpload" parameterType="bit.project.imagic.vo.FileVO">
+		<selectKey keyProperty="dirNum" order="BEFORE" resultType="java.lang.Integer">
+			SELECT dir_num FROM dir
+			where dir_m_id=#{m_id} and dir_name=#{dirName}
+		</selectKey>
+		
+		insert into image (img_m_id, 
+						   img_dir_num, 
+	 					   img_s_name, 
+	 					   img_o_name, 
+	 					   img_size)
+					
+					values(#{m_id},
+						   #{dirNum},	
+						   #{imgName},	
+						   #{imgOriName},	
+						   #{imgLength})
+				
+	</insert>
 	
 	
 	

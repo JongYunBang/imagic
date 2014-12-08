@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	
+	// 태그 생성 funtion
 	function createFolder(element, dirName){
 		// 삭제 요청 (열우) : 새롭게 구현 함
 //		element.innerHTML = dirName + 
@@ -13,6 +14,7 @@ $(document).ready(function() {
 		
 	}
 	
+	// 폴더명 고치는 function
 	$(document).on('click', '.rename', function(e) {
 		// 로그인 아이디값(히든) 가져오기
 		var m_id = document.getElementById('m_id').value;
@@ -83,7 +85,6 @@ $(document).ready(function() {
 
 
 		function onSuccess(data) {
-			console.log(data);
 			if(data=="deleteDirSuccess"){
 				alert("삭제하였습니다.");
 				e.target.parentElement.parentElement.remove();
@@ -138,7 +139,6 @@ $(document).ready(function() {
 		 * dirExist : 디렉토리 존재
 		 */
 		function onSuccess(data) {
-			console.log(data);
 			if (data == "dirExist"){
 				alert("같은 이름의 디렉토리가 존재합니다!");
 			}else if (data == "dirFail") {
@@ -161,26 +161,19 @@ $(document).ready(function() {
 
 	//	열우 2014. 12. 7 일 (01:39) : 폴더 클릭 시 파일 리스트를 받아오기 위한 함수
 	$(document).on('click', '.folder', function(e) {
-		// 아직 미구현 뼈대만 작성함
-		
-		console.log(e);
-		
-		
 // 종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
-
 		// 사용자 폴더 ul 선택
 //		var list_element = document.getElementById('file_user_dir');
 		var dir_elements = document.getElementsByClassName('folder');
-		console.log(dir_elements);
+//		console.log(dir_elements);
 		for (var i=0; i < dir_elements.length; i++){
 			var dir_element = dir_elements[i];
 			dir_element.classList.remove("clicked");
 		}
-//		console.log(e.target);
+		console.log(e.target.id);
 		e.currentTarget.classList.add("clicked");
 		
-//		var m_id = $('#m_id').val();
-		
+		var m_id = $('#m_id').val();
 		$.ajax({
 			type : "POST",
 			url : "/filelist",

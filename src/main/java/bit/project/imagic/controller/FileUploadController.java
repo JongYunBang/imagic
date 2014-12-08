@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.util.ImagicUtil;
@@ -198,10 +200,11 @@ public class FileUploadController {
 	// 파일 업로드 처리위한 맵핑
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
-	public String upload(@ModelAttribute("member") MemberVO member,MultipartHttpServletRequest request, HttpServletResponse response) {
+	public String upload(@ModelAttribute("member") MemberVO member,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Iterator<String> itr = request.getFileNames();
 		String userID=member.getM_id();
+		
 		
 		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
 //		boolean envMobile = false;
@@ -219,14 +222,17 @@ public class FileUploadController {
 			System.out.println("iterator : " + fileName);
 			mpf = request.getFile(fileName);
 			System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
-	        try {
+	        System.out.println("컨트롤의 dirname : "+member.getDirName());
+			try {
 				file.setM_id(userID);
 				file.setDirName(member.getDirName());
 				file.setImgName(genId+mpf.getOriginalFilename());
 				file.setImgOriName(mpf.getOriginalFilename());
 	        	file.setImgLength(mpf.getBytes().length);
 				file.setImgBytes(mpf.getBytes());
-				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + mpf.getOriginalFilename()));
+				int a=(int)fileService.fileUpload(file);
+				System.out.println(a);
+				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();								
@@ -235,6 +241,17 @@ public class FileUploadController {
 		return null;
 		
 	}
+	
+	@RequestMapping(value="/filelist")
+	public void fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		List<FileVO> filesList = new ArrayList<FileVO>();
+		file.setM_id(member.getM_id());
+		file.setDirName(member.getDirName());
+		filesList = fileService.fileList(file);
+		System.out.println("파일리스트 사이즈:" + filesList.size());
+	}
+	
 }
 		
 

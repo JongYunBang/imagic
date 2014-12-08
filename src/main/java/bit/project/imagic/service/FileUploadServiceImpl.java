@@ -41,11 +41,13 @@ public class FileUploadServiceImpl implements FileUploadService {
 	}
 
 	@Override
-	public int updatedir(String m_id, FileVO file) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public List<FileVO> fileList(FileVO file) throws Exception {
+		return dao.fileList(file);
 	}
 
-
+	@Override
+	public int fileUpload(FileVO file) throws Exception {
+		return dao.fileUpload(file);
+	}
 
 }
