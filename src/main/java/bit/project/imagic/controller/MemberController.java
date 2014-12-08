@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.service.MemberService;
@@ -56,14 +56,16 @@ public class MemberController {
 	
 	// 로그인 처리부분
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ModelAndView login(HttpServletRequest req, HttpServletResponse res, 
+	public String login(HttpServletRequest request, HttpServletResponse response, 
 			 @ModelAttribute MemberVO member) throws Exception {
 		MemberVO storedMember = null;
 		if (member != null) {
 			storedMember = service.login(member);
 		}
-		
-		return new ModelAndView("index", "member", storedMember);
+		// 종윤 2014.12.8(10:00) : getSession으로 변경(Session 한개 관리를 위해서)
+		HttpSession session = request.getSession();
+		session.setAttribute("member", storedMember);
+		return "index";
 	}
 	
 	// 로그아웃 처리부분

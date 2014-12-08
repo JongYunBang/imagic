@@ -1,14 +1,16 @@
 @CHARSET "UTF-8";
 #file_main {
 	position: relative;
-	width:  700px;
+	width:  90000px;
 }
 #file_main_aside {
-	position: absolute;
+	float: left;
+	width: 300px;
 	background-color: skyblue;
 }
 #file_main_bside {
-	margin-left: 200px;
+	
+	float: left;
 	width: 500px;
 	background-color: ;
 }
