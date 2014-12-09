@@ -79,7 +79,7 @@ public class MemberController {
 	
 	// 회원 탈퇴
 	@RequestMapping(value="/withdraw", method=RequestMethod.POST)
-	public void withdraw(@ModelAttribute MemberVO member, 
+	public String withdraw(@ModelAttribute MemberVO member, 
 						    SessionStatus session, 
 							HttpServletRequest request, 
 							HttpServletResponse response) throws Exception {
@@ -89,9 +89,9 @@ public class MemberController {
 			if (ImagicUtil.deleteDir(path+m_id)){  // 파일시스템에서 파일 삭제
 				
 				session.setComplete();
-				response.sendRedirect(request.getContextPath() + "/");
 			}
 		}
+		return "index";
 	}
 	
 

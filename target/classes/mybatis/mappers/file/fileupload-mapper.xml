@@ -4,6 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fileupload">
 	
+	<resultMap id="fileListMap" type="bit.project.imagic.vo.FileVO">
+		<result column="img_num" property="imgNum" />
+		<result column="img_m_id" property="m_id" />
+		<result column="img_dir_num" property="dirNum" />
+		<result column="img_s_name" property="writer" />
+		<result column="img_o_name" property="writerName" />
+		<result column="img_size" property="writedate" />
+		<result column="img_thumb" property="hitcount" />
+	</resultMap>
+	
 	<!-- 디렉토리가 있는지 확인하는 쿼리 -->
 	<select id="isDir" parameterType="bit.project.imagic.vo.FileVO" resultType="int">
 		select count(*) from dir
@@ -41,13 +51,14 @@
 	</delete>
 	
 	<!-- 해당 폴더 파일 리스트를 만들어서 가져오는 곳 -->
-	<select id="fileList" parameterType="bit.project.imagic.vo.FileVO" resultType="bit.project.imagic.vo.FileListVO">
-		 select img.img_num, 
+	<select id="fileList" parameterType="bit.project.imagic.vo.FileVO" resultType="bit.project.imagic.vo.FileVO">
+		 select img.img_num as imgNum, 
 				img.img_m_id as m_id, 
 				img.img_dir_num as dirNum, 
 				img.img_o_name as imgOriName, 
 				img.img_size as imgLength,
-				img.img_s_name as imgName
+				img.img_s_name as imgName,
+				img.img_thumb as imgThumb
 		 from image img, dir
 		 where img.img_dir_num=dir.dir_num
 		   and img.img_dir_num=(select dir_num from dir where dir_m_id=#{m_id} and dir_name=#{dirName})

@@ -170,7 +170,7 @@ $(document).ready(function() {
 			var dir_element = dir_elements[i];
 			dir_element.classList.remove("clicked");
 		}
-		console.log(e.target.id);
+//		console.log(e.target.id);
 		e.currentTarget.classList.add("clicked");
 		
 		var m_id = $('#m_id').val();

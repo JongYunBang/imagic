@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -250,9 +251,19 @@ public class FileUploadController {
 		
 		List<FileVO> filesList = new ArrayList<FileVO>();
 		file.setM_id(member.getM_id());
+		System.out.println(file.getM_id());
 		file.setDirName(member.getDirName());
 		filesList = fileService.fileList(file);
 		System.out.println("파일리스트 사이즈:" + filesList.size());
+		FileVO test = filesList.get(0);
+		System.out.println(test.getM_id());
+		System.out.println(test.getDirNum());
+		System.out.println(test.getImgLength());
+		System.out.println(test.getImgName());
+		System.out.println(test.getImgNum());
+		System.out.println(test.getImgOriName());
+		System.out.println(test.getImgThumb());
+		request.setAttribute("fileList", filesList);
 	}
 	
 }
