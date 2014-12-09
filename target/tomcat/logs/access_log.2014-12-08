@@ -1,8 +1,0 @@
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:15 +0900] "GET / HTTP/1.1" 200 3744 http-bio-80-exec-1 797
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:19 +0900] "POST /login HTTP/1.1" 200 4043 http-bio-80-exec-4 275
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:19 +0900] "GET / HTTP/1.1" 200 4043 http-bio-80-exec-5 0
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:20 +0900] "POST /fileupload HTTP/1.1" 200 2214 http-bio-80-exec-6 95
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:20 +0900] "GET /js/fileupload.js HTTP/1.1" 304 - http-bio-80-exec-2 6
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:20 +0900] "GET /js/newdropzone.js HTTP/1.1" 304 - http-bio-80-exec-7 6
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:21 +0900] "POST /filelist HTTP/1.1" 200 - http-bio-80-exec-9 0
-0:0:0:0:0:0:0:1 - - [08/Dec/2014:20:58:28 +0900] "POST /upload HTTP/1.1" 200 - http-bio-80-exec-10 71

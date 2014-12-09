@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.util.ImagicUtil;
@@ -222,17 +220,22 @@ public class FileUploadController {
 			System.out.println("iterator : " + fileName);
 			mpf = request.getFile(fileName);
 			System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
-	        System.out.println("컨트롤의 dirname : "+member.getDirName());
-			try {
-				file.setM_id(userID);
-				file.setDirName(member.getDirName());
-				file.setImgName(genId+mpf.getOriginalFilename());
-				file.setImgOriName(mpf.getOriginalFilename());
-	        	file.setImgLength(mpf.getBytes().length);
-				file.setImgBytes(mpf.getBytes());
-				int a=(int)fileService.fileUpload(file);
-				System.out.println(a);
-				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
+	        System.out.println("컨트롤의 dirname : " + member.getDirName());
+	        
+	        try {
+				int fileNameCut = Integer.parseInt(fileName.substring(5));
+				if((fileNameCut%2)==0) {
+					file.setM_id(userID);
+					file.setDirName(member.getDirName());
+					file.setImgName(genId+mpf.getOriginalFilename());
+					file.setImgOriName(mpf.getOriginalFilename());
+		        	file.setImgLength(mpf.getBytes().length);
+					FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
+				} else {
+					file.setImgThumb(mpf.getBytes());
+					int a=(int)fileService.fileUpload(file);
+					System.out.println("파일 업로드 종료값  : " + a);
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();								

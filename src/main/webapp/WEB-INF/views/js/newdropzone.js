@@ -16,9 +16,7 @@ $(function() {
 	var thumbnailHeight = 100;
 	var method = "POST";
 	var url;
-	
 	var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
-	
 	/* console 디버깅을 편하게 하기 위한 함수 객체
 	   사용법은 단순한 메시지를 보려면 메시지만 입력하면 되고
 	   나중에 log 삭제 및 가독성을 위해 뒤에 함수명을 입력해주면 더욱 좋다.
@@ -110,7 +108,7 @@ $(function() {
 
 	// 파일 리스트 생성 함수
 	dropzone.createFileElement = function(files) {
-		var template, name, size, thumbnail, message;
+		var template, name, size, thumbnail, message, blobReturn;
 
 		// 메인에 뜨는 dropzone 그림 사라지게 하기
 		message = get('drop_zone').querySelector('.dz-message');
@@ -129,11 +127,29 @@ $(function() {
 			name.textContent = f.name;
 			size = template.querySelector('[data-dz-size]');
 			size.innerHTML = dropzone.filesize(f.size);
+			// output에 파일 push
+			output.push(f);
+			// 썸네일 div 셀렉트
 			thumbnail = template.querySelector('[data-dz-thumbnail]');
 			thumbnail.alt = f.name;
-			dropzone.createThumbnail(f, thumbnail);
-			output.push(f);
-			console.log(output);
+			// 선택한 썸네일 div div 안에 썸네일 이미지 생성 
+			dropzone.createThumbnail(f, thumbnail); //
+			
+			/**
+			 * 이부분은 createThumbnail 안에서 구현 
+			 * 파일 불러와서 blob으로 데이터 output에 저장
+			var reader = new FileReader();
+			reader.onloadend = function() {
+				console.log(reader.result);
+				var ab = [];
+				ab[0] = reader.result;
+				var bb = new Blob(ab);
+				console.log(bb);
+				output.push(bb);
+				console.log(output);
+			};
+			reader.readAsDataURL(f);*/
+			
 //			이 부분은 나중에 클래스를 동적으로 변경시키기 해서 필요한 소스(CSS할때 중요)
 //			template.classList.remove("dz-file-preview");
 //			template.classList.add("dz-image-preview");
@@ -160,19 +176,49 @@ $(function() {
 //			dropzone.createThumbnail(f, output);
 //		get('drop_zone').insertBefore(output, null);
 
-	dropzone.createThumbnail = function(f, element) {
+	// 썸네일 이미지 생성 하고 썸네일 Blob 데이터를 output에 push
+	dropzone.createThumbnail = function(blobReturn, element) {
+		// 이미지 인가 검사
 		if (!f.type.match('image*')) {
 			return;
 		}
-
+		
+		// 썸네일의 크기를 지정
+	    var thumbnailWidth = 100;
+	    var thumbnailHeight = 100;
+	    
+        // 파일 리더를 이용한 blob 데이터 생성
+		var blob=[];
 		var reader = new FileReader();
-
-		reader.onload = function(e) {
-			element.src = reader.result;
+		// onloadend 안에서만이 img.src= reader.result; 이문장이 실행 되기때문에 
+		// 코드가 좀 복잡해짐
+		reader.onloadend = function(e) {
+			// 썸네일을 만들어줄 canvas를 생성한다.
+			var canvas = document.createElement('canvas');
+			var ctx = canvas.getContext('2d');
+			canvas.width = thumbnailWidth;
+			canvas.height = thumbnailHeight;
+			
+			// 썸네일 만들 캔버스에 넘겨줄 원본파일 불러오기 위해서 image생성
+			var img = new Image();
+			img.src= reader.result; // img에 원본파일 blob 형태의 데이터 전달 
+			
+			// 캔버스로 이미지 그린다(원본 파일을 썸네일로 바꾸기 위해)
+		    ctx.drawImage(img, 0, 0, thumbnailWidth, thumbnailHeight);
+		    
+		    // 캔버스에 올려진 썸네일 이미지를 dataURL형태로 변환
+		    dataURL = canvas.toDataURL('image/*');
+		    // dataURL을 blob 형태로 저장하기 위한 배열 
+		    var ab = [];
+		    ab[0] = dataURL;
+		    // Blob 안에는 파일과 배열만이 들어갈수 있다 
+		    var bb = new Blob(ab);
+		    output.push(bb);    		// output에 blob 데이터 push
+			element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
 		};
 		reader.readAsDataURL(f);
+		
 	}
-
 	// 파일을 클릭했을 때 저장할 함수
 	dropzone.handleFileSelect = function(evt) {
 
@@ -215,11 +261,12 @@ $(function() {
 		// 데이터 전송을 위해 XHR을 생성한다.
 		var xhr = new XMLHttpRequest();
 		var progress = document.querySelector('.percent');
-		var fileSizes = [];
+		//var fileSizes = [];
 		$.each(output, function(i, file) {
 			formData.append('file-' + i, file);
-			fileSizes.push(output.fileSize(file));
+			console.log("output filesize : "+output.fileSize(file));
 		});
+		
 		// XHR은 url을 open하고 요청을 보내면 된다. 맨 뒤에 true는 비동기방식으로 할 것인지 묻는 것이다.
 		xhr.open(method, url, true);
 
@@ -234,7 +281,7 @@ $(function() {
 					progress.style.width = percentLoaded + '%';
 					progress.textContent = percentLoaded + '% ' + '(' + 1 + '/'
 							+ 5 + ')';
-					console.log(e.loaded);
+					//console.log(e.loaded);
 				// Debugger.log(e);
 				// Debugger.log(e.totalSize, "totalSize : ");
 				// Debugger.log(e.position, "position : ");

@@ -64,13 +64,15 @@
 						   img_dir_num, 
 	 					   img_s_name, 
 	 					   img_o_name, 
-	 					   img_size)
+	 					   img_size,
+	 					   img_thumb)
 					
 					values(#{m_id},
 						   #{dirNum},	
 						   #{imgName},	
 						   #{imgOriName},	
-						   #{imgLength})
+						   #{imgLength},
+						   #{imgThumb})
 				
 	</insert>
 	

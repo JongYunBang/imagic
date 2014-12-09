@@ -13,7 +13,8 @@ public class FileVO implements Serializable {
 	private String imgName;
 	private String imgOriName;
 	private int imgLength;
-	private byte[] imgBytes;
+	private byte[] imgThumb;
+	
 
 	public String getM_id() {
 		return m_id;
@@ -79,19 +80,21 @@ public class FileVO implements Serializable {
 		this.imgLength = imgLength;
 	}
 
-	public byte[] getImgBytes() {
-		return imgBytes;
+	public byte[] getImgThumb() {
+		return imgThumb;
 	}
 
-	public void setImgBytes(byte[] imgBytes) {
-		this.imgBytes = imgBytes;
+	public void setImgThumb(byte[] imgThumb) {
+		this.imgThumb = imgThumb;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
+	
 
+	
 	
 
 }
