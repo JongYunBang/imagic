@@ -3,14 +3,19 @@ package bit.project.imagic.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,9 +26,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.sun.corba.se.impl.orbutil.ObjectWriter;
 
 import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.util.ImagicUtil;
@@ -247,23 +256,30 @@ public class FileUploadController {
 	}
 	
 	@RequestMapping(value="/filelist")
-	public void fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		List<FileVO> filesList = new ArrayList<FileVO>();
+	public @ResponseBody Map<String, Object> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		Map<String, Object> models = new HashMap<String, Object>();
 		file.setM_id(member.getM_id());
 		System.out.println(file.getM_id());
 		file.setDirName(member.getDirName());
-		filesList = fileService.fileList(file);
-		System.out.println("파일리스트 사이즈:" + filesList.size());
+		List<FileVO> filesList = fileService.fileList(file);
+		Map<String, Object> resultMap = new HashMap<String, Object>();
 		FileVO test = filesList.get(0);
-		System.out.println(test.getM_id());
-		System.out.println(test.getDirNum());
-		System.out.println(test.getImgLength());
-		System.out.println(test.getImgName());
-		System.out.println(test.getImgNum());
-		System.out.println(test.getImgOriName());
-		System.out.println(test.getImgThumb());
-		request.setAttribute("fileList", filesList);
+		String a = new String();
+		
+		a = "{ m_id : '아아아' }";
+		resultMap.put("m_id", test.getM_id());
+		resultMap.put("dir_name", test.getDirNum());
+		resultMap.put("img_size", test.getImgLength());
+		resultMap.put("img_s_name", test.getImgName());
+		resultMap.put("img_num", test.getImgNum());
+		resultMap.put("img_o_name", test.getImgOriName());
+		resultMap.put("img_thumb", test.getImgThumb());
+		
+		System.out.println("파일리스트 사이즈:" + filesList.size());
+		
+//		ModelAndView mav = new ModelAndView("/filelist");
+//		mav.addObject("filesList", filesList);
+		return resultMap;
 	}
 	
 }

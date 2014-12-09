@@ -4,15 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fileupload">
 	
-	<resultMap id="fileListMap" type="bit.project.imagic.vo.FileVO">
-		<result column="img_num" property="imgNum" />
-		<result column="img_m_id" property="m_id" />
-		<result column="img_dir_num" property="dirNum" />
-		<result column="img_s_name" property="writer" />
-		<result column="img_o_name" property="writerName" />
-		<result column="img_size" property="writedate" />
-		<result column="img_thumb" property="hitcount" />
-	</resultMap>
+<!-- 	<resultMap id="fileListMap" type="bit.project.imagic.vo.FileVO"> -->
+<!-- 		<result column="img_num" property="imgNum" /> -->
+<!-- 		<result column="img_m_id" property="m_id" /> -->
+<!-- 		<result column="img_dir_num" property="dirNum" /> -->
+<!-- 		<result column="img_s_name" property="imgName" /> -->
+<!-- 		<result column="img_o_name" property="imgOriName" /> -->
+<!-- 		<result column="img_size" property="imgLength" /> -->
+<!-- 		<result column="img_thumb" property="imgThumb" /> -->
+<!-- 	</resultMap> -->
 	
 	<!-- 디렉토리가 있는지 확인하는 쿼리 -->
 	<select id="isDir" parameterType="bit.project.imagic.vo.FileVO" resultType="int">
