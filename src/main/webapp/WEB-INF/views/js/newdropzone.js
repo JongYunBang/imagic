@@ -116,7 +116,7 @@
 
 	// 파일 리스트 생성 함수
 	dropzone.createFileElement = function(files) {
-		var template, name, size, thumbnail, message, blobReturn;
+		var template, name, size, removeFile, thumbnail, message, blobReturn;
 
 		// 메인에 뜨는 dropzone 그림 사라지게 하기
 		message = get('drop_zone').querySelector('.dz-message');
@@ -137,14 +137,8 @@
 						"<div class=\"dz-progress\">" +
 							"<span class=\"dz-upload\" data-dz-uploadprogress></span>" +
 						"</div>\n  " +
-						"<div class=\"dz-success-mark\">" +
-							"<span>✔</span>" +
-						"</div>\n  " +
-						"<div class=\"dz-error-mark\">" +
-							"<span>✘</span>" +
-						"</div>\n  " +
-						"<div class=\"dz-error-message\">" +
-							"<span data-dz-errormessage></span>" +
+						"<div class=\"dz-delete\">" +
+							"<span data-dz-delete>delete</span>" +
 						"</div>\n    " +
 						"<div class=\"dz-state\">" +
 							"<span data-dz-state>saved</span>" +
@@ -160,6 +154,11 @@
 			name.textContent = f.name;
 			size = template.querySelector('[data-dz-size]');
 			size.innerHTML = dropzone.filesize(f.size);
+			
+			removeFile = template.querySelector('[data-dz-delete]');
+			removeFile.addEventListener('click', dropzone.removeFile, false);
+			
+			
 			// output에 파일 push
 			if (f.constructor.name == "File" ){
 				template.querySelector('[data-dz-state]').innerHTML ='upload';
@@ -358,14 +357,50 @@
 		e.preventDefault();
 		get('files').removeAttribute('disabled');
 	}
+	
+	// 드랍존에서 파일 삭제 하기 위한 곳
+	dropzone.removeFile = function(e) {
+		console.log(e);
+//		e.target.parentElement.parentElement.remove();
+		var stateValue = e.target.parentElement.nextSibling.nextElementSibling.childNodes[0].innerHTML;
+		var id = m_id.value;
+		var dirName = $('#drop_zone').data('folder');
+		var imgName = e.target.parentElement.parentElement.id;
+		
+		console.log(dirName);
+		if (stateValue = 'saved') {  // 서버에 파일 
+			$.ajax({
+				type : "POST",
+				url : "/removeFile",
+				cache : false,
+				data : {
+					"m_id" : id,
+					"dirName" : dirName,
+					"imgName" : imgName
+				},
+				success : onSuccess,
+				error : onError
+			});
+			function onSuccess(data) {
+				
+				e.target.parentElement.parentElement.remove();
+			}
+			function onError(data, status) {
+				alert("삭제실패");
+			}
+		}else if (stateValue = 'upload') {  // 사용자가 새로 올린파일
+			e.target.parentElement.parentElement.remove();
+		}
+	}
 
 $(document).ready(function() {
 	// EventListener 등록
-	get('')
+	
 	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,false);
 	get('drop_zone').addEventListener('drop', dropzone.handleDragSelect, false);
 	get('drop_zone').addEventListener('click', dropzone.fileClick, false);
 	get('files').addEventListener('change', dropzone.handleFileSelect, false);
 	get('drop_zone').addEventListener('mouseover', dropzone.handleMouseleave, false);
 	get('upload_dropzone').addEventListener('click', dropzone.fileUpload, false);
+	
 });

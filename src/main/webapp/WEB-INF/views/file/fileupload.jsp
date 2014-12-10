@@ -42,7 +42,7 @@
 	
 	<div id="file_main_bside" >
 		<input type="file" id="files" name="files []" style="display: none;" multiple/>
-		<div id="drop_zone" class="dropzone">
+		<div id="drop_zone" class="dropzone" data-folder>
 			<div class="dz-default dz-message"><span>Drop files here to upload</span></div>
 			
 		</div>	
