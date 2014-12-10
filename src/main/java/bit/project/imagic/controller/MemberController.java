@@ -83,7 +83,7 @@ public class MemberController {
 						    SessionStatus session, 
 							HttpServletRequest request, 
 							HttpServletResponse response) throws Exception {
-		String m_id=(String) request.getParameter("m_id");
+		String m_id=request.getParameter("m_id");
 		member.setM_id(m_id);
 		if(service.withdrawMember(member)==1) {  // db에서 파일 삭제
 			if (ImagicUtil.deleteDir(path+m_id)){  // 파일시스템에서 파일 삭제

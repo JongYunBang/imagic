@@ -50,10 +50,11 @@
     		<div class="percent"></div>
 		</div>
 		<button id="upload_dropzone">Upload File</button>
+		
 	</div>
 	
 </div>
-
+<img id="testimg"/>
 <!-- footer 부분 -->
 <footer></footer>
 

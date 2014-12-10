@@ -2,27 +2,32 @@
  * created by Sung Yeol Woo. (2014. 11. 26)
  */
 
-$(function() {
+	// elementbyId를 편하게 가져오기 위한 util함수
+	var get = function(id) {
+		return document.getElementById(id);
+	}
+
 	Array.prototype.fileSize = function(file) {
 		return file.size;
 	};
 
-	// 메인 객체
-	var dropzone = dropzone || {};
 	var output = [];
-	var maxFiles = 9; // 최대 업로드 가능 파일 수
+	var maxFiles = 100; // 최대 업로드 가능 파일 수
 	var files;
 	var thumbnailWidth = 100;
 	var thumbnailHeight = 100;
 	var method = "POST";
-	var url;
+	var dzURL;
 	var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
+
 	/* console 디버깅을 편하게 하기 위한 함수 객체
 	   사용법은 단순한 메시지를 보려면 메시지만 입력하면 되고
 	   나중에 log 삭제 및 가독성을 위해 뒤에 함수명을 입력해주면 더욱 좋다.
 	*/
 	var Debugger = function() {
+		
 	};
+	
 	Debugger.log = function(message, funcName) {
 		try {
 			if (funcName) {
@@ -34,10 +39,11 @@ $(function() {
 			return;
 		}
 	}
-	// elementbyId를 편하게 가져오기 위한 util함수
-	var get = function(id) {
-		return document.getElementById(id);
-	}
+
+	// 메인 객체
+	var dropzone = function() {
+
+	}; 
 
 	/* createElement를 만들면 id값이나 class값을 따로 넣어줘야한다.
 	   하지만 이 함수를 통해서 childNodes[0]의 값을 리턴하면
@@ -103,6 +109,8 @@ $(function() {
 
 	// dropzone을 클릭하면 input type="file" 화면이 나타난다.
 	dropzone.fileClick = function(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
 		get('files').click();
 	}
 
@@ -114,21 +122,50 @@ $(function() {
 		message = get('drop_zone').querySelector('.dz-message');
 		message.classList.remove("dz-default");
 		message.classList.add("dz-started");
-		
 		// 파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성(개별 존재)
-			template = dropzone.createElement( "<div class=\"dz-preview dz-file-preview\" id=\""+f.name+"\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"dz-progress\"><span class=\"dz-upload\" data-dz-uploadprogress></span></div>\n  <div class=\"dz-success-mark\"><span>✔</span></div>\n  <div class=\"dz-error-mark\"><span>✘</span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>");
+			template = dropzone.createElement( 
+					"<div class=\"dz-preview dz-file-preview\">\n  " +
+						"<div class=\"dz-details\">\n    " +
+							"<div class=\"dz-filename\">" +
+								"<span data-dz-name></span>" +
+							"</div>\n    " +
+							"<div class=\"dz-size\" data-dz-size></div>\n    " +
+							"<img data-dz-thumbnail />\n  " +
+						"</div>\n  " +
+						"<div class=\"dz-progress\">" +
+							"<span class=\"dz-upload\" data-dz-uploadprogress></span>" +
+						"</div>\n  " +
+						"<div class=\"dz-success-mark\">" +
+							"<span>✔</span>" +
+						"</div>\n  " +
+						"<div class=\"dz-error-mark\">" +
+							"<span>✘</span>" +
+						"</div>\n  " +
+						"<div class=\"dz-error-message\">" +
+							"<span data-dz-errormessage></span>" +
+						"</div>\n    " +
+						"<div class=\"dz-state\">" +
+							"<span data-dz-state>saved</span>" +
+						"</div>\n" +
+					"</div>"
+					);
 			// 생성된 엘리먼트를 클릭해도 파일 업로드 창이 뜨지 않는다.
 			template.addEventListener('mouseover', dropzone.handleMouseEnter);
 			template.addEventListener('mouseout', dropzone.handleMouseleave);
+			template.id = f.name;
 			get('drop_zone').appendChild(template);
 			name = template.querySelector('[data-dz-name]');
 			name.textContent = f.name;
 			size = template.querySelector('[data-dz-size]');
 			size.innerHTML = dropzone.filesize(f.size);
 			// output에 파일 push
-			output.push(f);
+			if (f.constructor.name == "File" ){
+				template.querySelector('[data-dz-state]').innerHTML ='upload';
+				
+				output.push(f);
+			}
 			// 썸네일 div 셀렉트
 			thumbnail = template.querySelector('[data-dz-thumbnail]');
 			thumbnail.alt = f.name;
@@ -179,53 +216,53 @@ $(function() {
 	// 썸네일 이미지 생성 하고 썸네일 Blob 데이터를 output에 push
 	dropzone.createThumbnail = function(blobReturn, element) {
 		// 이미지 인가 검사
-		if (!f.type.match('image*')) {
-			return;
-		}
-		
+//		if (!f.type.match('image*')) {
+//			return;
+//		}
 		// 썸네일의 크기를 지정
-	    var thumbnailWidth = 100;
-	    var thumbnailHeight = 100;
-	    
-        // 파일 리더를 이용한 blob 데이터 생성
-		var blob=[];
-		var reader = new FileReader();
-		// onloadend 안에서만이 img.src= reader.result; 이문장이 실행 되기때문에 
-		// 코드가 좀 복잡해짐
-		reader.onloadend = function(e) {
-			// 썸네일을 만들어줄 canvas를 생성한다.
-			var canvas = document.createElement('canvas');
-			var ctx = canvas.getContext('2d');
-			canvas.width = thumbnailWidth;
-			canvas.height = thumbnailHeight;
-			
-			// 썸네일 만들 캔버스에 넘겨줄 원본파일 불러오기 위해서 image생성
-			var img = new Image();
-			img.src= reader.result; // img에 원본파일 blob 형태의 데이터 전달 
-			
-			// 캔버스로 이미지 그린다(원본 파일을 썸네일로 바꾸기 위해)
-		    ctx.drawImage(img, 0, 0, thumbnailWidth, thumbnailHeight);
-		    
-		    // 캔버스에 올려진 썸네일 이미지를 dataURL형태로 변환
-		    dataURL = canvas.toDataURL('image/*');
-		    // dataURL을 blob 형태로 저장하기 위한 배열 
-		    var ab = [];
-		    ab[0] = dataURL;
-		    // Blob 안에는 파일과 배열만이 들어갈수 있다 
-		    var bb = new Blob(ab);
-		    output.push(bb);    		// output에 blob 데이터 push
-			element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
-		};
-		reader.readAsDataURL(f);
+		var thumbnailWidth = 100;
+		var thumbnailHeight = 100;
+		// 받는 값이 파일 인경우 수행하고 그렇지 않고 blob형태이면 바로 element.src에 값 전달 
+		if (blobReturn.constructor.name == 'File') {
+			var reader = new FileReader();
+			// onloadend 안에서만이 img.src= reader.result; 이문장이 실행 되기때문에 
+			// 코드가 좀 복잡해짐
+			reader.onload = function(e) {
+				// 썸네일을 만들어줄 canvas를 생성한다.
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('2d');
+				canvas.width = thumbnailWidth;
+				canvas.height = thumbnailHeight;
+
+				// 썸네일 만들 캔버스에 넘겨줄 원본파일 불러오기 위해서 image생성
+				var img = new Image();
+				img.src= reader.result; // img에 원본파일 blob 형태의 데이터 전달 
+
+				// 캔버스로 이미지 그린다(원본 파일을 썸네일로 바꾸기 위해)
+				ctx.drawImage(img, 0, 0, thumbnailWidth, thumbnailHeight);
+
+				// 캔버스에 올려진 썸네일 이미지를 dataURL형태로 변환
+				dataURL = canvas.toDataURL('image/*');
+				// dataURL을 blob 형태로 저장하기 위한 배열 
+				var ab = [];
+				ab[0] = dataURL;
+				// Blob 안에는 파일과 배열만이 들어갈수 있다 
+				var bb = new Blob(ab, { 'type': 'image/png' });
+				output.push(bb);    		// output에 blob 데이터 push
+				element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
+			};
+			reader.readAsDataURL(f);
+		}else if(blobReturn.constructor.name == 'Object'){
+			element.src = atob(blobReturn.file);
+		}
+//		element.src = blobReturn;
 		
 	}
 	// 파일을 클릭했을 때 저장할 함수
 	dropzone.handleFileSelect = function(evt) {
-
 		evt.stopPropagation();
 		evt.preventDefault();
 		files = evt.target.files; // FileList 객체
-
 		// 파일 업로드가 가능한지 확인한다.
 		if (!dropzone.canUpload(files.length)) {
 			return false;
@@ -255,7 +292,7 @@ $(function() {
 	}
 
 	dropzone.fileUpload = function(evt) {
-		url = "/upload";
+		dzURL = "/upload";
 		var formData = new FormData();
 	
 		// 데이터 전송을 위해 XHR을 생성한다.
@@ -264,11 +301,11 @@ $(function() {
 		//var fileSizes = [];
 		$.each(output, function(i, file) {
 			formData.append('file-' + i, file);
-			console.log("output filesize : "+output.fileSize(file));
+			console.log(output);
 		});
 		
 		// XHR은 url을 open하고 요청을 보내면 된다. 맨 뒤에 true는 비동기방식으로 할 것인지 묻는 것이다.
-		xhr.open(method, url, true);
+		xhr.open(method, dzURL, true);
 
 		xhr.upload.onloadstart = function(e) {
 			document.getElementById('progress_bar').className = 'loading';
@@ -321,14 +358,14 @@ $(function() {
 		e.preventDefault();
 		get('files').removeAttribute('disabled');
 	}
-	
+
+$(document).ready(function() {
 	// EventListener 등록
-	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,
-			false);
+	get('')
+	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,false);
 	get('drop_zone').addEventListener('drop', dropzone.handleDragSelect, false);
 	get('drop_zone').addEventListener('click', dropzone.fileClick, false);
 	get('files').addEventListener('change', dropzone.handleFileSelect, false);
 	get('drop_zone').addEventListener('mouseover', dropzone.handleMouseleave, false);
 	get('upload_dropzone').addEventListener('click', dropzone.fileUpload, false);
-})
-
+});

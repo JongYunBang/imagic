@@ -160,7 +160,7 @@ $(document).ready(function() {
 	});
 
 	//	열우 2014. 12. 7 일 (01:39) : 폴더 클릭 시 파일 리스트를 받아오기 위한 함수
-	$(document).on('click', '.folder', function(e) {
+	$(document).on('click', '.folder', function (e) {
 // 종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
 //		var list_element = document.getElementById('file_user_dir');
@@ -186,7 +186,21 @@ $(document).ready(function() {
 			error : onError
 		});
 		function onSuccess(data) {
-			console.log(data);
+			var imgThumbArray =[];
+			for (var i=0; i<data.length; i++) {
+				var id = data[i].m_id;
+				var imgOriName = data[i].imgOriName;
+				var imgLength=data[i].imgLength;
+ 				var file = data[i].imgThumb;
+				imgThumbArray[i] = {
+						"file" : file,
+						"name" : imgOriName,
+						"size" : imgLength
+				}
+			}
+			// 드랍존에게 썸네일 배열을 넘김
+			dropzone.createFileElement(imgThumbArray);
+			
 			
 		}
 		function onError(data, status) {

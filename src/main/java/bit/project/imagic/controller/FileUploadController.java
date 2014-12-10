@@ -3,19 +3,13 @@ package bit.project.imagic.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,9 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.sun.corba.se.impl.orbutil.ObjectWriter;
 
 import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.util.ImagicUtil;
@@ -210,9 +201,10 @@ public class FileUploadController {
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
 	public String upload(@ModelAttribute("member") MemberVO member,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		
 		Iterator<String> itr = request.getFileNames();
 		String userID=member.getM_id();
-		
+		int fileCount = request.getFileMap().size();
 		
 		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
 //		boolean envMobile = false;
@@ -220,10 +212,12 @@ public class FileUploadController {
 //		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
 //			 envMobile = true;
 //		 }
+		int cnt=0;
+		List<FileVO> uploadList = new ArrayList<FileVO>();
 		
 		MultipartFile mpf = null;
-//		
 		while (itr.hasNext()){
+			FileVO tempFile = new FileVO(); 
 			// 2014.12.06(11:13) : 실제 파일 시스템에 저장될 유일한 이름을 위한 id 생성
 			String genId = UUID.randomUUID().toString();
 			String fileName = itr.next();
@@ -233,53 +227,78 @@ public class FileUploadController {
 	        System.out.println("컨트롤의 dirname : " + member.getDirName());
 	        
 	        try {
-				int fileNameCut = Integer.parseInt(fileName.substring(5));
-				if((fileNameCut%2)==0) {
-					file.setM_id(userID);
-					file.setDirName(member.getDirName());
-					file.setImgName(genId+mpf.getOriginalFilename());
-					file.setImgOriName(mpf.getOriginalFilename());
-		        	file.setImgLength(mpf.getBytes().length);
+//				int fileNameCut = Integer.parseInt(fileName.substring(5));
+				if((fileCount/2)>cnt) {
+					tempFile.setM_id(userID);
+					tempFile.setDirName(member.getDirName());
+					tempFile.setImgName(genId+mpf.getOriginalFilename());
+					tempFile.setImgOriName(mpf.getOriginalFilename());
+					tempFile.setImgLength(mpf.getBytes().length);
+					System.out.println("bytes : " + mpf.getBytes()); 
 					FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
+					uploadList.add(tempFile);
 				} else {
-					file.setImgThumb(mpf.getBytes());
-					int a=(int)fileService.fileUpload(file);
-					System.out.println("파일 업로드 종료값  : " + a);
+					uploadList.get(cnt-(fileCount/2)).setImgThumb(mpf.getBytes());
 				}
+				cnt++;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();								
 			}
+	        
 		}
+		
+	  for (int i = 0;i < uploadList.size(); i++){
+        	System.out.println("----------------------");
+        	System.out.println("uploadList : " + i);
+        	System.out.println(uploadList.get(i).getM_id());	
+        	System.out.println(uploadList.get(i).getDirName());	
+        	System.out.println(uploadList.get(i).getImgName());	
+        	System.out.println(uploadList.get(i).getImgOriName());	
+        	System.out.println(uploadList.get(i).getImgLength());	
+        	System.out.println(uploadList.get(i).getImgThumb());	
+        	int a=fileService.fileUpload(uploadList.get(i));
+        	System.out.println("파일 업로드 성공 : " + a);
+        }
+        
 		return null;
 		
 	}
 	
 	@RequestMapping(value="/filelist")
-	public @ResponseBody Map<String, Object> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody List<FileVO> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		Map<String, Object> models = new HashMap<String, Object>();
+		
 		file.setM_id(member.getM_id());
 		System.out.println(file.getM_id());
 		file.setDirName(member.getDirName());
-		List<FileVO> filesList = fileService.fileList(file);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		FileVO test = filesList.get(0);
-		String a = new String();
+		response.setContentType("image/*");
 		
-		a = "{ m_id : '아아아' }";
-		resultMap.put("m_id", test.getM_id());
-		resultMap.put("dir_name", test.getDirNum());
-		resultMap.put("img_size", test.getImgLength());
-		resultMap.put("img_s_name", test.getImgName());
-		resultMap.put("img_num", test.getImgNum());
-		resultMap.put("img_o_name", test.getImgOriName());
-		resultMap.put("img_thumb", test.getImgThumb());
+		List<FileVO> filesList = fileService.fileList(file);
+		
+//		Blob decoded = new Blob(filesList.get(0).getImgThumb());
+//		byte[] decoded = Base64Decoder.decode(filesList.get(0).getImgThumb(), 0, filesList.get(0).getImgThumb().length); 
+//				(arg0, arg1); decode(filesList.get(0).getImgThumb(), 0, filesList.get(0).getImgThumb().length);
+//		filesList.get(0).setImgThumb(decoded);
+//		Map<String, Object> resultMap = new HashMap<String, Object>();
+//		FileVO test = filesList.get(0);
+//		String a = new String();
+//		
+//		a = "{ m_id : '아아아' }";
+//		resultMap.put("m_id", test.getM_id());
+//		resultMap.put("dir_name", test.getDirNum());
+//		resultMap.put("img_size", test.getImgLength());
+//		resultMap.put("img_s_name", test.getImgName());
+//		resultMap.put("img_num", test.getImgNum());
+//		resultMap.put("img_o_name", test.getImgOriName());
+//		resultMap.put("img_thumb", test.getImgThumb());
 		
 		System.out.println("파일리스트 사이즈:" + filesList.size());
 		
+		
 //		ModelAndView mav = new ModelAndView("/filelist");
 //		mav.addObject("filesList", filesList);
-		return resultMap;
+		return filesList;
 	}
 	
 }
