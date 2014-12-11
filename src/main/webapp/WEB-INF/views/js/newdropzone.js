@@ -2,22 +2,6 @@
  * created by Sung Yeol Woo. (2014. 11. 26)
  */
 
-	// elementbyId를 편하게 가져오기 위한 util함수
-	var get = function(id) {
-		return document.getElementById(id);
-	}
-	
-	// 배열삭제후 
-	Array.prototype.remove = function(from, to) {
-		var rest = this.slice((to || from) + 1 || this.length);
-		this.length = from < 0 ? this.length + from : from;
-		return this.push.apply(this, rest);
-	};
-
-	Array.prototype.fileSize = function(file) {
-		return file.size;
-	};
-
 	var output = [];  // 파일저장 배열
 	var outputBlob = [];  // 썸네일(blob) 저장 배열
 	var maxFiles = 100; // 최대 업로드 가능 파일 수
@@ -28,6 +12,28 @@
 	var dzURL;
 	var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
 
+	
+// utility : elementbyId를 편하게 가져오기 위한 utility함수
+	var get = function(id) {
+		return document.getElementById(id);
+	}
+	
+////////////
+	
+// Prototype
+	// 12.11 19:45 - 배열 삭제 후 자동 당겨오기(index값 재설정)
+	Array.prototype.remove = function(from, to) {
+		var rest = this.slice((to || from) + 1 || this.length);
+		this.length = from < 0 ? this.length + from : from;
+		return this.push.apply(this, rest);
+	};
+
+	Array.prototype.fileSize = function(file) {
+		return file.size;
+	};
+	
+////////////
+	
 	/* console 디버깅을 편하게 하기 위한 함수 객체
 	   사용법은 단순한 메시지를 보려면 메시지만 입력하면 되고
 	   나중에 log 삭제 및 가독성을 위해 뒤에 함수명을 입력해주면 더욱 좋다.
@@ -53,21 +59,7 @@
 
 	}; 
 
-	/* createElement를 만들면 id값이나 class값을 따로 넣어줘야한다.
-	   하지만 이 함수를 통해서 childNodes[0]의 값을 리턴하면
-	   innerHTML로 만든 문장으로 엘리먼트를 생성할 수 있다.
-	   밑에 보면 div = <div></div>가 생성 되고 
-	   div.innerHTML = "<div class='asd' id='asd'></div>" 를 입력하면
-	   <div>
-			<div class='asd' id='asd'>
-				<div class="asdsadasdad" id="asdasdsad">
-				</div>
-			</div>
-	   </div>
-	   이 형태로 만들어지는데 여기서 return으로 div.childNodes[0] 을 해주면
-	   <div class='asd' id='asd'></div> 값만 리턴되기 때문에 
-	   안에 있는 엘리먼트만 가져오는 기능을 갖게 된다. 
-	 */
+	// 12.11 19:45 - preview 생성
 	dropzone.createElement = function(string) {
 		var div;
 		div = document.createElement("div");
@@ -75,9 +67,7 @@
 		return div.childNodes[0];
 	};
 
-	/*
-	 * filesize를 용량에 맞게 바꿔준다.
-	 */
+	// 12.11 19:45 - File용량 보기 좋게 변경
 	dropzone.filesize = function(size) {
 		var string;
 		// if (size >= 1024 * 1024 * 1024 * 1024 / 10) {
@@ -98,7 +88,9 @@
 		}
 		return "<strong>" + (Math.round(size) / 10) + "</strong> " + string;
 	};
-	// 최대 업로드 제한 체크
+	
+	// 최대 업로드 수 제한 체크
+	//TODO 최대업로드
 	dropzone.canUpload = function(fileLength) {
 		if (!fileLength) {
 			fileLength = 0;
@@ -115,26 +107,25 @@
 		}
 	}
 
-	// dropzone을 클릭하면 input type="file" 화면이 나타난다.
+	// 12.11 19:45 - Dropzone 클릭시 발생하는 이벤트
 	dropzone.fileClick = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
-		get('files').click();
+		
+		// 12.11 19:45 - folder가 클릭되어있는지 여부를 확인
+		var dirName = $('#drop_zone').data('folder');
+		if(dirName){
+			get('files').click();
+		}
 	}
 
 	// 파일 리스트 생성 함수
 	dropzone.createFileElement = function(files) {
-		var template, name, size, removeFile, thumbnail, message, blobReturn;
+		var template, name, size, removeFile, thumbnail, message, blobReturn, imgNum;
 
-		// 메인에 뜨는 dropzone 그림 사라지게 하기
-		message = get('drop_zone').querySelector('.dz-message');
-		if(message){
-			message.classList.remove("dz-default");
-			message.classList.add("dz-started");
-		}
 		// 파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
-			// preview Template을 생성(개별 존재)
+			// preview Template을 생성
 			template = dropzone.createElement( 
 					"<div class=\"dz-preview dz-file-preview\">\n  " +
 						"<div class=\"dz-details\">\n    " +
@@ -153,57 +144,46 @@
 						"<div class=\"dz-state\">" +
 							"<span data-dz-state>saved</span>" +
 						"</div>\n" +
+						"<div class=\"dz-num\">" +
+						"<span data-dz-imgNum></span>" +
+						"</div>\n    " +
 					"</div>"
 					);
-			// 생성된 엘리먼트를 클릭해도 파일 업로드 창이 뜨지 않는다.
+			
+			// 12.11 19:45 - preview를 클릭해도 dropzone 이벤트가 발생하지 않음
 			template.addEventListener('mouseover', dropzone.handleMouseEnter);
 			template.addEventListener('mouseout', dropzone.handleMouseleave);
+			/////////
+			
 			template.id = f.name;
 			get('drop_zone').appendChild(template);
+			
+			// 12.11 19:45 - 태그 선택해서 값 할당
 			name = template.querySelector('[data-dz-name]');
 			name.textContent = f.name;
 			size = template.querySelector('[data-dz-size]');
 			size.innerHTML = dropzone.filesize(f.size);
-			
+			imgNum = template.querySelector('[data-dz-imgNum]');
+			imgNum.textContent = f.imgNum;
 			removeFile = template.querySelector('[data-dz-delete]');
 			removeFile.addEventListener('click', dropzone.removeFile, false);
-			
-			
-			// output에 파일 push
-			if (f.constructor.name == "File" ){
-				template.querySelector('[data-dz-state]').innerHTML ='upload';
-				
-				output.push(f);
-			}
-			// 썸네일 div 셀렉트
 			thumbnail = template.querySelector('[data-dz-thumbnail]');
 			thumbnail.alt = f.name;
-			// 선택한 썸네일 div div 안에 썸네일 이미지 생성 
+			/////
+			
+			// 12.11 19:45 - 파일의 종류가 File일때만 output에 넣어준다.
+			// 이것을 통해서 사용자가 직접 올린 파일만 output에 데이터를 담는다!
+			if (f.constructor.name == "File" ){
+				template.querySelector('[data-dz-state]').innerHTML ='upload';
+				output.push(f);
+			}
+			
+			// 12.11 19:45 - 생성되는 preview에 썸네일을 추가 시켜준다.
 			dropzone.createThumbnail(f, thumbnail); //
-				
-			
-			/**
-			 * 이부분은 createThumbnail 안에서 구현 
-			 * 파일 불러와서 blob으로 데이터 output에 저장
-			var reader = new FileReader();
-			reader.onloadend = function() {
-				console.log(reader.result);
-				var ab = [];
-				ab[0] = reader.result;
-				var bb = new Blob(ab);
-				console.log(bb);
-				output.push(bb);
-				console.log(output);
-			};
-			reader.readAsDataURL(f);*/
-			
-//			이 부분은 나중에 클래스를 동적으로 변경시키기 해서 필요한 소스(CSS할때 중요)
-//			template.classList.remove("dz-file-preview");
-//			template.classList.add("dz-image-preview");
 		}
 	}
 	
-	// 파일 이름으로 태그및 파일리스트에서 해당 파일 삭제
+	// 12.11 19:45 - remove를 누르면 preview 및 files에 담겨있는 값을 삭제
 	dropzone.removeFileElement = function(files, filename) {
 		for (var i=0; files.length>=0; i++) {
 			if (files[i]==filename) {
@@ -213,22 +193,9 @@
 			return ;
 		}
 	}
-			
-//			var output = document.createElement('div');
-			
-//			output.innerHTML = [ '<strong>', f.name, '</strong> (', f.type,
-//					') - ', f.size, 'bytes, last modified : ',
-//					f.lastModifiedDate.toLocaleDateString(),
-//					'<span id="dz-delete">삭제</span>' ].join('');
-//			dropzone.createThumbnail(f, output);
-//		get('drop_zone').insertBefore(output, null);
 
-	// 썸네일 이미지 생성 하고 썸네일 Blob 데이터를 output에 push
+	// 12.11 19:45 - 썸네일 이미지를 생성하여 outputBlob에 저장하고 thumbnail src에 이미지 저장
 	dropzone.createThumbnail = function(blobReturn, element) {
-		// 이미지 인가 검사
-//		if (!f.type.match('image*')) {
-//			return;
-//		}
 		// 썸네일의 크기를 지정
 		var thumbnailWidth = 100;
 		var thumbnailHeight = 100;
@@ -269,11 +236,21 @@
 //		element.src = blobReturn;
 		
 	}
-	// 파일을 클릭했을 때 저장할 함수
+	
+	// Dropzone 클릭했을 때 처리
 	dropzone.handleFileSelect = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		files = evt.target.files; // FileList 객체
+		
+
+		// 이미지 파일인지 검사
+		for(var i =0; i<files.length; i++ ){
+			if(files[i].type.match("image/*") == null){
+				alert("이미지 외에는 아무것도 올릴 수 없습니다.");
+				return;
+			}
+		}
 		
 		// 파일 업로드가 가능한지 확인한다.
 		if (!dropzone.canUpload(files.length)) {
@@ -284,11 +261,20 @@
 
 	}
 
+	// Drag&Drop 처리
 	dropzone.handleDragSelect = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		var files = evt.dataTransfer.files; // FileList 객체
 
+		// 이미지 파일인지 검사
+		for(var i =0; i<files.length; i++ ){
+			if(files[i].type.match("image/*") == null){
+				alert("이미지 외에는 아무것도 올릴 수 없습니다.");
+				return;
+			}
+		}
+		
 		// 파일 업로드가 가능한지 확인한다.
 		if (!dropzone.canUpload(files.length)) {
 			return false;
@@ -297,7 +283,8 @@
 		dropzone.createFileElement(files);
 	}
 
-	    dropzone.handleDragOver = function(evt) {
+	
+	dropzone.handleDragOver = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		evt.dataTransfer.dropEffect = 'copy';
@@ -310,58 +297,64 @@
 		// 데이터 전송을 위해 XHR을 생성한다.
 		var xhr = new XMLHttpRequest();
 		var progress = document.querySelector('.percent');
-		//var fileSizes = [];
-		$.each(output, function(i, file) {
-			formData.append('file-' + i, file);
-			console.log(output);
-		});
-		console.log(outputBlob);
-		$.each(outputBlob, function(i, blob) {
-			formData.append('blob-' + i, blob)
-			console.log(outputBlob);
-		});
-		console.log(formData);
-		// XHR은 url을 open하고 요청을 보내면 된다. 맨 뒤에 true는 비동기방식으로 할 것인지 묻는 것이다.
-		xhr.open(method, dzURL, true);
 
-		xhr.upload.onloadstart = function(e) {
-			document.getElementById('progress_bar').className = 'loading';
-			progress.style.width = '0%';
-			progress.textContent = '0%';
-		};
-
-		xhr.upload.onprogress = function(e) {
-					var percentLoaded = Math.round((e.loaded / e.total) * 100);
-					progress.style.width = percentLoaded + '%';
-					progress.textContent = percentLoaded + '% ' + '(' + 1 + '/'
-							+ 5 + ')';
-					//console.log(e.loaded);
-				// Debugger.log(e);
-				// Debugger.log(e.totalSize, "totalSize : ");
-				// Debugger.log(e.position, "position : ");
-				// Debugger.log("-------------------");
-				// var percentComplete = (e.position / e.totalSize)*100;
-
-				//
-				// if (percentLoaded < 100) {
-				// progress.style.width = percentLoaded + '%';
-				// progress.textContent = percentLoaded + '% ' + '(' + i + '/' +
-				// sum + ')';
-				// }
-		};
-
-		xhr.onload = function(e) {
-			if (xhr.readyState == 4) {
-				progress.style.width = '100%';
-				progress.textContent = '100%';
-				document.getElementById('progress_bar').className = '';
-			}
-		};
-
-		xhr.onerror = function(e) {
-			alert("Error : " + e.target.status);
-		};
-		xhr.send(formData);
+		// 12.11 19:45 - 전송될 데이터가 존재하면
+		if (output.length != 0){
+			
+			// 12.11 19:45 - 폼 데이터에 파일 저장 
+			$.each(output, function(i, file) {
+				formData.append('file-' + i, file);
+				console.log(output);
+			});
+			
+			// 12.11 19:45 - 폼 데이터 썸네일 저장
+			$.each(outputBlob, function(i, blob) {
+				formData.append('blob-' + i, blob)
+				console.log(outputBlob);
+			});
+			
+			
+			// 12.11 19:45 - XHR 
+			xhr.open(method, dzURL, true);
+	
+			xhr.upload.onloadstart = function(e) {
+				document.getElementById('progress_bar').className = 'loading';
+				progress.style.width = '0%';
+				progress.textContent = '0%';
+			};
+	
+			// 12.11 19:45 - 프로그래스바
+			xhr.upload.onprogress = function(e) {
+						var percentLoaded = Math.round((e.loaded / e.total) * 100);
+						progress.style.width = percentLoaded + '%';
+						progress.textContent = percentLoaded + '% ' + '(' + 1 + '/'
+								+ 5 + ')';
+			};
+	
+			// 12.11 19:45 - Ajax응답
+			xhr.onload = function(e) {
+				// 12.11 19:45 - 응답 완료 - 4
+				if (xhr.readyState == 4) {
+					progress.style.width = '100%';
+					progress.textContent = '100%';
+					document.getElementById('progress_bar').className = '';
+					
+					// 12.11 19:45 - 업로드 후 상태 태그 값 Saved로 변경
+					var stateList = document.getElementById("drop_zone").querySelectorAll('[data-dz-state]');
+					for (var i=0; i<stateList.length; i++) {
+						stateList[i].innerHTML = 'saved';
+					}
+					// 12.11 19:45 - 업로드 후 데이터 초기화
+					output = [];
+					outputBlob = [];
+				}
+			};
+	
+			xhr.onerror = function(e) {
+				alert("Error : " + e.target.status);
+			};
+			xhr.send(formData);
+		}
 	}
 
 	dropzone.handleMouseEnter = function(e) {
@@ -378,14 +371,17 @@
 	
 	// 드랍존에서 파일 삭제 하기 위한 곳
 	dropzone.removeFile = function(e) {
-//		e.target.parentElement.parentElement.remove();
+		// 12.11 19:45 - dropzone안에 생성되어있는 preview안에 있는 state 태그의 값
 		var stateValue = e.target.parentElement.nextSibling.nextElementSibling.childNodes[0].innerHTML;
 		var id = m_id.value;
 		var dirName = $('#drop_zone').data('folder');
+		
+		// 12.11 19:45 - dropzone안에 생성되어있는 preview안에 태그의 id		
 		var imgName = e.target.parentElement.parentElement.id;
-		console.log(imgName);
-		if (stateValue == 'saved') {  // 서버에 파일
-			console.log("Saved안으로 들어옴");
+		// 12.11 19:45 - dropzone안에 생성되어있는 preview안에 있는 imgNum 태그의 값
+		var imgNum = e.target.parentElement.nextSibling.nextSibling.nextSibling.nextElementSibling.childNodes[0].innerHTML;
+				
+		if (stateValue == 'saved') {  // 서버에 저장된 파일
 			$.ajax({
 				type : "POST",
 				url : "/removeFile",
@@ -393,7 +389,8 @@
 				data : {
 					"m_id" : id,
 					"dirName" : dirName,
-					"imgName" : imgName
+					"imgName" : imgName,
+					"imgNum" : imgNum
 				},
 				success : onSuccess,
 				error : onError
@@ -409,12 +406,15 @@
 			function onSuccess(data) {
 				if(data=="deleteFileSuccess"){
 					alert("삭제하였습니다.");
+					
+					// 12.11 19:45 - preview 통채로 날리기
 					e.target.parentElement.parentElement.remove();
 				}else if(data=="deleteFileDBFail"){
 					alert("실패 : DB 에서의 File 삭제 실패");
 				}else if(data=="deleteFileFail") {
 					alert("실패 : DB는 삭제 했으나 FileSystem 존재");
-					// 유에서 날라가서 불러올수 없으니 삭제처리된걸로 간주 
+					
+					// 12.11 19:45 - preview 통채로 날리기  
 					e.target.parentElement.parentElement.remove();
 				}else if(data=="deleteFileEx") {
 					alert("실패 : Exception 발생하고 삭제 실패");
@@ -433,6 +433,7 @@
 				}
 			}
 			output.remove(sliceIndex);
+			
 			// 해당 썸네일 삭제
 			for(var i=0; outputBlob.length>i; i++) {
 				if (outputBlob[i].name == imgName) {
@@ -441,10 +442,13 @@
 				}
 			}
 			outputBlob.remove(sliceIndex);
+			
+			// 12.11 19:45 - preview 통채로 날리기  
 			e.target.parentElement.parentElement.remove();
 		}
 	}
 	
+	// 12.11 19:45 - 폴더 클릭이나 드랍존 새로 불러올 때 초기화 
 	dropzone.resetDropzone = function(e) {
 		var temp = document.getElementById('drop_zone');
 		while(temp.hasChildNodes()) {
@@ -453,8 +457,8 @@
 	}
 
 $(document).ready(function() {
-	// EventListener 등록
 	
+	// EventListener 등록
 	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,false);
 	get('drop_zone').addEventListener('drop', dropzone.handleDragSelect, false);
 	get('drop_zone').addEventListener('click', dropzone.fileClick, false);

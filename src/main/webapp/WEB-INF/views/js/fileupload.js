@@ -201,10 +201,12 @@ $(document).ready(function() {
 				var imgOriName = data[i].imgOriName;
 				var imgLength=data[i].imgLength;
  				var file = data[i].imgThumb;
+ 				var imgNum=data[i].imgNum;
 				imgThumbArray[i] = {
 						"file" : file,
 						"name" : imgOriName,
-						"size" : imgLength
+						"size" : imgLength,
+						"imgNum" : imgNum
 				}
 			}
 			// 드랍존에게 썸네일 배열을 넘김

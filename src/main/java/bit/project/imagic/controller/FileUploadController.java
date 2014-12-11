@@ -306,13 +306,17 @@ public class FileUploadController {
 	public void removeFile (@RequestParam(value="m_id") String m_id, 
 							  @RequestParam(value="dirName") String dirName, 
 							  @RequestParam(value="imgName") String imgName,
+							  @RequestParam(value="imgNum") int imgNum,
+							  
 							  HttpServletRequest request, 
 							  HttpServletResponse response) throws IOException {
 		System.out.println("fdsafdsadf");
 		FileVO file = new FileVO();
+		System.out.println("imgNum : " + imgNum);
 		file.setM_id(m_id);
 		file.setDirName(dirName);
 		file.setImgName(imgName);
+		file.setImgNum(imgNum);
 		
 		System.out.println("파일 삭제 들어옴 ");
 		
@@ -320,7 +324,7 @@ public class FileUploadController {
 		// DB에서 폴더명을 삭제하고 그에 해당하는 Image table 파일들을 삭제했다면
 		try {
 			String retrunImgSaveName = fileService.isFile(file);
-			System.out.println();
+			System.out.println("retrunImgSaveName : "+retrunImgSaveName);
 			if (fileService.removeFile(file)==1) {   
 				if (ImagicUtil.removeFile(path+m_id+"/"+file.getDirName()+"/"+retrunImgSaveName)){
 					pw.print("deleteFileSuccess");  // DB, FileSystem 동시에 삭제 성공
