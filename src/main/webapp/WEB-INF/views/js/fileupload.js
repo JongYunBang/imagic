@@ -88,14 +88,18 @@ $(document).ready(function() {
 		function onSuccess(data) {
 			if(data=="deleteDirSuccess"){
 				alert("삭제하였습니다.");
-				e.target.parentElement.parentElement.remove();
+				//e.target.parentElement.parentElement.remove();
+				dropzone.resetDropzone();
+				
+				//window.location.href="/fileupload";
 			}else if(data=="deleteDirDBFail"){
 				alert("실패 : DB 에서의 dirName 삭제 실패");
 			}else if(data=="deleteDirFail") {
 				alert("실패 : DB는 삭제 했으나 FileSystem 존재");
 				
 				// 열우 2014. 12. 6 토 (23:50) : DB에서는 삭제했기 때문에 목록에서도 지워줘야함.
-				e.target.parentElement.remove();
+				//e.target.parentElement.remove();
+				dropzone.resetDropzone();
 			}else if(data=="deleteDirEx") {
 				alert("실패 : Exception 발생하고 삭제 실패");
 			}
@@ -165,6 +169,7 @@ $(document).ready(function() {
 // 종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
 //		var list_element = document.getElementById('file_user_dir');
+		dropzone.resetDropzone();
 		var dir_elements = document.getElementsByClassName('folder');
 //		console.log(dir_elements);
 		for (var i=0; i < dir_elements.length; i++){

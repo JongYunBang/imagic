@@ -82,6 +82,18 @@ public class ImagicUtil {
 		return true;
 	}
 	
+	 public static boolean removeFile(String imgName) {
+	        File file = new File(imgName);
+	        System.out.println(file);
+	        
+	        if(file.exists() == true){
+	        	System.out.println("파일 삭제전");
+	            file.delete();
+	            return true;
+	        }
+	        return false;
+	    }
+	
 	// DB로 구현됨 (controller 에 있음)
 	// 디렉토리 존재 여부 java로 구현한 부분 
 	/*public static boolean isDirName(File userDir, String compareDirName){

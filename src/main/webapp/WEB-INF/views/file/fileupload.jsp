@@ -24,7 +24,7 @@
 	<div id="file_main_aside" >
 	
 		<!-- session 로 부터 아이디 얻어오기  -->
-		<div id="file_user_id">${member.m_id}님의 폴더</div>     
+		<div id="file_user_id">${member.m_id}님의 폴더</div> <br/>    
 		<!-- 폴더 생성 -->		
 		<div id="file_dir_create">폴더 생성</div>
 		<!-- 아이디로 부터 디렉토리 받아오기  -->

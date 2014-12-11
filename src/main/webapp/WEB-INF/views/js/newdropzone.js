@@ -6,12 +6,20 @@
 	var get = function(id) {
 		return document.getElementById(id);
 	}
+	
+	// 배열삭제후 
+	Array.prototype.remove = function(from, to) {
+		var rest = this.slice((to || from) + 1 || this.length);
+		this.length = from < 0 ? this.length + from : from;
+		return this.push.apply(this, rest);
+	};
 
 	Array.prototype.fileSize = function(file) {
 		return file.size;
 	};
 
-	var output = [];
+	var output = [];  // 파일저장 배열
+	var outputBlob = [];  // 썸네일(blob) 저장 배열
 	var maxFiles = 100; // 최대 업로드 가능 파일 수
 	var files;
 	var thumbnailWidth = 100;
@@ -120,8 +128,10 @@
 
 		// 메인에 뜨는 dropzone 그림 사라지게 하기
 		message = get('drop_zone').querySelector('.dz-message');
-		message.classList.remove("dz-default");
-		message.classList.add("dz-started");
+		if(message){
+			message.classList.remove("dz-default");
+			message.classList.add("dz-started");
+		}
 		// 파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성(개별 존재)
@@ -170,6 +180,7 @@
 			thumbnail.alt = f.name;
 			// 선택한 썸네일 div div 안에 썸네일 이미지 생성 
 			dropzone.createThumbnail(f, thumbnail); //
+				
 			
 			/**
 			 * 이부분은 createThumbnail 안에서 구현 
@@ -247,7 +258,8 @@
 				ab[0] = dataURL;
 				// Blob 안에는 파일과 배열만이 들어갈수 있다 
 				var bb = new Blob(ab, { 'type': 'image/png' });
-				output.push(bb);    		// output에 blob 데이터 push
+				bb.name = blobReturn.name;
+				outputBlob.push(bb);    		// output에 blob 데이터 push
 				element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
 			};
 			reader.readAsDataURL(f);
@@ -302,7 +314,12 @@
 			formData.append('file-' + i, file);
 			console.log(output);
 		});
-		
+		console.log(outputBlob);
+		$.each(outputBlob, function(i, blob) {
+			formData.append('blob-' + i, blob)
+			console.log(outputBlob);
+		});
+		console.log(formData);
 		// XHR은 url을 open하고 요청을 보내면 된다. 맨 뒤에 true는 비동기방식으로 할 것인지 묻는 것이다.
 		xhr.open(method, dzURL, true);
 
@@ -360,15 +377,14 @@
 	
 	// 드랍존에서 파일 삭제 하기 위한 곳
 	dropzone.removeFile = function(e) {
-		console.log(e);
 //		e.target.parentElement.parentElement.remove();
 		var stateValue = e.target.parentElement.nextSibling.nextElementSibling.childNodes[0].innerHTML;
 		var id = m_id.value;
 		var dirName = $('#drop_zone').data('folder');
 		var imgName = e.target.parentElement.parentElement.id;
-		
-		console.log(dirName);
-		if (stateValue = 'saved') {  // 서버에 파일 
+		console.log(imgName);
+		if (stateValue == 'saved') {  // 서버에 파일
+			console.log("Saved안으로 들어옴");
 			$.ajax({
 				type : "POST",
 				url : "/removeFile",
@@ -381,15 +397,57 @@
 				success : onSuccess,
 				error : onError
 			});
+			
+			/**
+			 * 반환값 정리
+			 * deleteFileSuccess : DB, FileSystem 동시에 삭제 성공
+			 * deleteFileDBFail : DB 에서의 File 삭제 실패
+			 * deleteFileFail : DB는 삭제 했으나 FileSystem 존재
+			 * deleteFileEx : Exception 발생하고 삭제 실패
+			 */
 			function onSuccess(data) {
-				
-				e.target.parentElement.parentElement.remove();
+				if(data=="deleteFileSuccess"){
+					alert("삭제하였습니다.");
+					e.target.parentElement.parentElement.remove();
+				}else if(data=="deleteFileDBFail"){
+					alert("실패 : DB 에서의 File 삭제 실패");
+				}else if(data=="deleteFileFail") {
+					alert("실패 : DB는 삭제 했으나 FileSystem 존재");
+					// 유에서 날라가서 불러올수 없으니 삭제처리된걸로 간주 
+					e.target.parentElement.parentElement.remove();
+				}else if(data=="deleteFileEx") {
+					alert("실패 : Exception 발생하고 삭제 실패");
+				}
 			}
 			function onError(data, status) {
 				alert("삭제실패");
 			}
-		}else if (stateValue = 'upload') {  // 사용자가 새로 올린파일
+		}else if (stateValue == 'upload') {  // 사용자가 새로 올린파일
+			// 해당 파일 삭제
+			var sliceIndex;
+			for(var i=0; output.length>i; i++) {
+				if (output[i].name == imgName) {
+					sliceIndex = i;
+					break;
+				}
+			}
+			output.remove(sliceIndex);
+			// 해당 썸네일 삭제
+			for(var i=0; outputBlob.length>i; i++) {
+				if (outputBlob[i].name == imgName) {
+					sliceIndex = i;
+					break;
+				}
+			}
+			outputBlob.remove(sliceIndex);
 			e.target.parentElement.parentElement.remove();
+		}
+	}
+	
+	dropzone.resetDropzone = function(e) {
+		var temp = document.getElementById('drop_zone');
+		while(temp.hasChildNodes()) {
+			temp.removeChild(temp.firstChild);
 		}
 	}
 

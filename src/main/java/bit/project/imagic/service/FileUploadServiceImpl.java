@@ -50,4 +50,13 @@ public class FileUploadServiceImpl implements FileUploadService {
 		return dao.fileUpload(file);
 	}
 
+	@Override
+	public String isFile(FileVO file) throws Exception {
+		return dao.isFile(file);
+	}
+	
+	@Override
+	public int removeFile(FileVO file) throws Exception {
+		return dao.removeFile(file);
+	}
 }

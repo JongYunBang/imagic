@@ -87,6 +87,22 @@
 				
 	</insert>
 	
+	<!--  파일 삭제하기 위한 save 파일네임 불러오기  -->
+	<select id="isFile" parameterType="bit.project.imagic.vo.FileVO" resultType="java.lang.String">
+		select img_s_name from image
+		where img_m_id = #{m_id}
+			and img_o_name = #{imgName}
+			and img_dir_num=(select dir_num from dir where dir_m_id=#{m_id} and dir_name=#{dirName})
+	</select>
+	
+	<!-- 파일 하나삭제 하는 쿼리  -->
+	<delete id="removeFile" parameterType="bit.project.imagic.vo.FileVO">
+		delete from image
+		where img_m_id = #{m_id}
+			and img_o_name = #{imgName}
+			and img_dir_num=(select dir_num from dir where dir_m_id=#{m_id} and dir_name=#{dirName})
+	</delete>
+	
 	
 	
 </mapper>

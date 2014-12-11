@@ -169,6 +169,7 @@ public class FileUploadController {
 	public void deleteDir(@RequestParam(value="m_id") String m_id,
 						   @RequestParam(value="dirName") String dirName,
 						   HttpServletRequest request, HttpServletResponse response) throws IOException {
+		System.out.println("삭제폴더 넘어오는값 : " + dirName);
 		file.setDirName(null);
 		file.setM_id(m_id);
 		file.setDirName(dirName);
@@ -265,7 +266,7 @@ public class FileUploadController {
 		
 	}
 	
-	@RequestMapping(value="/filelist")
+	@RequestMapping(value="/filelist", method=RequestMethod.POST)
 	public @ResponseBody List<FileVO> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		Map<String, Object> models = new HashMap<String, Object>();
 		
@@ -299,6 +300,45 @@ public class FileUploadController {
 //		ModelAndView mav = new ModelAndView("/filelist");
 //		mav.addObject("filesList", filesList);
 		return filesList;
+	}
+	
+	@RequestMapping(value="/removeFile" , method=RequestMethod.POST)
+	public void removeFile (@RequestParam(value="m_id") String m_id, 
+							  @RequestParam(value="dirName") String dirName, 
+							  @RequestParam(value="imgName") String imgName,
+							  HttpServletRequest request, 
+							  HttpServletResponse response) throws IOException {
+		System.out.println("fdsafdsadf");
+		FileVO file = new FileVO();
+		file.setM_id(m_id);
+		file.setDirName(dirName);
+		file.setImgName(imgName);
+		
+		System.out.println("파일 삭제 들어옴 ");
+		
+		PrintWriter pw = response.getWriter();
+		// DB에서 폴더명을 삭제하고 그에 해당하는 Image table 파일들을 삭제했다면
+		try {
+			String retrunImgSaveName = fileService.isFile(file);
+			System.out.println();
+			if (fileService.removeFile(file)==1) {   
+				if (ImagicUtil.removeFile(path+m_id+"/"+file.getDirName()+"/"+retrunImgSaveName)){
+					pw.print("deleteFileSuccess");  // DB, FileSystem 동시에 삭제 성공
+					pw.flush();
+				} else {
+					pw.print("deleteFileFail"); // DB는 삭제 했으나 FileSystem 존재 
+					pw.flush();
+				}
+			} else {
+				pw.print("deleteFileDBFail"); // DB 에서의 File 삭제 실패
+				pw.flush();
+			}
+		} catch (Exception e) {
+			pw.print("deleteFileEx"); // Exception 발생하고 삭제 실패
+			e.printStackTrace();
+		}
+		 
+		
 	}
 	
 }
