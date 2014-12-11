@@ -92,7 +92,7 @@ $(document).ready(function() {
 				alert("삭제하였습니다.");
 				e.target.parentElement.parentElement.remove();
 				dropzone.resetDropzone();
-				
+				hasFiles = 0;
 				//window.location.href="/fileupload";
 			}else if(data=="deleteDirDBFail"){
 				alert("실패 : DB 에서의 dirName 삭제 실패");

@@ -1,16 +1,15 @@
-/**
- * created by Sung Yeol Woo. (2014. 11. 26)
- */
+	
 
-	var output = [];  // 파일저장 배열
-	var outputBlob = [];  // 썸네일(blob) 저장 배열
-	var maxFiles = 100; // 최대 업로드 가능 파일 수
-	var files;
-	var thumbnailWidth = 100;
-	var thumbnailHeight = 100;
-	var method = "POST";
-	var dzURL;
-	var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
+var output = [];  // 파일저장 배열
+var outputBlob = [];  // 썸네일(blob) 저장 배열	
+var hasFiles = 0;
+var maxFiles = 9; // 최대 업로드 가능 파일 수
+var files;
+var thumbnailWidth = 100;
+var thumbnailHeight = 100;
+var method = "POST";
+var dzURL;
+var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
 
 	
 // utility : elementbyId를 편하게 가져오기 위한 utility함수
@@ -95,7 +94,7 @@
 		if (!fileLength) {
 			fileLength = 0;
 		}
-		var sum = fileLength + output.length;
+		var sum = fileLength + hasFiles;
 		Debugger.log(sum, "canUpload");
 
 		// 지금 올린 파일과 기존의 파일의 합이 최대 업로드 가능한 파일 수와 같거나 넘는가?
@@ -103,6 +102,7 @@
 			alert("업로드 최대 개수는 9개 입니다.");
 			return false; // upload 가능한지 여부
 		} else {
+			hasFiles = hasFiles + fileLength;
 			return true;
 		}
 	}
@@ -122,7 +122,13 @@
 	// 파일 리스트 생성 함수
 	dropzone.createFileElement = function(files) {
 		var template, name, size, removeFile, thumbnail, message, blobReturn, imgNum;
-
+		// 서버에 저장된 파일 개수 카운팅
+//		if()/
+		
+		if(files.constructor.name != "FileList") {
+			hasFiles = hasFiles + files.length;
+		}
+		
 		// 파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성
@@ -243,7 +249,6 @@
 		evt.preventDefault();
 		files = evt.target.files; // FileList 객체
 		
-
 		// 이미지 파일인지 검사
 		for(var i =0; i<files.length; i++ ){
 			if(files[i].type.match("image/*") == null){
@@ -254,7 +259,7 @@
 		
 		// 파일 업로드가 가능한지 확인한다.
 		if (!dropzone.canUpload(files.length)) {
-			return false;
+			return;
 		}
 
 		dropzone.createFileElement(files);
@@ -277,7 +282,7 @@
 		
 		// 파일 업로드가 가능한지 확인한다.
 		if (!dropzone.canUpload(files.length)) {
-			return false;
+			return;
 		}
 
 		dropzone.createFileElement(files);
@@ -409,6 +414,7 @@
 					
 					// 12.11 19:45 - preview 통채로 날리기
 					e.target.parentElement.parentElement.remove();
+					hasFiles = hasFiles - 1;
 				}else if(data=="deleteFileDBFail"){
 					alert("실패 : DB 에서의 File 삭제 실패");
 				}else if(data=="deleteFileFail") {
@@ -445,6 +451,7 @@
 			
 			// 12.11 19:45 - preview 통채로 날리기  
 			e.target.parentElement.parentElement.remove();
+			hasFiles = hasFiles - 1;
 		}
 	}
 	
