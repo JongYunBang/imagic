@@ -15,7 +15,7 @@ public class ImagicUtil {
 
 	
 	public static boolean renameDir(String userDirName, String oldDirName, String newDirName){
-		File userDir = new File(userDirName);
+		//File userDir = new File(userDirName);
 		File currentDir = new File(userDirName, oldDirName);
 		File newDir = new File(userDirName, newDirName);
 		
@@ -56,38 +56,54 @@ public class ImagicUtil {
 	// 디렉토리가 존재하는지 여부를 검사하는 메서드
 	// 삭제하고픈 폴더 이름을 받아와 재귀함수로 파일부터 지운후 폴더까지 삭제
 	public static boolean deleteDir(String userDirName) {
-		File userDir = new File(userDirName);  // 폴더명
-		File[] listFile = new File(userDirName).listFiles();  // 폴더안의 파일을 리스트로 만들어줌
-		try {
-			if (listFile==null || listFile.length==0){
-				if (userDir.delete()) {
-					return true;
-				} else {
-					return false;
-				}
-			} else if (listFile.length>0) {
-				for (int i=0; i<listFile.length; i++) {
-					if (listFile[i].isFile()) {
-						listFile[i].delete();
-					} else {
-						deleteDir(listFile[i].getPath());
-					}
-					listFile[i].delete();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		deleterDir(new File(userDirName));
 		return true;
 	}
 	
+	public static void deleterDir(File file) {
+		if (!file.exists())
+			return;
+		
+		File[] files = file.listFiles();
+		for(int i=0; i<files.length; i++) {
+			if(files[i].isDirectory()) {
+				deleterDir(files[i]);
+			} else {
+				files[i].delete();
+			}
+		}
+		file.delete();
+	}
+//		File userDir = new File(userDirName);  // 폴더명
+//		File[] listFile = new File(userDirName).listFiles();  // 폴더안의 파일을 리스트로 만들어줌
+//		try {
+//			if (listFile==null || listFile.length==0){
+//				if (userDir.delete()) {
+//					return true;
+//				} else {
+//					return false;
+//				}
+//			} else if (listFile.length>0) {
+//				for (int i=0; i<listFile.length; i++) {
+//					if (listFile[i].isFile()) {
+//						listFile[i].delete();
+//					} else {
+//						deleteDir(listFile[i].getPath());
+//					}
+//					listFile[i].delete();
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return false;
+//		}
+//		return true;
+//	}
+	
 	 public static boolean removeFile(String imgName) {
 	        File file = new File(imgName);
-	        System.out.println(file);
 	        
 	        if(file.exists() == true){
-	        	System.out.println("파일 삭제전");
 	            file.delete();
 	            return true;
 	        }

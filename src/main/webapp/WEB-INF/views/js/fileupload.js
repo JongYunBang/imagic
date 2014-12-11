@@ -64,6 +64,7 @@ $(document).ready(function() {
 	if (confirm('경고 : 폴더 안에 있는 모든 데이터들이 삭제 됩니다. 계속 진행하시겠습니까?')) {
 		
 		var dirName = e.target.id;
+		console.log(dirName);
 		$.ajax({
 			type : "POST",
 			url : "/deleteDir",
@@ -86,9 +87,10 @@ $(document).ready(function() {
 
 
 		function onSuccess(data) {
+			console.log(data);
 			if(data=="deleteDirSuccess"){
 				alert("삭제하였습니다.");
-				//e.target.parentElement.parentElement.remove();
+				e.target.parentElement.parentElement.remove();
 				dropzone.resetDropzone();
 				
 				//window.location.href="/fileupload";

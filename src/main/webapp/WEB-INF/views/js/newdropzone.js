@@ -274,6 +274,7 @@
 		evt.stopPropagation();
 		evt.preventDefault();
 		files = evt.target.files; // FileList 객체
+		
 		// 파일 업로드가 가능한지 확인한다.
 		if (!dropzone.canUpload(files.length)) {
 			return false;

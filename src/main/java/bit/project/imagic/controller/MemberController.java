@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.service.MemberService;
 import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.MemberVO;
@@ -28,8 +27,8 @@ public class MemberController {
 //	String path = "/Users/ProgrammingPearls/Documents/Upload/";
 	String path = "d:/down/upload/";
 	
-	@Inject
-	private FileUploadService fileService;
+//	@Inject
+//	private FileUploadService fileService;
 	
 	@Inject
 	private MemberService service;
