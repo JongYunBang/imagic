@@ -218,7 +218,8 @@ $(document).ready(function() {
 
 		}
 		function onError(data, status) {
-			alert("리스트를 불러오는데에 실패하였습니다.");
+			alert("세션이 만료되었습니다. 로그인을 해주세요");
+			windows.location.href="/";
 		}
 	});
 
