@@ -115,11 +115,12 @@ $(document).ready(function() {
 	// 폴더 생성 클릭시 프롬프트창으로 폴더명 입력받아서 DB에 저장하고 태그로 폴더생성까지
 	$('#file_dir_create').click(function() {
 		var dirName = prompt("폴더명을 입력해주세요", "폴더명");
-		if (dirName.trim()== "") {
-			alert("공백을 입력하실수 없습니다.");
+		if (dirName == null) {
 			return;
 		}
-		if (dirName == null) {
+
+		if (dirName.trim()== "") {
+			alert("공백을 입력하실수 없습니다.");
 			return;
 		}
 		// console.log(createDirName);

@@ -460,6 +460,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		while(temp.hasChildNodes()) {
 			temp.removeChild(temp.firstChild);
 		}
+		$('#drop_zone').removeData('folder');
 	}
 
 $(document).ready(function() {
