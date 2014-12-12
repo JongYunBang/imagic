@@ -297,9 +297,7 @@ public class FileUploadController {
 	@RequestMapping(value="/filelist", method=RequestMethod.POST)
 	public @ResponseBody List<FileVO> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		HttpSession session = request.getSession(false);
-		if (session.isNew()){
-		}
+		
 		file.setM_id(member.getM_id());
 		System.out.println(file.getM_id());
 		file.setDirName(member.getDirName());
