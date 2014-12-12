@@ -351,6 +351,8 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 12.11 19:45 - 업로드 후 데이터 초기화
 					output = [];
 					outputBlob = [];
+				} else {
+					alert("세션이 종료되었거나 파일 올리기가 실패 하였습니다");
 				}
 			};
 	
@@ -423,6 +425,9 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					e.target.parentElement.parentElement.remove();
 				}else if(data=="deleteFileEx") {
 					alert("실패 : Exception 발생하고 삭제 실패");
+				}else if(data="SessionNullEx") {
+					alert("세션이 만료되었습니다.");
+					window.location.href="/";
 				}
 			}
 			function onError(data, status) {

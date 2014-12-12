@@ -154,7 +154,7 @@ public class ImagicUtil {
 		return listDirs;
 	}
 
-	public static boolean checkSession(MemberVO member) {
+	public static boolean checkMemberId(MemberVO member) {
 		if (member.getM_id()!= null){
 			return true;
 		}
