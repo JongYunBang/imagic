@@ -53,8 +53,7 @@ public class ImagicUtil {
 		return path.delete();
 	}
 	
-	// 디렉토리가 존재하는지 여부를 검사하는 메서드
-	// 삭제하고픈 폴더 이름을 받아와 재귀함수로 파일부터 지운후 폴더까지 삭제
+	// 디렉토리와 그안에 있는 파일까지 삭제
 	public static boolean deleteDir(String userDirName) {
 		deleterDir(new File(userDirName));
 		return true;
@@ -74,32 +73,8 @@ public class ImagicUtil {
 		}
 		file.delete();
 	}
-//		File userDir = new File(userDirName);  // 폴더명
-//		File[] listFile = new File(userDirName).listFiles();  // 폴더안의 파일을 리스트로 만들어줌
-//		try {
-//			if (listFile==null || listFile.length==0){
-//				if (userDir.delete()) {
-//					return true;
-//				} else {
-//					return false;
-//				}
-//			} else if (listFile.length>0) {
-//				for (int i=0; i<listFile.length; i++) {
-//					if (listFile[i].isFile()) {
-//						listFile[i].delete();
-//					} else {
-//						deleteDir(listFile[i].getPath());
-//					}
-//					listFile[i].delete();
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//		return true;
-//	}
 	
+	// 파일만 삭제
 	 public static boolean removeFile(String imgName) {
 	        File file = new File(imgName);
 	        
@@ -153,7 +128,8 @@ public class ImagicUtil {
 		}
 		return listDirs;
 	}*/
-	// userDir에 있는 파일을 가져오는 메서드
+	
+	 // userDir에 있는 파일을 가져오는 메서드
 	public static List<File> getFileList(File userDir){
 		// 폴더 안에 있는 파일과 디렉토리 목록을 저장할 변수
 		String[] fileList = userDir.list();

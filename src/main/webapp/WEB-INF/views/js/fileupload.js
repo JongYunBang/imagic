@@ -170,8 +170,8 @@ $(document).ready(function() {
 	$(document).on('click', '.folder', function (e) {
 // 종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
-//		var list_element = document.getElementById('file_user_dir');
 		dropzone.resetDropzone();
+		hasFiles=0;
 		var dir_elements = document.getElementsByClassName('folder');
 //		console.log(dir_elements);
 		for (var i=0; i < dir_elements.length; i++){

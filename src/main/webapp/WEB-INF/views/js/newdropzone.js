@@ -11,7 +11,6 @@ var method = "POST";
 var dzURL;
 var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
 
-	
 // utility : elementbyId를 편하게 가져오기 위한 utility함수
 	var get = function(id) {
 		return document.getElementById(id);

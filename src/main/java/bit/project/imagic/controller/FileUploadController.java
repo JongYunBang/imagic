@@ -67,20 +67,26 @@ public class FileUploadController {
 	
 	// 파일 업로드창을 주소를 쳐서 들어온 경우 처리
 	@RequestMapping(value="/fileupload", method=RequestMethod.GET)
-	public String showFlieUploadPage(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		// 세션 검사를 통해서 접근 제어!
-		if (!ImagicUtil.checkSession(member)) {
-			response.sendRedirect(request.getContextPath() + "/");
-			return null;
-		}	
-		return "file/fileupload";
+//		// 세션 검사를 통해서 접근 제어!
+//		if (!ImagicUtil.checkSession(member)) {
+//			response.sendRedirect(request.getContextPath() + "/");
+//			return null;
+//		}	
+		return "index";
 	}
 	
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
 	public String showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		System.out.println("/파일업로드페이지  "+member.getM_id());
+
+		System.out.println(member);
+		
+		if (member==null){
+			return "file/fileupload";
+		}
 		
 		// 세션 검사를 통해서 접근 제어!
 		if (!ImagicUtil.checkSession(member)) {
