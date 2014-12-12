@@ -103,9 +103,9 @@
 	<form id="login_form" method="post"
 		action="<%=request.getContextPath()%>/login">
 		<label  for="m_id">ID</label>
-		<input type="text" name="m_id" id="m_id"  required/><br/>
+		<input type="text" name="m_id" id="m_id" value="a" required/><br/>
 		<label  for="m_pw">Password</label>
-		<input type="password" name="m_pw" id="m_pw" required/><br /> 
+		<input type="password" name="m_pw" id="m_pw" value="a" required/><br /> 
 		<input type="submit" value="로그인" id="login"/><br />
 	</form>
 

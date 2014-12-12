@@ -316,7 +316,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				console.log(outputBlob);
 			});
 			
-			
 			// 12.11 19:45 - XHR 
 			xhr.open(method, dzURL, true);
 	
@@ -330,8 +329,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			xhr.upload.onprogress = function(e) {
 						var percentLoaded = Math.round((e.loaded / e.total) * 100);
 						progress.style.width = percentLoaded + '%';
-						progress.textContent = percentLoaded + '% ' + '(' + 1 + '/'
-								+ 5 + ')';
+						progress.textContent = percentLoaded + '%';
 			};
 	
 			// 12.11 19:45 - Ajax응답
@@ -346,10 +344,22 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					var stateList = document.getElementById("drop_zone").querySelectorAll('[data-dz-state]');
 					for (var i=0; i<stateList.length; i++) {
 						stateList[i].innerHTML = 'saved';
+						
+						// ajax 통신
+						
+						// 결과값 받아와서
+						
+						// 
 					}
+					
 					// 12.11 19:45 - 업로드 후 데이터 초기화
 					output = [];
 					outputBlob = [];
+					// input 태그에 files를 초기화 하기 위해서
+					var input = $('#files');
+					var newInput = input.clone(true); // true 는 속성까지 복사해 옴
+					input[0].files = newInput[0].files;
+					///////
 				} else {
 					alert("세션이 종료되었거나 파일 올리기가 실패 하였습니다\n 처음페이지로 돌아갑니다.");
 					window.location.href="/";

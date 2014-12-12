@@ -285,10 +285,12 @@ public class FileUploadController {
 				int a=fileService.fileUpload(uploadList.get(i));
 				System.out.println("파일 업로드 성공 : " + a);
 			}
+			pw.write("uploadSuccess");
+			pw.flush();
 
 		} catch (NullPointerException e) {
 			pw.print("SessionNullEx"); // session 검사실패 세션없음
-			e.printStackTrace();
+			pw.flush();
 		}
 		return null;
 
