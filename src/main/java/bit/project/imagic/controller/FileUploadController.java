@@ -227,20 +227,20 @@ public class FileUploadController {
 			HttpSession session = request.getSession(false);
 			if (session.isNew()){
 			}
-			
+
 			Iterator<String> itr = request.getFileNames();
 			String userID=member.getM_id();
 			int fileCount = request.getFileMap().size();
-			
+
 			// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
-//		boolean envMobile = false;
-//		 String userAgent = request.getHeader("user-agent");
-//		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
-//			 envMobile = true;
-//		 }
+			//		boolean envMobile = false;
+			//		 String userAgent = request.getHeader("user-agent");
+			//		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
+			//			 envMobile = true;
+			//		 }
 			int cnt=0;
+
 			List<FileVO> uploadList = new ArrayList<FileVO>();
-			
 			MultipartFile mpf = null;
 			while (itr.hasNext()){
 				FileVO tempFile = new FileVO(); 
@@ -250,9 +250,9 @@ public class FileUploadController {
 				System.out.println("iterator : " + fileName);
 				mpf = request.getFile(fileName);
 				System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
-			    System.out.println("컨트롤의 dirname : " + member.getDirName());
-			    
-			    try {
+				System.out.println("컨트롤의 dirname : " + member.getDirName());
+
+				try {
 					if((fileCount/2)>cnt) {
 						tempFile.setM_id(userID);
 						tempFile.setDirName(member.getDirName());
@@ -270,28 +270,28 @@ public class FileUploadController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();								
 				}
-			    
+
 			}
+
+			for (int i = 0;i < uploadList.size(); i++){
+				System.out.println("----------------------");
+				System.out.println("uploadList : " + i);
+				System.out.println(uploadList.get(i).getM_id());	
+				System.out.println(uploadList.get(i).getDirName());	
+				System.out.println(uploadList.get(i).getImgName());	
+				System.out.println(uploadList.get(i).getImgOriName());	
+				System.out.println(uploadList.get(i).getImgLength());	
+				System.out.println(uploadList.get(i).getImgThumb());	
+				int a=fileService.fileUpload(uploadList.get(i));
+				System.out.println("파일 업로드 성공 : " + a);
+			}
+
 		} catch (NullPointerException e) {
 			pw.print("SessionNullEx"); // session 검사실패 세션없음
 			e.printStackTrace();
 		}
-		
-//	  for (int i = 0;i < uploadList.size(); i++){
-//        	System.out.println("----------------------");
-//        	System.out.println("uploadList : " + i);
-//        	System.out.println(uploadList.get(i).getM_id());	
-//        	System.out.println(uploadList.get(i).getDirName());	
-//        	System.out.println(uploadList.get(i).getImgName());	
-//        	System.out.println(uploadList.get(i).getImgOriName());	
-//        	System.out.println(uploadList.get(i).getImgLength());	
-//        	System.out.println(uploadList.get(i).getImgThumb());	
-//        	int a=fileService.fileUpload(uploadList.get(i));
-//        	System.out.println("파일 업로드 성공 : " + a);
-//        }
-        
 		return null;
-		
+
 	}
 	
 	@RequestMapping(value="/filelist", method=RequestMethod.POST)
