@@ -88,7 +88,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	};
 	
 	// 최대 업로드 수 제한 체크
-	//TODO 최대업로드
 	dropzone.canUpload = function(fileLength) {
 		if (!fileLength) {
 			fileLength = 0;
@@ -352,7 +351,8 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					output = [];
 					outputBlob = [];
 				} else {
-					alert("세션이 종료되었거나 파일 올리기가 실패 하였습니다");
+					alert("세션이 종료되었거나 파일 올리기가 실패 하였습니다\n 처음페이지로 돌아갑니다.");
+					window.location.href="/";
 				}
 			};
 	
@@ -411,7 +411,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			 */
 			function onSuccess(data) {
 				if(data=="deleteFileSuccess"){
-					alert("삭제하였습니다.");
+					//alert("삭제하였습니다.");
 					
 					// 12.11 19:45 - preview 통채로 날리기
 					e.target.parentElement.parentElement.remove();

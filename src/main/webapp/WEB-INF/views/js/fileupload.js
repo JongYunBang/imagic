@@ -45,7 +45,7 @@ $(document).ready(function() {
 
 		function onSuccess(data) {
 			if(data=="true"){
-				alert("변경되었습니다.");
+				//alert("변경되었습니다.");
 				var dirElement = e.target.parentElement.parentElement;
 				dirElement.id=newDirName;
 				createFolder(dirElement, newDirName);
@@ -89,7 +89,7 @@ $(document).ready(function() {
 			function onSuccess(data) {
 				console.log(data);
 				if(data=="deleteDirSuccess"){
-					alert("삭제하였습니다.");
+					//alert("삭제하였습니다.");
 					e.target.parentElement.parentElement.remove();
 					dropzone.resetDropzone();
 					hasFiles = 0;
