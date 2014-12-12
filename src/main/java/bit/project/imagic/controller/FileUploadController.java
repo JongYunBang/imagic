@@ -222,56 +222,59 @@ public class FileUploadController {
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
 	public String upload(@ModelAttribute("member") MemberVO member,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
-		HttpSession session = request.getSession(false);
-		if (session==null) {
-			response.sendRedirect(request.getContextPath() + "/");
-		}
-		
-		
-		Iterator<String> itr = request.getFileNames();
-		String userID=member.getM_id();
-		int fileCount = request.getFileMap().size();
-		
-		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
+		PrintWriter pw = response.getWriter();
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.isNew()){
+			}
+			
+			Iterator<String> itr = request.getFileNames();
+			String userID=member.getM_id();
+			int fileCount = request.getFileMap().size();
+			
+			// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
 //		boolean envMobile = false;
 //		 String userAgent = request.getHeader("user-agent");
 //		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
 //			 envMobile = true;
 //		 }
-		int cnt=0;
-		List<FileVO> uploadList = new ArrayList<FileVO>();
-		
-		MultipartFile mpf = null;
-		while (itr.hasNext()){
-			FileVO tempFile = new FileVO(); 
-			// 2014.12.06(11:13) : 실제 파일 시스템에 저장될 유일한 이름을 위한 id 생성
-			String genId = UUID.randomUUID().toString();
-			String fileName = itr.next();
-			System.out.println("iterator : " + fileName);
-			mpf = request.getFile(fileName);
-			System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
-	        System.out.println("컨트롤의 dirname : " + member.getDirName());
-	        
-	        try {
-				if((fileCount/2)>cnt) {
-					tempFile.setM_id(userID);
-					tempFile.setDirName(member.getDirName());
-					tempFile.setImgName(genId+mpf.getOriginalFilename());
-					tempFile.setImgOriName(mpf.getOriginalFilename());
-					tempFile.setImgLength(mpf.getBytes().length);
-					System.out.println("bytes : " + mpf.getBytes()); 
-					FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
-					uploadList.add(tempFile);
-				} else {
-					uploadList.get(cnt-(fileCount/2)).setImgThumb(mpf.getBytes());
+			int cnt=0;
+			List<FileVO> uploadList = new ArrayList<FileVO>();
+			
+			MultipartFile mpf = null;
+			while (itr.hasNext()){
+				FileVO tempFile = new FileVO(); 
+				// 2014.12.06(11:13) : 실제 파일 시스템에 저장될 유일한 이름을 위한 id 생성
+				String genId = UUID.randomUUID().toString();
+				String fileName = itr.next();
+				System.out.println("iterator : " + fileName);
+				mpf = request.getFile(fileName);
+				System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
+			    System.out.println("컨트롤의 dirname : " + member.getDirName());
+			    
+			    try {
+					if((fileCount/2)>cnt) {
+						tempFile.setM_id(userID);
+						tempFile.setDirName(member.getDirName());
+						tempFile.setImgName(genId+mpf.getOriginalFilename());
+						tempFile.setImgOriName(mpf.getOriginalFilename());
+						tempFile.setImgLength(mpf.getBytes().length);
+						System.out.println("bytes : " + mpf.getBytes()); 
+						FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
+						uploadList.add(tempFile);
+					} else {
+						uploadList.get(cnt-(fileCount/2)).setImgThumb(mpf.getBytes());
+					}
+					cnt++;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();								
 				}
-				cnt++;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();								
+			    
 			}
-	        
+		} catch (NullPointerException e) {
+			pw.print("SessionNullEx"); // session 검사실패 세션없음
+			e.printStackTrace();
 		}
 		
 //	  for (int i = 0;i < uploadList.size(); i++){
