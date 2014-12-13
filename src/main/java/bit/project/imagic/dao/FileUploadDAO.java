@@ -17,4 +17,6 @@ public interface FileUploadDAO {
 	int removeFile(FileVO file)throws Exception;
 	String isFile(FileVO file) throws Exception;
 	int imgNumGet(FileVO file) throws Exception;
+	FileVO fileDown(FileVO file) throws Exception;
+	
 }

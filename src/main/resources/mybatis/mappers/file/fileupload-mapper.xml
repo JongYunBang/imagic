@@ -105,6 +105,17 @@
 		where img_s_name = #{imgName}
 	</select>	
 	
+	<select id="fileDown" parameterType="bit.project.imagic.vo.FileVO" resultType="bit.project.imagic.vo.FileVO">
+		select img_num as imgNum, 
+				img_m_id as m_id, 
+				img_dir_num as dirNum, 
+				img_o_name as imgOriName, 
+				img_size as imgLength,
+				img_s_name as imgName,
+				img_thumb as imgThumb
+		 from image
+		 where img_num = #{imgNum}
+	</select>
 	
 </mapper>
 

@@ -72,4 +72,9 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 		return sqlSession.selectOne("selectImgNum", file);
 	}
 
+	@Override
+	public FileVO fileDown(FileVO file) throws Exception {
+		return sqlSession.selectOne("fileDown", file);
+	}
+
 }
