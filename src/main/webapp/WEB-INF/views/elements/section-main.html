@@ -1,0 +1,155 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="section-main" attributes="session images">
+    <template>
+        <style>
+            :host{
+                position: relative;
+                display: block;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            section {
+                width: 80%;
+                margin: 0 auto;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            paper-button[raised].colored {
+                background: #4285f4;
+                color: #fff;
+            }
+            
+            /* 튜토리얼 간의 간격을 지정한다. */
+            div[odd], div[even] {
+                margin-bottom: 1em;
+            }
+
+            /* 홀수 div의 이미지는 왼쪽에 붙고*/
+            div[odd] img {
+                margin : 0;
+                float: left;
+                margin-right: 10px;
+            }
+            /* 짝수 div의 이미지는 오른쪽에 붙는다*/
+            div[even] img {
+                margin : 0;
+                float: right;
+                margin-left: 10px;
+            }
+
+            /* clearfix 핵*/
+            .clearfix {
+                /*overflow: auto;*/
+            }
+
+            /* 홀수 설명은 그림의 너비와 마진 값을 더한 값을 마진으로 준다. 들여쓰기 효과 */
+            div[odd] p{
+                margin-left: 110px;
+            }
+
+            /* 짝수 설명은 그림의 너비와 마진 값을 더한 값을 마진으로 준다. 들여쓰기 효과 */
+            div[even] p{
+                margin-right: 110px;
+            }
+
+
+            /* 모바일로 변환시 적용되는 부분 */
+            @media screen and (max-width: 767px) {
+                div[odd] img {
+                    float: none;
+                    margin-right: 0;
+                }
+                div[even] img {
+                    float: none;
+                    margin-left: 0;
+                }
+                div[odd] p{
+                    margin-left: 0;
+                }
+                div[even] p{
+                    margin-right : 0;
+                }
+            }
+
+        </style>
+        <section id="tutorial">
+            <div odd center-justified horizontal class="clearfix">
+                <!-- <img src="http://placehold.it/100x100" > -->
+                <img src="{{images}}">
+                <!-- 이곳에 a태그로 입력하면 입력된다. -->
+				<p><content select="a"></content></p>
+            </div>
+            <div even center-justified horizontal class="clearfix" >
+            <!-- <template repeat="{{images}}"> -->
+            <!-- </template> -->
+            <img src="http://placehold.it/100x100" >
+
+                <p>
+                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+                    classical
+                    Latin
+                    literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
+                    Hampden-Sydney
+                    College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum
+                    passage, and
+                    going through the cites of the word in classical literature, discovered the undoubtable source.
+                    Lorem
+                    Ipsum
+                </p>
+            </div>
+            <div odd center-justified horizontal class="clearfix">
+                <img src="http://placehold.it/100x100" class="clearfix">
+                <p>
+                    It is a long established fact that a reader will be distracted by the readable content of a page
+                    when
+                    looking at
+                    its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
+                    letters,
+                    as
+                    opposed to using 'Content here, content here', making it look like readable English. Many desktop
+                    publishing
+                </p>
+            </div>
+            <div even center-justified horizontal class="clearfix">
+                <img src="http://placehold.it/100x100" class="clearfix">
+                <p>
+                    There are many variations of passages of Lorem Ipsum available, but the majority have suffered
+                    alteration in
+                    some form, by injected humour, or randomised words which don't look even slightly believable. If you
+                    are
+                    going
+                    to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the
+                    middle of
+                </p>
+            </div>
+            <div center-justified layout horizontal>
+                <paper-button raised class="colored" role="button" tabindex="0" id="btn_start" on-tap="{{doLogin}}">
+                    Started
+                </paper-button>
+            </div>
+
+            <login-dialog id="login_dialog" contentColor="blue">
+                <p>아아</p>
+            </login-dialog>
+        </section>
+    </template>
+    <script>
+        Polymer('section-main', {
+            created: function () {
+            	
+            },
+            doLogin: function (event, detail, sender) {
+                var d = this.$.login_dialog;
+                console.log(this.session);
+                if (this.session != "true") {
+                    d.toggle();
+                }
+            }
+        });
+        
+	</script>
+</polymer-element>

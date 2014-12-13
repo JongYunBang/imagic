@@ -1,0 +1,119 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="login-dialog.html">
+
+<polymer-element name="imagic-header" attributes="session images">
+    <template is="header-toolbar">
+        <style>
+            :host{
+                display: block;
+                width: 100%;
+                height: 100%;
+                position: relative; 
+            }
+            
+            core-toolbar {
+                background: #5264ae;
+                height : 70px;
+                color: white;
+            }
+            
+            .header {
+                position: absolute;
+                width: 100%;
+                /* 로고의 높이를 적으면 된다.(세로 중앙 정렬을 위해서) */
+                height : 70px;
+            }
+
+            /* login버튼을 처리하기 위한 공간이다. */
+            .login {
+                position: absolute;
+                /*display: inline-block;*/
+                /*width: 200px;*/
+                right: 0px;
+                padding: 0;
+            }
+
+            /* 모바일 아이콘에 적용한다. (가운데 정렬 위해서)
+            *  상위 엘리먼트의 height 45이고 아이콘의 height가 40이므로 차이 값인 5을 아래로 내려주면 가운데 정렬된다.
+            */
+            paper-icon-button.mobile {
+                top: 5px;
+            }
+
+            /*  화면 너비 0~767 (모바일) */
+            @media screen and (max-width: 767px) {
+                /* 반응형을 하기 위해서 web(일반 브라우저) class는 모두 none 처리 해준다.*/
+                .web {
+                    display: none;
+                }
+
+                /* 기존에 none 이었던 모바일 전용 엘리먼트들의 display를 변경해준다.*/
+                .mobile {
+                    display: inline-block;
+                }
+            }
+
+            /* 화면 너비 768~959 (아이패드) */
+            @media screen and (min-width: 768px) and (max-width: 959px) {
+                .mobile {
+                    display: none;
+                }
+            }
+
+            /* 화면 너비 960~ 무한 (PC 웹 페이지) */
+            @media screen and (min-width: 960px) {
+
+                .mobile {
+                    display: none;
+                }
+            }
+
+        </style>
+
+        <core-toolbar id="mainheader" > <!-- 폴리머 자체 id 값 -->
+            <div class="header" horizontal layout center>
+                <div class="logo" center>
+                    <img src="http://placehold.it/100x50">
+                </div>
+                <div class="login">
+                    <!--웹 메뉴 버튼-->
+                    <paper-button class="web" on-click="{{doLogin}}">
+                        <context>Login</context>
+                    </paper-button>
+                    <!-- 모바일 메뉴 버튼-->
+                    <paper-icon-button class="mobile" icon="menu" title="menu" role="button" tabindex="0"
+                                       aria-label="menu" on-tap="{{doLogin}}"></paper-icon-button>
+                </div>
+            </div>
+        </core-toolbar>
+            <login-dialog id="login_dialog">
+                <p>아아아 왜 안되냐고!!</p>
+            </login-dialog>
+    </template>
+    <script>
+        Polymer('imagic-header', {
+            created: function () {
+                var session;
+            },
+            doLogin: function (event, detail, sender) {
+                var d = this.$.login_dialog;
+                console.log(this.sessionName);
+                if (this.session != "true") {
+                    d.toggle();
+                }
+            }
+        });
+
+    </script>
+</polymer-element>
+
+
+
+
+
+
