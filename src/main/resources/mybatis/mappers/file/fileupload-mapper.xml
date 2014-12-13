@@ -99,6 +99,11 @@
 		where img_num = #{imgNum}
 	</delete>
 	
+	<!-- 이미지 넘버 받아오기 -->
+	<select id="selectImgNum" parameterType="bit.project.imagic.vo.FileVO" resultType="int">
+		select img_num from image
+		where img_s_name = #{imgName}
+	</select>	
 	
 	
 </mapper>

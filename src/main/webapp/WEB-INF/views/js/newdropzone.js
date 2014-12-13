@@ -1,5 +1,3 @@
-	
-
 var output = [];  // 파일저장 배열
 var outputBlob = [];  // 썸네일(blob) 저장 배열	
 var hasFiles = 0;
@@ -307,17 +305,16 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			// 12.11 19:45 - 폼 데이터에 파일 저장 
 			$.each(output, function(i, file) {
 				formData.append('file-' + i, file);
-				console.log(output);
 			});
 			
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
 				formData.append('blob-' + i, blob)
-				console.log(outputBlob);
 			});
 			
 			// 12.11 19:45 - XHR 
 			xhr.open(method, dzURL, true);
+			xhr.responseType = 'json';
 	
 			xhr.upload.onloadstart = function(e) {
 				document.getElementById('progress_bar').className = 'loading';
@@ -334,23 +331,36 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	
 			// 12.11 19:45 - Ajax응답
 			xhr.onload = function(e) {
+				var data;
 				// 12.11 19:45 - 응답 완료 - 4
 				if (xhr.readyState == 4) {
 					progress.style.width = '100%';
 					progress.textContent = '100%';
 					document.getElementById('progress_bar').className = '';
+
+					status = xhr.status;
+					if (status == 200) {
+						data = xhr.response;
+						
+					} else {
+						alert("받아오기실패");
+					}
 					
+
+
+
+//					for (var i=0; i<data.length; i++) {
+//					  var first = document.getElementById(data[i].m_id)
+//					  for (var j=0; j<first.length; i++) {
+//						  var second = 
+//					  }
+//					}
 					// 12.11 19:45 - 업로드 후 상태 태그 값 Saved로 변경
 					var stateList = document.getElementById("drop_zone").querySelectorAll('[data-dz-state]');
 					for (var i=0; i<stateList.length; i++) {
 						stateList[i].innerHTML = 'saved';
-						
-						// ajax 통신
-						
-						// 결과값 받아와서
-						
-						// 
 					}
+					
 					
 					// 12.11 19:45 - 업로드 후 데이터 초기화
 					output = [];

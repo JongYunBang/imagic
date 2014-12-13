@@ -59,4 +59,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 	public int removeFile(FileVO file) throws Exception {
 		return dao.removeFile(file);
 	}
+
+	@Override
+	public int imgNumGet(FileVO file) throws Exception {
+		return dao.imgNumGet(file);
+	}
 }

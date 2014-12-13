@@ -14,11 +14,6 @@
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-<link rel="stylesheet" href="./css/main.css">
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<script src="./js/main.js"></script>
 
 <script type="text/javascript">
 

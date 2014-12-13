@@ -67,4 +67,9 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 		return sqlSession.delete("removeFile", file);
 	}
 
+	@Override
+	public int imgNumGet(FileVO file) throws Exception {
+		return sqlSession.selectOne("selectImgNum", file);
+	}
+
 }

@@ -93,7 +93,7 @@ $(document).ready(function() {
 					e.target.parentElement.parentElement.remove();
 					dropzone.resetDropzone();
 					hasFiles = 0;
-					//window.location.href="/fileupload";
+//					window.location.href="/fileupload";
 				}else if(data=="deleteDirDBFail"){
 					alert("실패 : DB 에서의 dirName 삭제 실패");
 				}else if(data=="deleteDirFail") {
@@ -175,6 +175,8 @@ $(document).ready(function() {
 		// 사용자 폴더 ul 선택
 		dropzone.resetDropzone();
 		hasFiles=0;
+		output=[];
+		outputBlob=[];
 		var dir_elements = document.getElementsByClassName('folder');
 //		console.log(dir_elements);
 		for (var i=0; i < dir_elements.length; i++){
@@ -219,7 +221,7 @@ $(document).ready(function() {
 		}
 		function onError(data, status) {
 			alert("세션이 만료되었습니다. 로그인을 해주세요");
-			windows.location.href="/";
+			window.location.href="/";
 		}
 	});
 
