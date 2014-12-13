@@ -42,7 +42,6 @@ public class FileUploadController {
 	//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
 	String path = "d:/down/upload/";
 	public FileUploadController() {
-		//System.out.println("init FileUploadController");
 		file = new FileVO();
 	}
 
@@ -80,23 +79,17 @@ public class FileUploadController {
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
 	public String showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//		System.out.println("/파일업로드페이지  "+member.getM_id());
-
-
+		
 		HttpSession session = request.getSession(false);
 		if (session==null) {
 			response.sendRedirect(request.getContextPath() + "/");
 		}
-
-		System.out.println(member);
 
 		if (member==null || !ImagicUtil.checkMemberId(member)){
 			//			return "index";
 			response.sendRedirect(request.getContextPath() + "/");
 		}
 
-
-		//		MemberVO member = (MemberVO) session.getAttribute("member");
 		String m_id=member.getM_id();
 		file.setM_id(m_id);
 		List<String> listDirs = new ArrayList<String>();
@@ -104,8 +97,6 @@ public class FileUploadController {
 
 		// DB에서 넘어온 dirList session 에 넘기기
 		session.setAttribute("dir_result", listDirs);
-
-
 		return "file/fileupload";
 	}
 
@@ -163,12 +154,10 @@ public class FileUploadController {
 
 				if (fileService.renameDir(file) == 1) {  // DB에 이름 변경하면 1 반환
 					// ajax에게 값을 넘겨주기 위해서
-
 					boolean result = ImagicUtil.renameDir(path + m_id, oldDirName,
 							newDirName);
 					pw.print(result);
 					pw.flush();
-
 				}
 			}
 		} catch (NullPointerException e) {
@@ -215,8 +204,6 @@ public class FileUploadController {
 		}
 	}
 
-
-
 	// 파일 업로드 처리위한 맵핑
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
@@ -249,10 +236,7 @@ public class FileUploadController {
 			// 2014.12.06(11:13) : 실제 파일 시스템에 저장될 유일한 이름을 위한 id 생성
 			String genId = UUID.randomUUID().toString();
 			String fileName = itr.next();
-			System.out.println("iterator : " + fileName);
 			mpf = request.getFile(fileName);
-			System.out.println("아이디: "+ userID + "파일 네임:" +genId+mpf.getOriginalFilename() +" uploaded!");
-			System.out.println("컨트롤의 dirname : " + member.getDirName());
 
 			try {
 				if((fileCount/2)>cnt) {
@@ -261,7 +245,6 @@ public class FileUploadController {
 					tempFile.setImgName(genId+mpf.getOriginalFilename());
 					tempFile.setImgOriName(mpf.getOriginalFilename());
 					tempFile.setImgLength(mpf.getBytes().length);
-					System.out.println("bytes : " + mpf.getBytes()); 
 					FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
 					uploadList.add(tempFile);
 				} else {
@@ -276,33 +259,25 @@ public class FileUploadController {
 		}
 
 		for (int i = 0;i < uploadList.size(); i++){
-			System.out.println("----------------------");
-			System.out.println("uploadList : " + i);
-			System.out.println(uploadList.get(i).getM_id());	
-			System.out.println(uploadList.get(i).getDirName());	
-			System.out.println(uploadList.get(i).getImgName());	
-			System.out.println(uploadList.get(i).getImgOriName());	
-			System.out.println(uploadList.get(i).getImgLength());	
-			System.out.println(uploadList.get(i).getImgThumb());	
-			int a=fileService.fileUpload(uploadList.get(i));
+			uploadList.get(i).getM_id();	
+			uploadList.get(i).getDirName();	
+			uploadList.get(i).getImgName();	
+			uploadList.get(i).getImgOriName();	
+			uploadList.get(i).getImgLength();	
+			uploadList.get(i).getImgThumb();
+			fileService.fileUpload(uploadList.get(i));
 			uploadList.get(i).setImgNum(fileService.imgNumGet(uploadList.get(i)));
-			System.out.println("파일 업로드 성공 : " + a);
 		}
 		return uploadList;
-
-
 	}
 
 	@RequestMapping(value="/filelist", method=RequestMethod.POST)
 	public @ResponseBody List<FileVO> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
 		file.setM_id(member.getM_id());
-		System.out.println(file.getM_id());
 		file.setDirName(member.getDirName());
 		response.setContentType("image/*");
 		List<FileVO> filesList = fileService.fileList(file);
-		System.out.println("파일리스트 사이즈:" + filesList.size());
 		return filesList;
 	}
 
@@ -322,16 +297,12 @@ public class FileUploadController {
 			}
 
 			FileVO file = new FileVO();
-			System.out.println("imgNum : " + imgNum);
 			file.setM_id(m_id);
 			file.setDirName(dirName);
 			file.setImgName(imgName);
 			file.setImgNum(imgNum);
 
-			System.out.println("파일 삭제 들어옴 ");
-
 			String retrunImgSaveName = fileService.isFile(file);
-			System.out.println("retrunImgSaveName : "+retrunImgSaveName);
 			if (fileService.removeFile(file)==1) {   
 				if (ImagicUtil.removeFile(path+m_id+"/"+file.getDirName()+"/"+retrunImgSaveName)){
 					pw.print("deleteFileSuccess");  // DB, FileSystem 동시에 삭제 성공

@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	var m_id = document.getElementById('m_id').value;
-
+	var currentDir=null;
 	// 태그 생성 funtion
 	function createFolder(element, dirName){
 		// 삭제 요청 (열우) : 새롭게 구현 함
@@ -173,6 +173,7 @@ $(document).ready(function() {
 	$(document).on('click', '.folder', function (e) {
 //		종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
+		currentDir=e.target.id;
 		dropzone.resetDropzone();
 		hasFiles=0;
 		output=[];
@@ -216,8 +217,6 @@ $(document).ready(function() {
 			}
 			// 드랍존에게 썸네일 배열을 넘김
 			dropzone.createFileElement(imgThumbArray);
-
-
 		}
 		function onError(data, status) {
 			alert("세션이 만료되었습니다. 로그인을 해주세요");
@@ -225,4 +224,52 @@ $(document).ready(function() {
 		}
 	});
 
+	// 이미지 갯수 체크한후 맞으면 edit 페이지로 넘어가기
+	$('#edit').click(function(){
+		// 서버에 올린 파일은 imgNum을 가지고 있음
+		var imgList = document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]');
+		var imgLength=0;
+		// 서버에 올려진 파일 갯수 확인하기 
+		for (var i=0; i<imgList.length; i++) {
+			if(!(imgList[i].innerHTML=="")){
+				++imgLength;
+			}
+		}
+		// 폴더 선택없이 편집하러가기 눌렀을때
+		if(currentDir==null){
+			alert("폴더를 선택해 주세요");
+			return;
+		}
+		if(!output.length==0){
+			alert("업로드 버튼을 누르고 오세요");
+			return;
+		}
+		// 서버에 올린 사진이 9장이 안되었때
+		if(imgLength<9) {
+			alert("사진은 9장을 채우셔야 합니다.");
+			return;
+		}
+		
+//		$('#m_id').val("'"+m_id+"'");
+//		$('#dirName').val("'"+currentDir+"'");
+//		document.getElementById('m_id').value=m_id;
+		document.getElementById('dirName').value=currentDir;
+		
+		
+		document.getElementById("edit").submit();
+//		$.ajax({
+//			type : "POST",
+//			url : "/edit",
+//			cache : false,
+//			data : {
+//				"m_id" : m_id,
+//				"dirName" : currentDir
+//			},
+//			success : function() {
+//			},
+//			error : function() {
+//				alert("요청이 비정상적으로 처리되었습니다.");
+//			}
+//		});
+	}); 
 });

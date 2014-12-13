@@ -345,16 +345,25 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					} else {
 						alert("받아오기실패");
 					}
+
+					// 열우 2014. 12. 13 (12:33) 
+					// data는 현재 업로드된 data의 개수만 가져오기 때문에 기존 업로드 된 숫자와는 관련이 없다.
+					// 그렇기 때문에 지금 data-dz-imgnum의 innerHTML이 존재하지 않는 개수와 동일하다.
+					// 그래서 data-dz-imgnum이 비어있는 span을 찾아서 그에 맞는 값을 넣어주면 된다.
+					// 이것은 둘다 순서대로 만들어지고 순서대로 data값이 들어온다는 전제하에 작동된다. 
+					// 우리는 그렇게 되어있어서 에러가 안난다.
+					for(var i=0;i < data.length; i++){
+						var imgNumList = document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]');
+						console.log(imgNumList);
+						for(var j=0; j<imgNumList.length;j++){
+							if(!imgNumList[j].innerHTML){
+								imgNumList[j].innerHTML = data[i].imgNum;
+								break;
+							}
+						}
+					}
 					
-
-
-
-//					for (var i=0; i<data.length; i++) {
-//					  var first = document.getElementById(data[i].m_id)
-//					  for (var j=0; j<first.length; i++) {
-//						  var second = 
-//					  }
-//					}
+					
 					// 12.11 19:45 - 업로드 후 상태 태그 값 Saved로 변경
 					var stateList = document.getElementById("drop_zone").querySelectorAll('[data-dz-state]');
 					for (var i=0; i<stateList.length; i++) {
