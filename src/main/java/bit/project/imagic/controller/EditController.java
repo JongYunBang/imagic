@@ -65,7 +65,7 @@ public class EditController {
 		return fileList;
 	}
 	@RequestMapping(value="/fileDown", method=RequestMethod.POST)
-	public FileVO fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public @ResponseBody FileVO fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String dirName = file.getDirName();
 		file = fileService.fileDown(file);
 		file.setDirName(dirName);

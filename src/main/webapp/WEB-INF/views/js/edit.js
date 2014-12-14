@@ -99,7 +99,6 @@ $(document).ready(function() {
 				file = fileList[i];
 			}
 		}
-		console.log(file.dirName);
 		$.ajax({
 			type : "POST",
 			url : "/fileDown",
@@ -117,6 +116,7 @@ $(document).ready(function() {
 		});
 		
 		function onSuccess(data) {
+			console.log("리턴받은 객체")
 			console.log(data);
 		}
 		function onError(data) {
