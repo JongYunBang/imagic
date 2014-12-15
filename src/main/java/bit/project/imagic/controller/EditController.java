@@ -1,9 +1,6 @@
 package bit.project.imagic.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -74,16 +71,13 @@ public class EditController {
 	@RequestMapping(value="/fileDown", method=RequestMethod.POST)
 	public @ResponseBody String fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		File files = new File(path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName());
-		System.out.println(files);
 		byte[] bytes = ImagicUtil.loadFile(files);
 		byte[] encoded = Base64.encodeBase64(bytes);
 		
 		String encodedString = new String(encoded);
-		System.out.println(encodedString);
 		String result = ImagicUtil.getMediaType(file.getImgName()) + encodedString;
 		
 		return result;
-		
 	}
 	
 	

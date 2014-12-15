@@ -90,7 +90,7 @@ $(document).ready(function() {
 	}
 	
 	// 썸네일 클릭시 해당파일 가져오기
-	$(document).on('click', '.tv-preview',function(e) {
+	$(document).on('click', '[data-tv-thumbnail]',function(e) {
 		// 이미지 넘버 페이지에서 가져오기
 		var imgNum = e.target.parentElement.nextSibling.nextSibling.firstChild.innerHTML;
 		var file=null;
@@ -116,12 +116,7 @@ $(document).ready(function() {
 		});
 		
 		function onSuccess(data) {
-			console.log("리턴받은 객체")
-//			var b = atob(data);
-//			var c = btoa(data);
-//			var st = 'data:image/jpeg;base64,'+data;
-			console.log(data);
-//			console.log(b);
+			// 받아온 base64 데이터값으로 캔버스에 draw
 			var image = new Image();
 			image.src = data;
 			image.onload = function() {

@@ -181,7 +181,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			}
 			
 			// 12.11 19:45 - 생성되는 preview에 썸네일을 추가 시켜준다.
-			dropzone.createThumbnail(f, thumbnail); //
+			dropzone.createThumbnail(f, thumbnail, i); //
 		}
 	}
 	
@@ -197,7 +197,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	}
 
 	// 12.11 19:45 - 썸네일 이미지를 생성하여 outputBlob에 저장하고 thumbnail src에 이미지 저장
-	dropzone.createThumbnail = function(blobReturn, element) {
+	dropzone.createThumbnail = function(blobReturn, element, i) {
 		// 썸네일의 크기를 지정
 		var thumbnailWidth = 100;
 		var thumbnailHeight = 100;
@@ -227,9 +227,14 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				ab[0] = dataURL;
 				// Blob 안에는 파일과 배열만이 들어갈수 있다 
 				var bb = new Blob(ab, { 'type': 'image/png' });
+				var blob = {
+						"fileNum" : i,
+						"data" : bb 
+				}
 				bb.name = blobReturn.name;
-				outputBlob.push(bb);    		// output에 blob 데이터 push
+				outputBlob.push(blob);    		// output에 blob 데이터 push
 				element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
+				console.log(blob.fileNum);
 			};
 			reader.readAsDataURL(f);
 		}else if(blobReturn.constructor.name == 'Object'){
@@ -307,9 +312,12 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				formData.append('file-' + i, file);
 			});
 			
+			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
+			
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
-				formData.append('blob-' + i, blob)
+				formData.append("blob-" + blob.fileNum, blob.data);
+				console.log(blob.fileNum);
 			});
 			
 			// 12.11 19:45 - XHR 
