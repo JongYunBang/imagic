@@ -117,7 +117,18 @@ $(document).ready(function() {
 		
 		function onSuccess(data) {
 			console.log("리턴받은 객체")
+//			var b = atob(data);
+//			var c = btoa(data);
+//			var st = 'data:image/jpeg;base64,'+data;
 			console.log(data);
+//			console.log(b);
+			var image = new Image();
+			image.src = data;
+			image.onload = function() {
+				ctx.drawImage(image, 0, 0, 700,700);
+			};
+			var canvas = document.getElementById('draw');
+			var ctx = canvas.getContext('2d');
 		}
 		function onError(data) {
 			alert("파일 받아오기 실패 다시 클릭해주세요");

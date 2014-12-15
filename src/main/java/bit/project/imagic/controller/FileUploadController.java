@@ -259,12 +259,12 @@ public class FileUploadController {
 		}
 
 		for (int i = 0;i < uploadList.size(); i++){
-			uploadList.get(i).getM_id();	
-			uploadList.get(i).getDirName();	
-			uploadList.get(i).getImgName();	
-			uploadList.get(i).getImgOriName();	
-			uploadList.get(i).getImgLength();	
-			uploadList.get(i).getImgThumb();
+//			uploadList.get(i).getM_id();	
+//			uploadList.get(i).getDirName();	
+//			uploadList.get(i).getImgName();	
+//			uploadList.get(i).getImgOriName();	
+//			uploadList.get(i).getImgLength();	
+//			uploadList.get(i).getImgThumb();
 			fileService.fileUpload(uploadList.get(i));
 			uploadList.get(i).setImgNum(fileService.imgNumGet(uploadList.get(i)));
 		}

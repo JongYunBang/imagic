@@ -1,6 +1,9 @@
 package bit.project.imagic.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,50 +88,6 @@ public class ImagicUtil {
 	        return false;
 	    }
 	
-	// DB로 구현됨 (controller 에 있음)
-	// 디렉토리 존재 여부 java로 구현한 부분 
-	/*public static boolean isDirName(File userDir, String compareDirName){
-		List<String> listDirs  = getDirList(userDir);
-		boolean result  = false;
-		for(int i = 0; i<listDirs.size(); i++){
-			System.out.println("isDirName : " + listDirs.get(i));
-			System.out.println("compareDirName : " + compareDirName);
-			if (listDirs.get(i).equals(compareDirName)){
-				result = true;
-				break;
-			}
-		}
-		System.out.println("isDirNameResult : " + result);
-		return result;
-	}*/
-	
-	
-	// DB로 구현함
-	/*// userDir에 있는 목록에서 디렉토리 목록만을 가져오는 메서드
-	public static List<String> getDirList(File userDir) {
-		// 폴더 안에 있는 파일과 디렉토리 목록을 저장할 변수
-		String[] fileList = userDir.list();
-		List<String> listDirs = null;
-		// 목록이 존재한다면
-		if (fileList.length  > 0) {
-			
-			// 세션에 전달할 디렉토리 목록들
-			listDirs = new ArrayList<String>();
-			for(int i = 0; i<fileList.length;i++){
-				
-				// 검색할 파일및 폴더명을 이름에 맞게 생성한다.
-				File tempFile = new File(userDir.getPath(), fileList[i]);
-				
-				// 디렉토리라면 리스트에 추가 해준다.
-				if(tempFile.isDirectory()){
-					System.out.println("dirlist : "  + fileList[i]);
-					listDirs.add(fileList[i]);
-				}
-			}
-		}
-		return listDirs;
-	}*/
-	
 	 // userDir에 있는 파일을 가져오는 메서드
 	public static List<File> getFileList(File userDir){
 		// 폴더 안에 있는 파일과 디렉토리 목록을 저장할 변수
@@ -160,4 +119,49 @@ public class ImagicUtil {
 		}
 		return false;
 	}
+	
+
+	
+	public static byte[] loadFile(File files) throws IOException {
+	    InputStream is = new FileInputStream(files);
+ 
+	    long length = files.length();
+	    if (length > Integer.MAX_VALUE) {
+	        // File is too large
+	    }
+	    byte[] bytes = new byte[(int)length];
+	    
+	    int offset = 0;
+	    int numRead = 0;
+	    while (offset < bytes.length && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+	        offset += numRead;
+	    }
+ 
+	    if (offset < bytes.length) {
+	        throw new IOException("Could not completely read file "+files.getName());
+	    }
+ 
+	    is.close();
+	    return bytes;
+	}
+	
+	public static String getMediaType(String dirName) {
+		String res = null;
+		
+		String type = dirName.substring(dirName.lastIndexOf(".")+1);
+		System.out.println(type);
+		if(type.equals("gif")) {
+			res = "gif";
+		}else if(type.equals("jpg")){
+			res = "jpeg";
+		}else if(type.equals("png")) {
+			res = "png";
+		}else if(type.equals("svg") || type.equals("xml")) {
+			res = "svg+xml";
+		}else if(type.equals("tiff")) {
+			res = "tiff";			
+		}
+		return "data:image/" + res + ";base64,";
+	}
+	
 }

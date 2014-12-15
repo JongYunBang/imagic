@@ -14,6 +14,7 @@ public class FileVO implements Serializable {
 	private String imgOriName;
 	private int imgLength;
 	private byte[] imgThumb;
+	private String imgPath;
 	
 
 	public String getM_id() {
@@ -92,8 +93,13 @@ public class FileVO implements Serializable {
 		return serialVersionUID;
 	}
 
-	
+	public String getImgPath() {
+		return imgPath;
+	}
 
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
 	
 	
 

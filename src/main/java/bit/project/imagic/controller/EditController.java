@@ -1,5 +1,9 @@
 package bit.project.imagic.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -7,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import bit.project.imagic.service.FileUploadService;
+import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
 
 @Controller
@@ -64,14 +70,22 @@ public class EditController {
 		}
 		return fileList;
 	}
+	
 	@RequestMapping(value="/fileDown", method=RequestMethod.POST)
-	public @ResponseBody FileVO fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String dirName = file.getDirName();
-		file = fileService.fileDown(file);
-		file.setDirName(dirName);
-		System.out.println("파일다운 리턴전");
-		return file;
+	public @ResponseBody String fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		File files = new File(path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName());
+		System.out.println(files);
+		byte[] bytes = ImagicUtil.loadFile(files);
+		byte[] encoded = Base64.encodeBase64(bytes);
+		
+		String encodedString = new String(encoded);
+		System.out.println(encodedString);
+		String result = ImagicUtil.getMediaType(file.getImgName()) + encodedString;
+		
+		return result;
 		
 	}
+	
+	
 
 }
