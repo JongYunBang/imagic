@@ -20,4 +20,9 @@ public class EditDAOImpl implements EditDAO {
 		return sqlSession.selectList("editFileList", file);
 	}
 
+	@Override
+	public int thumbnailUpload(FileVO file) throws Exception {
+		return sqlSession.update("thumbnailUpload", file);
+	}
+
 }

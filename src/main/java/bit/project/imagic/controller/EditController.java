@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import bit.project.imagic.service.EditService;
+import bit.project.imagic.util.Base64;
 import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
 
@@ -73,7 +73,7 @@ public class EditController {
 	public @ResponseBody String fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		File files = new File(path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName());
 		byte[] bytes = ImagicUtil.loadFile(files);
-		byte[] encoded = Base64.encodeBase64(bytes);
+		byte[] encoded = org.apache.commons.codec.binary.Base64.encodeBase64(bytes);
 		
 		String encodedString = new String(encoded);
 		
@@ -83,65 +83,41 @@ public class EditController {
 	}
 	
 	@RequestMapping(value="/fileUpdate", method=RequestMethod.POST)
-	public int fileUpdate(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody int fileUpdate(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//		"m_id" : currentFile.m_id,
-//		"dirName" : currentFile.dirName,
-//		"imgName" : currentFile.imgName,
-//		"imgOrinName" : currentFile.imgOriName,
-//		"imgNum" : currentFile.imgNum,
-//		"imgFormat" : currentFile.imgFormat,
-//		"imgThumb" : dataURL,
-//		"imgBase64" : imgBase64
-		System.out.println(file.getImgBase64());
-		System.out.println(file.getDirName());
-		System.out.println(file.getImgFormat());
-		System.out.println(file.getImgName());
-		System.out.println(file.getImgNum());
-		System.out.println(file.getImgOriName());
-		System.out.println(file.getM_id());
-		System.out.println(file.getImgThumb());
-		
-//		 BufferedImage image = null;
-//	        byte[] imageByte;
-//	        try {
-//	            BASE64Decoder decoder = new BASE64Decoder();
-//	            imageByte = decoder.decodeBuffer(file.getImgBase64());
-//	            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-//	            image = ImageIO.read(bis);
-//	            bis.close();
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
-//	        System.out.println("image :"+image.toString());
-//	        ImageIO.write(image, file.getImgFormat(), new File(path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName()));
-		/* sourceforge에서 배포하는 Base64 클래스를 사용하면 가장 간단하게 디코딩과 이미지 파일에 저장을 동시에 처리한다*/
-		Base64.decodeToFile(file.getImgBase64(), "d:/test/decodedImg.png"); //jpg,png ok
-
-		
-		/* sourceforge에서 배포하는 Base64 클래스를 사용하면 가장 간단하게 디코딩과 이미지 파일에 저장을 동시에 처리한다*/
-		Base64.decodeToFile(base64Str, "d:/test/decodedImg.png"); //jpg,png ok
-
-		
-		//java.util.Base64 클래스를 사용하여 디코딩한 후에 ImageIO를 이용하여 이미지 파일에 저장한다
-		byte[] decodedBytes = Base64.getDecoder().decode(base64Str); //java.util.Base64
+//		System.out.println(file.getImgBase64());
+//		System.out.println(file.getDirName());
+//		System.out.println(file.getImgFormat());
+//		System.out.println(file.getImgName());
+//		System.out.println(file.getImgNum());
+//		System.out.println(file.getImgOriName());
+//		System.out.println(file.getM_id());
+//		System.out.println(file.getImgThumb());
+//		
+		// 넘어오는 base64파일 저장하기 위해서
 		try {
-	            BufferedImage bm = ImageIO.read(new ByteArrayInputStream(decodedBytes));
-	       	    ImageIO.write(bm, "png", new File("d:/test/decodedImg.png"));
-	    	} catch (IOException e) {
-	        	e.printStackTrace();
-	    	}
+			String savePath = path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
+			System.out.println(savePath);
+			/* sourceforge에서 배포하는 Base64 클래스를 사용하면 가장 간단하게 디코딩과 이미지 파일에 저장을 동시에 처리한다*/
+			String base64Str = file.getImgBase64();
+			Base64.decodeToFile(base64Str, savePath);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;  // 파일시스템에 파일 저장하기 실패 
+		}
 		
-		
-		// Apache Base64 클래스를 이용하여 디코딩한 후에 ImageIO를 이용하여 이미지 파일에 저장한다
-		byte[] decodedBytes = Base64.decodeBase64(base64Str); //apache Base64
 		try {
-	            BufferedImage bm = ImageIO.read(new ByteArrayInputStream(decodedBytes));
-	            ImageIO.write(bm, "png", new File("d:/test/decodedImg.png"));
-	    	} catch (IOException e) {
-	        	e.printStackTrace();
+			// 썸네일 이미지를 DB에 저장하기 위해서
+			int result = editService.thumbnailUpload(file);
+			if (result!=1){
+				return 2;   // DB에 저장실패 
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 3;  // DB에 저장하다 에러
+		}
         
-        return 1;
+        return 4;  // 파일저장및 썸네일 DB 저장 완료 
 	}
 	
 	

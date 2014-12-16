@@ -20,4 +20,9 @@ public class EditServiceImpl implements EditService {
 		return dao.fileList(file);
 	}
 
+	@Override
+	public int thumbnailUpload(FileVO file) throws Exception {
+		return dao.thumbnailUpload(file);
+	}
+
 }

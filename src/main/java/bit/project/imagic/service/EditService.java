@@ -6,5 +6,6 @@ import bit.project.imagic.vo.FileVO;
 
 public interface EditService {
 	List<FileVO> fileList(FileVO file) throws Exception;
+	int thumbnailUpload(FileVO file) throws Exception;
 
 }

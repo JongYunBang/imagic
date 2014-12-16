@@ -19,4 +19,9 @@
 		   and img.img_dir_num=(select dir_num from dir where dir_m_id=#{m_id} and dir_name=#{dirName})
 	</select>
 	
+	<update id="thumbnailUpload" parameterType="bit.project.imagic.vo.FileVO">
+		update image set imgThumb
+		where imgNum=#{imgNum}
+	</update>
+	
 </mapper>

@@ -145,7 +145,6 @@ $(document).ready(function() {
 	$(document).on('click', '#saveCanvas', function(e) {
 		// 캔버스 이미지를 base64 형태로 받아옴
 		var imgData = document.getElementById("draw").toDataURL("image/png");
-//		var imgBase64 = imgData;
 		// 썸네일을 만들어줄 canvas를 생성한다.
 		var canvas = document.createElement('canvas');
 		var ctx = canvas.getContext('2d');
@@ -172,7 +171,8 @@ $(document).ready(function() {
 		// canvas에 저장된 원본파일에 대한 base64형태를 보내기위해 
 //		var imgBase64 = JSON.stringify(imgData);
 //		console.log(imgBase64);
-		
+		console.log(imgThumb);
+		var imgBase64 = imgData;
 		
 		$.ajax({
 			type : "POST",
@@ -191,12 +191,25 @@ $(document).ready(function() {
 			success : onSuccess,
 			error : onError
 		});
-
+		
+		/**
+		 * 리턴값 정리
+		 * return 1 : 파일시스템에 파일 저장하기 실패
+		 * return 2 : DB에 저장실패 
+		 * return 3 : DB에 저장하다 에러
+		 * return 4 : 파일저장및 썸네일 DB 저장 완료
+		 */
 
 		function onSuccess(data) {
-			if(data==1){
+			if(data==4){
 				thumbnailSrc.src = thumbURL[0];		// dropzone에 썸네일 집어넣기 위해서
 				alert("파일 저장에 성공하였습니다")
+			} else if (data==3) {
+				alert("DB에 저장하다 에러");
+			} else if (data==2) {
+				alert("DB에 저장실패");
+			} else if (data==1) {
+				alert("파일시스템에 파일 저장하기 실패");
 			}
 		}
 		function onError(data) {
