@@ -3,6 +3,7 @@ $(document).ready(function() {
 	//edit 창에 쓰일 전역 변수
 	var fileList=[];
 	
+	// 썸네일 움직일수 있게 해주는
 	$( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
     
@@ -19,23 +20,19 @@ $(document).ready(function() {
 	function onSuccess(data) {
 		
 		fileList = data;
-		var imgThumbArray =[];   // 썸네일 저장용
+		// sort페이지의 'li'태그의 리스트를 구하고
+		var liList= $('.ui-state-default');
+		// liList의 자식노드를 추가
+		liList.append("<span style=\"display:none\"></span>");
 		for (var i=0; i<data.length; i++) {
-			var id = data[i].m_id;
-			var dirName = data[i].dirName;
-			var imgOriName = data[i].imgOriName;
-			var imgLength=data[i].imgLength;
-			var file = data[i].imgThumb;
+			// 각 사진에 해당하는 imgNum 을 가지고 와서
 			var imgNum=data[i].imgNum;
-			imgThumbArray[i] = {
-					"file" : file,
-					"name" : imgOriName,
-					"size" : imgLength,
-					"imgNum" : imgNum
-			}
+			// 해당 img태그 안에 썸네일을 넣어주고
+			liList[i].childNodes[1].src=atob(data[i].imgThumb);
+			// 추가한 자식 노드에 
+			liList[i].childNodes[3].innerHTML=data[i].imgNum;
 		}
-		// thumbNail에게 썸네일 배열을 넘김
-		thumbNail.createFileElement(imgThumbArray);
+		
 		
 	}
 	function onError(data) {
