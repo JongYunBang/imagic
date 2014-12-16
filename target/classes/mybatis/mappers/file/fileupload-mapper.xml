@@ -58,7 +58,8 @@
 				img.img_o_name as imgOriName, 
 				img.img_size as imgLength,
 				img.img_s_name as imgName,
-				img.img_thumb as imgThumb
+				img.img_thumb as imgThumb,
+				img.img_format as imgFormat
 		 from image img, dir
 		 where img.img_dir_num=dir.dir_num
 		   and img.img_dir_num=(select dir_num from dir where dir_m_id=#{m_id} and dir_name=#{dirName})
@@ -76,14 +77,16 @@
 	 					   img_s_name, 
 	 					   img_o_name, 
 	 					   img_size,
-	 					   img_thumb)
+	 					   img_thumb,
+	 					   img_format)
 					
 					values(#{m_id},
 						   #{dirNum},	
 						   #{imgName},	
 						   #{imgOriName},	
 						   #{imgLength},
-						   #{imgThumb})
+						   #{imgThumb},
+						   #{imgFormat})
 				
 	</insert>
 	

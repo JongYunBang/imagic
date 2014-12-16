@@ -14,7 +14,8 @@ public class FileVO implements Serializable {
 	private String imgOriName;
 	private int imgLength;
 	private byte[] imgThumb;
-	private String imgPath;
+	private String imgBase64;
+	private String imgFormat;
 	
 
 	public String getM_id() {
@@ -93,14 +94,21 @@ public class FileVO implements Serializable {
 		return serialVersionUID;
 	}
 
-	public String getImgPath() {
-		return imgPath;
+	public String getImgBase64() {
+		return imgBase64;
 	}
 
-	public void setImgPath(String imgPath) {
-		this.imgPath = imgPath;
+	public void setImgBase64(String imgBase64) {
+		this.imgBase64 = imgBase64;
 	}
-	
-	
 
+	public String getImgFormat() {
+		return imgFormat;
+	}
+
+	public void setImgFormat(String imgFormat) {
+		this.imgFormat = imgFormat;
+	}
+
+	
 }

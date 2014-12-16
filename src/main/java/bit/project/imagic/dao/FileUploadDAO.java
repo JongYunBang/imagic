@@ -12,7 +12,7 @@ public interface FileUploadDAO {
 	int rename(FileVO file) throws Exception;
 	int update(String m_id, String dirName) throws Exception;
 	int deleteDir(FileVO file) throws Exception;
-	List<FileVO> fileList(FileVO fiel) throws Exception;
+	List<FileVO> fileList(FileVO file) throws Exception;
 	int fileUpload(FileVO file)throws Exception;
 	int removeFile(FileVO file)throws Exception;
 	String isFile(FileVO file) throws Exception;

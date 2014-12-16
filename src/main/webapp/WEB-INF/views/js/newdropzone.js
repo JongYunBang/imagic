@@ -234,7 +234,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				bb.name = blobReturn.name;
 				outputBlob.push(blob);    		// output에 blob 데이터 push
 				element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
-				console.log(blob.fileNum);
 			};
 			reader.readAsDataURL(f);
 		}else if(blobReturn.constructor.name == 'Object'){

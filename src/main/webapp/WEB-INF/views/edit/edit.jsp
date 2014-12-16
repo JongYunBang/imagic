@@ -43,8 +43,6 @@
 	}
 	
 	#draw {
-		width: 70%; 
-		height : 70%; 
 		border : 1px solid black;
 	}
 	
@@ -74,8 +72,10 @@
 		<div id="content">
 			<!-- canvas 영역 -->
 			<div id="cavaszone">
-				<canvas id="draw">
-				</canvas>							
+				<canvas id="draw" width="500px" height="500px">
+				</canvas>
+				<br/>	
+				<button id="saveCanvas" align="center" >이미지저장</button>						
 			</div>
 		</div>
 

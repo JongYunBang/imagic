@@ -147,9 +147,8 @@ public class ImagicUtil {
 	
 	public static String getMediaType(String dirName) {
 		String res = null;
-		
 		String type = dirName.substring(dirName.lastIndexOf(".")+1);
-		System.out.println(type);
+		
 		if(type.equals("gif")) {
 			res = "gif";
 		}else if(type.equals("jpg")){
@@ -161,7 +160,7 @@ public class ImagicUtil {
 		}else if(type.equals("tiff")) {
 			res = "tiff";			
 		}
-		return "data:image/" + res + ";base64,";
+		return res;
 	}
 	
 }

@@ -245,6 +245,8 @@ public class FileUploadController {
 					tempFile.setImgName(genId+mpf.getOriginalFilename());
 					tempFile.setImgOriName(mpf.getOriginalFilename());
 					tempFile.setImgLength(mpf.getBytes().length);
+					tempFile.setImgFormat(ImagicUtil.getMediaType(mpf.getOriginalFilename()));
+					System.out.println(tempFile.getImgFormat());
 					FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
 					uploadList.add(tempFile);
 				} else {
