@@ -20,8 +20,8 @@
 	</select>
 	
 	<update id="thumbnailUpload" parameterType="bit.project.imagic.vo.FileVO">
-		update image set imgThumb
-		where imgNum=#{imgNum}
+		update image set img_thumb=#{imgThumb}
+		where img_num=#{imgNum}
 	</update>
 	
 </mapper>

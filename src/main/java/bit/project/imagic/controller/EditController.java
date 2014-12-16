@@ -97,7 +97,6 @@ public class EditController {
 		// 넘어오는 base64파일 저장하기 위해서
 		try {
 			String savePath = path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
-			System.out.println(savePath);
 			/* sourceforge에서 배포하는 Base64 클래스를 사용하면 가장 간단하게 디코딩과 이미지 파일에 저장을 동시에 처리한다*/
 			String base64Str = file.getImgBase64();
 			Base64.decodeToFile(base64Str, savePath);

@@ -250,26 +250,7 @@ $(document).ready(function() {
 			return;
 		}
 		
-//		$('#m_id').val("'"+m_id+"'");
-//		$('#dirName').val("'"+currentDir+"'");
-//		document.getElementById('m_id').value=m_id;
 		document.getElementById('dirName').value=currentDir;
-		
-		
 		document.getElementById("edit").submit();
-//		$.ajax({
-//			type : "POST",
-//			url : "/edit",
-//			cache : false,
-//			data : {
-//				"m_id" : m_id,
-//				"dirName" : currentDir
-//			},
-//			success : function() {
-//			},
-//			error : function() {
-//				alert("요청이 비정상적으로 처리되었습니다.");
-//			}
-//		});
 	}); 
 });

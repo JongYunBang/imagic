@@ -16,6 +16,7 @@ public class FileVO implements Serializable {
 	private byte[] imgThumb;
 	private String imgBase64;
 	private String imgFormat;
+	private int imgOrder;
 	
 
 	public String getM_id() {
@@ -110,5 +111,28 @@ public class FileVO implements Serializable {
 		this.imgFormat = imgFormat;
 	}
 
+	public int getImgOrder() {
+		return imgOrder;
+	}
+
+	public void setImgOrder(int imgOrder) {
+		this.imgOrder = imgOrder;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("m_id=").append(m_id).append(", ");
+		sb.append("dirNum=").append(dirNum).append(", ");
+		sb.append("dirName=").append(dirName).append(", ");
+		sb.append("dirRename=").append(dirRename).append(", ");
+		sb.append("imgNum=").append(imgNum).append(", ");
+		sb.append("imgName=").append(imgName).append(", ");
+		sb.append("imgOriName=").append(imgOriName).append(", ");
+		sb.append("imgLength=").append(imgLength).append(", ");
+		sb.append("imgFormat=").append(imgFormat).append(", ");
+		sb.append("imgOrder=").append(imgOrder);
+		return sb.toString();
+	}
 	
 }

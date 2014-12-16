@@ -57,7 +57,7 @@
 			<form id="edit" method="post" action="<%=request.getContextPath()%>/edit"> 
 				<input type="button" value="편집하러가기">
 				<input type="hidden" name="m_id" id="m_id" value="${member.m_id }">
-				<input type="hidden" name="dirName" id="dirName" value="bbbbbb">
+				<input type="hidden" name="dirName" id="dirName" value="">
 			</form>
 		</div>	
 		

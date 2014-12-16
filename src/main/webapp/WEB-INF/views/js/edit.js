@@ -98,7 +98,6 @@ $(document).ready(function() {
 	$(document).on('click', '[data-tv-thumbnail]',function(e) {
 		// 현재 타겟의 src 저장위해 
 		thumbnailSrc = e.target;
-//		console.log(thumbnailSrc);
 		// 이미지 넘버 페이지에서 가져오기
 		var imgNum = e.target.parentElement.nextSibling.nextSibling.firstChild.innerHTML;
 		var file=null;
@@ -167,11 +166,9 @@ $(document).ready(function() {
 		thumbURL[0] = dataURL;
 		// Blob 안에는 파일과 배열만이 들어갈수 있다 
 		var imgThumb = new Blob(thumbURL, { 'type': 'image/png' });
-
-		// canvas에 저장된 원본파일에 대한 base64형태를 보내기위해 
-//		var imgBase64 = JSON.stringify(imgData);
-//		console.log(imgBase64);
-		console.log(imgThumb);
+		
+		// 변경된 썸네일을 파일리스트에 저장하기 위해서
+		currentFile.imgThumb=dataURL;
 		var imgBase64 = imgData;
 		
 		$.ajax({
@@ -215,9 +212,43 @@ $(document).ready(function() {
 		function onError(data) {
 			alert("파일 저장 실패하였습니다");
 		}
-
-
 	});
-
+	
+	// 이미지 차례지정하는 페이지(sortable)로 가기
+	$('#sortable').click(function(){
+		console.log(value=fileList[0].m_id);
+		console.log(value=fileList[0].imgNum);
+		document.getElementById('m_id').value=fileList[0].m_id;
+		document.getElementById('dirNum').value=fileList[0].dirNum;
+		document.getElementById('dirName').value=fileList[0].dirName;
+		document.getElementById("sortable").submit();
+	}); 
+	
+	
+	/*// 이미지 차례지정하는 페이지(sortable)로 가기
+	$(document).on('click', '#sortPage', function(e) {
+		
+		$.ajax({
+			type : "POST",
+			url : "/sortable",
+			cache : false,
+//			contentType: "text/plain",
+//			data : JSON.stringify(fileList),
+			data : {
+				"m_id" : fileList[0].m_id,
+				"imgNum" : fileList[0].dirNum
+			},
+			success : onSuccess,
+			error : onError
+		});
+		function onSuccess(data) {
+//			alert("get 갔다옴");
+		}
+		function onError(data) {
+			alert("오류발생");
+		}
+		
+	});
+*/
 	
 })
