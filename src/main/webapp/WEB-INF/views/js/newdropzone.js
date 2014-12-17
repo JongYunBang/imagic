@@ -201,8 +201,10 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		// 썸네일의 크기를 지정
 		var thumbnailWidth = 100;
 		var thumbnailHeight = 100;
-		// 받는 값이 파일 인경우 수행하고 그렇지 않고 blob형태이면 바로 element.src에 값 전달 
-		if (blobReturn.constructor.name == 'File') {
+		// 받는 값이 파일 인경우 수행하고 그렇지 않고 blob형태이면 바로 element.src에 값 전달
+		// 크롬에서만 확인되는 타입체크 console.log("blobReturn.constructor.name");
+		//  blobReturn instanceof File  ---  IE와 크롬에서 동시에 타입체크
+		if (blobReturn instanceof File) {
 			var reader = new FileReader();
 			// onloadend 안에서만이 img.src= reader.result; 이문장이 실행 되기때문에 
 			// 코드가 좀 복잡해짐
@@ -236,7 +238,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
 			};
 			reader.readAsDataURL(f);
-		}else if(blobReturn.constructor.name == 'Object'){
+		}else if(blobReturn instanceof Object){
 			element.src = atob(blobReturn.file);
 		}
 //		element.src = blobReturn;

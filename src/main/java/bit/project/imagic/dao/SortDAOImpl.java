@@ -20,4 +20,9 @@ public class SortDAOImpl implements SortDAO {
 		return sqlSession.selectList("sortFileList", file);
 	}
 
+	@Override
+	public int imgOrderInsert(FileVO file) throws Exception {
+		return sqlSession.update("imgOrderInsert", file);
+	}
+
 }

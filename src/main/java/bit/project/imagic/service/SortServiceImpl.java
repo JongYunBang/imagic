@@ -20,4 +20,9 @@ public class SortServiceImpl implements SortService {
 		return dao.fileList(file);
 	}
 
+	@Override
+	public int imgOrderInsert(FileVO file) throws Exception {
+		return dao.imgOrderInsert(file);
+	}
+
 }

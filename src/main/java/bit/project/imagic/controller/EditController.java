@@ -69,6 +69,7 @@ public class EditController {
 		return fileList;
 	}
 	
+	// 선택한 썸네일에 대한 원본 파일 다운
 	@RequestMapping(value="/fileDown", method=RequestMethod.POST)
 	public @ResponseBody String fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		File files = new File(path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName());
@@ -82,6 +83,7 @@ public class EditController {
 		return result;
 	}
 	
+	// 편집완료된 파일저장
 	@RequestMapping(value="/fileUpdate", method=RequestMethod.POST)
 	public @ResponseBody int fileUpdate(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

@@ -18,9 +18,9 @@
 		 where img_dir_num=#{dirNum}
 	</select>
 	
-	<!-- <update id="thumbnailUpload" parameterType="bit.project.imagic.vo.FileVO">
-		update image set img_thumb=#{imgThumb}
+	<update id="imgOrderInsert" parameterType="bit.project.imagic.vo.FileVO">
+		update image set img_order=#{imgOrder}
 		where img_num=#{imgNum}
-	</update> -->
+	</update>
 	
 </mapper>

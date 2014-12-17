@@ -66,9 +66,16 @@
     		<img id="img9" class="thumbnail">
     	</li>
     </span>
-    
-   
 </ul>
+
+<br/>
+
+<form id="sortResult" method="post" align="center" action="<%=request.getContextPath()%>/make"> 
+	<input type="button" value="다음">
+	<input type="hidden" name="m_id" id="m_id" value="">
+	<input type="hidden" name="dirNum" id="dirNum" value="">
+	<input type="hidden" name="dirName" id="dirName" value="">
+</form>
 
 </body>
 </html>

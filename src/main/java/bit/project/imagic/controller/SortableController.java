@@ -97,4 +97,12 @@ public class SortableController {
 		
 	}
 	
+	@RequestMapping(value="/sortImgOrder", method=RequestMethod.POST)
+	public @ResponseBody int sortImgOrder(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int result = sortService.imgOrderInsert(file);
+		
+		return result;
+		
+	}
+	
 }
