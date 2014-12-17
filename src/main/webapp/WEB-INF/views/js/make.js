@@ -1,7 +1,5 @@
 $(document).ready(function(){
-	 /* Drag'n drop stuff */
     var drag = document.getElementById("drag");
-    //var fbutton = document.getElementById("fbutton");
     var createvideo = document.getElementById("createvideo");
     var files = document.getElementById("filesinput");
 
@@ -58,11 +56,7 @@ $(document).ready(function(){
             //loop through them and process
             for(i=0; i<filesarr.length; i++) {
                 var file = filesarr[i];
-                //
                     process(file);
-                //} else {
-                //    document.getElementById('status').innerHTML = "This file does not seem to be a image.";
-               // }
             }
 
         } else {
@@ -70,14 +64,6 @@ $(document).ready(function(){
         }
 
     }, false);
-
-
-
-
-
-//    fbutton.addEventListener("click", function() {
-//        document.getElementById('filesinput').click();
-//    }, false);
 
     drag.ondragover = function(e) {e.preventDefault()}
     drag.ondrop = function(e) {
@@ -88,70 +74,60 @@ $(document).ready(function(){
 
     /* main process function */
     function process(file) {
-    	console.log(file);
 
-        //var reader = new FileReader();
-        //reader.onload = function(event) {
-            var dataUri = file;
-            var img = new Image();
+    	var dataUri = file;
+    	var img = new Image();
 
-            //load image and drop into canvas
-            img.onload = function() {
+    	//load image and drop into canvas
+    	img.onload = function() {
 
-                //a custom fade in and out slideshow
-                context.globalAlpha = 0.2;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                video.add(context);
-                context.clearRect(0,0,context.canvas.width,context.canvas.height);
-                context.globalAlpha = 0.4;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                video.add(context);
-                context.clearRect(0,0,context.canvas.width,context.canvas.height);
-                context.globalAlpha = 0.6;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                video.add(context);
-                context.clearRect(0,0,context.canvas.width,context.canvas.height);
-                context.globalAlpha = 0.8;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                video.add(context);
-                context.clearRect(0,0,context.canvas.width,context.canvas.height);
-                context.globalAlpha = 1;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		//a custom fade in and out slideshow
+    		context.globalAlpha = 0.2;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.4;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.6;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.8;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 1;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                //this should be a loop based on some user input
-                video.add(context);
-                video.add(context);
-                video.add(context);
-                video.add(context);
-                video.add(context);
-                video.add(context);
-                video.add(context);
+    		//this should be a loop based on some user input
+    		video.add(context);
+    		video.add(context);
+    		video.add(context);
+    		video.add(context);
+    		video.add(context);
+    		video.add(context);
+    		video.add(context);
 
-                context.clearRect(0,0,context.canvas.width,context.canvas.height);
-                context.globalAlpha = 0.8;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                video.add(context);
-                context.clearRect(0,0,context.canvas.width,context.canvas.height);
-                context.globalAlpha = 0.6;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                video.add(context);
-                context.clearRect(0,0,context.canvas.width,context.canvas.height);
-                context.globalAlpha = 0.4;
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.8;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.6;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.4;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
 
-                ctx++;
-                finalizeVideo();
-
-            };
-            img.src = dataUri;
-       // };
-
-        //reader.onerror = function(event) {
-            //console.error("File could not be read! Code " + event.target.error.code);
-        //};
-
-        //reader.readAsDataURL(file);
+    		ctx++;
+    		finalizeVideo();
+    	};
+    	
+    	img.src = dataUri;
 
     }
 

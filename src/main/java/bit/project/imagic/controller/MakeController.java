@@ -63,10 +63,11 @@ public class MakeController {
 	// 페이지 로딩후 ajax통해서 실제 파일리스트 다운로드 해주는곳
 	@RequestMapping(value="/makeFileList", method=RequestMethod.POST)
 	public @ResponseBody List<FileVO> makeFileList(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
 		List<FileVO> makeFileList = new ArrayList<FileVO>();
 		
 		makeFileList = makeService.makeFileList(file);
-		
+		// makeFileList에 들어있는 파일정보로 실제 저장된 파일 블러와서 base64로 변환해 FileVO 에 담는 과정
 		for(int i=0; i<makeFileList.size(); i++){
 
 			File files = new File(path+file.getM_id()+"/"+file.getDirName()+"/"+makeFileList.get(i).getImgName());
