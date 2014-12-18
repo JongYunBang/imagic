@@ -1,5 +1,7 @@
 package bit.project.imagic.util;
  
+// base64로 표현되어진 파일을 물리적파일 시스템의 파일에(서버상에 존재하는 파일에 덮어쓰기) 쓰기 위해 필요한 유틸
+
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>
  * <p>Homepage: <a href="http://iharder.net/base64">http://iharder.net/base64</a>.</p>

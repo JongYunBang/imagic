@@ -237,7 +237,8 @@ public class FileUploadController {
 			String genId = UUID.randomUUID().toString();
 			String fileName = itr.next();
 			mpf = request.getFile(fileName);
-
+			
+			// 각 파일에 대한 정보 가져와서 임시로 저장
 			try {
 				if((fileCount/2)>cnt) {
 					tempFile.setM_id(userID);
@@ -258,20 +259,17 @@ public class FileUploadController {
 			}
 
 		}
-
+		
+		// 저장했던 각 파일에 대한 정보를 DB에 등록
 		for (int i = 0;i < uploadList.size(); i++){
-//			uploadList.get(i).getM_id();	
-//			uploadList.get(i).getDirName();	
-//			uploadList.get(i).getImgName();	
-//			uploadList.get(i).getImgOriName();	
-//			uploadList.get(i).getImgLength();	
-//			uploadList.get(i).getImgThumb();
 			fileService.fileUpload(uploadList.get(i));
+			// image 테이블에서 해당파일에 대한 primary key인 이미지 넘버를 가져와 저장
 			uploadList.get(i).setImgNum(fileService.imgNumGet(uploadList.get(i)));
 		}
 		return uploadList;
 	}
-
+	
+	// 해당 유저가 선태한 폴더에 대한 파일 리스트 DB에서 가져 옴
 	@RequestMapping(value="/filelist", method=RequestMethod.POST)
 	public @ResponseBody List<FileVO> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -281,7 +279,8 @@ public class FileUploadController {
 		List<FileVO> filesList = fileService.fileList(file);
 		return filesList;
 	}
-
+	
+	// DB와 파일시스템에 저장되어있는 파일에 대해서 삭제 수행
 	@RequestMapping(value="/removeFile" , method=RequestMethod.POST)
 	public void removeFile (@RequestParam(value="m_id") String m_id, 
 			@RequestParam(value="dirName") String dirName, 
@@ -304,7 +303,9 @@ public class FileUploadController {
 			file.setImgNum(imgNum);
 
 			String retrunImgSaveName = fileService.isFile(file);
-			if (fileService.removeFile(file)==1) {   
+			// DB파일 정보 삭제
+			if (fileService.removeFile(file)==1) { 
+				// 파일시스템에서 파일 삭제
 				if (ImagicUtil.removeFile(path+m_id+"/"+file.getDirName()+"/"+retrunImgSaveName)){
 					pw.print("deleteFileSuccess");  // DB, FileSystem 동시에 삭제 성공
 					pw.flush();

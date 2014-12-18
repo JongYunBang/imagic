@@ -87,15 +87,6 @@ public class EditController {
 	@RequestMapping(value="/fileUpdate", method=RequestMethod.POST)
 	public @ResponseBody int fileUpdate(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//		System.out.println(file.getImgBase64());
-//		System.out.println(file.getDirName());
-//		System.out.println(file.getImgFormat());
-//		System.out.println(file.getImgName());
-//		System.out.println(file.getImgNum());
-//		System.out.println(file.getImgOriName());
-//		System.out.println(file.getM_id());
-//		System.out.println(file.getImgThumb());
-//		
 		// 넘어오는 base64파일 저장하기 위해서
 		try {
 			String savePath = path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
@@ -120,7 +111,5 @@ public class EditController {
         
         return 4;  // 파일저장및 썸네일 DB 저장 완료 
 	}
-	
-	
 
 }

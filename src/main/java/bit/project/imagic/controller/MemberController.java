@@ -27,12 +27,10 @@ public class MemberController {
 //	String path = "/Users/ProgrammingPearls/Documents/Upload/";
 	String path = "d:/down/upload/";
 	
-//	@Inject
-//	private FileUploadService fileService;
-	
 	@Inject
 	private MemberService service;
-
+	
+	// 회원 가입 처리
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
 	public String register(HttpServletRequest req, HttpServletResponse res, MemberVO member) throws Exception {
 				

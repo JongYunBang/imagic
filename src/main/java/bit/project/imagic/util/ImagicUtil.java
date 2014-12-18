@@ -22,38 +22,10 @@ public class ImagicUtil {
 		File currentDir = new File(userDirName, oldDirName);
 		File newDir = new File(userDirName, newDirName);
 		
-		// DB로 검사해버림
-		/*if(isDirName(userDir, newDirName)){
-			return false;
-		}*/
-		
-		//
 		if(!currentDir.renameTo(newDir)){
 			return false;	
 		}
 		return true;
-	}
-	
-	// 파일 삭제 메서드
-	public static boolean removeDir(String userDirName, String dirName) {
-		
-		File path = new File(userDirName, dirName);
-		
-		// 경로의 파일이 존재하지 않는다면 삭제 실패
-		if(!path.exists()){
-			return false;
-		}
-		// 파일 리스트를 가져온다.
-		File[] files = path.listFiles();
-		for(File file : files){
-			// 파일이 디렉토리라면 그 안에 또 파일이 있을 수 있으므로 recursive를 통해 다시 이 메서드를 실행한다.
-			if(file.isDirectory()){
-				removeDir(userDirName+dirName, file.getName());
-			}else{
-				file.delete();
-			}
-		}
-		return path.delete();
 	}
 	
 	// 디렉토리와 그안에 있는 파일까지 삭제
@@ -121,7 +93,7 @@ public class ImagicUtil {
 	}
 	
 
-	
+	// 파일을 byte 로 변환
 	public static byte[] loadFile(File files) throws IOException {
 	    InputStream is = new FileInputStream(files);
  
@@ -145,6 +117,7 @@ public class ImagicUtil {
 	    return bytes;
 	}
 	
+	// 이미지파일의 타입 체크
 	public static String getMediaType(String dirName) {
 		String res = null;
 		String type = dirName.substring(dirName.lastIndexOf(".")+1);

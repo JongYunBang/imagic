@@ -3,15 +3,13 @@ $(document).ready(function() {
 	var currentDir=null;
 	// 태그 생성 funtion
 	function createFolder(element, dirName){
-		// 삭제 요청 (열우) : 새롭게 구현 함
-//		element.innerHTML = dirName + 
-//		"<button id='"+ dirName + "' class='rename'>이름변경</button> " +
-//		"<button id='" + dirName + "' class='delete'>삭제</button>";
 
 		// 열우 2014. 12. 7 일 (01:28) : 폴더 클릭 시 파일 리스트를 가져오기 위해서 a 태그 추가
-		element.innerHTML = "<span id='" + dirName + "' class='folder'>" + dirName +   
+		element.innerHTML = "<span id='" + dirName + "' class='folder'><span class=\"foldername\">" + dirName + "</span>" +
+		"<span class=\"folderbutton\">" +
 		"<button id='"+ dirName + "' class='rename'>이름변경</button> " +
-		"<button id='" + dirName + "' class='delete'>삭제</button></span>";
+		"<button id='" + dirName + "' class='delete'>삭제</button></span>" +
+		"</span>";
 
 	}
 
