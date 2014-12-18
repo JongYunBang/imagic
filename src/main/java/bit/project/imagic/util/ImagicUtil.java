@@ -15,7 +15,8 @@ import bit.project.imagic.vo.MemberVO;
  *
  */
 public class ImagicUtil {
-
+//	public static String path = "/Users/ProgrammingPearls/Documents/Upload/";
+	public static String path = "d:/down/upload/";
 	
 	public static boolean renameDir(String userDirName, String oldDirName, String newDirName){
 		//File userDir = new File(userDirName);

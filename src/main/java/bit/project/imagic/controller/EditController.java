@@ -28,10 +28,6 @@ public class EditController {
 	@Inject
 	private EditService editService;
 	
-	// 파일 저장 기본 경로
-	//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
-	String path = "d:/down/upload/";
-
 	FileVO file;
 	
 	public EditController() {
@@ -72,7 +68,7 @@ public class EditController {
 	// 선택한 썸네일에 대한 원본 파일 다운
 	@RequestMapping(value="/fileDown", method=RequestMethod.POST)
 	public @ResponseBody String fileDown(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		File files = new File(path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName());
+		File files = new File(ImagicUtil.path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName());
 		byte[] bytes = ImagicUtil.loadFile(files);
 		byte[] encoded = org.apache.commons.codec.binary.Base64.encodeBase64(bytes);
 		
@@ -89,7 +85,7 @@ public class EditController {
 
 		// 넘어오는 base64파일 저장하기 위해서
 		try {
-			String savePath = path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
+			String savePath = ImagicUtil.path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
 			/* sourceforge에서 배포하는 Base64 클래스를 사용하면 가장 간단하게 디코딩과 이미지 파일에 저장을 동시에 처리한다*/
 			String base64Str = file.getImgBase64();
 			Base64.decodeToFile(base64Str, savePath);

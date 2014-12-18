@@ -29,9 +29,6 @@ public class MakeController {
 	MakeService makeService;
 	
 	// 파일 저장 기본 경로
-	//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
-	String path = "d:/down/upload/";
-	
 	FileVO file;
 	
 	public MakeController() {
@@ -70,7 +67,7 @@ public class MakeController {
 		// makeFileList에 들어있는 파일정보로 실제 저장된 파일 블러와서 base64로 변환해 FileVO 에 담는 과정
 		for(int i=0; i<makeFileList.size(); i++){
 
-			File files = new File(path+file.getM_id()+"/"+file.getDirName()+"/"+makeFileList.get(i).getImgName());
+			File files = new File(ImagicUtil.path+file.getM_id()+"/"+file.getDirName()+"/"+makeFileList.get(i).getImgName());
 			byte[] bytes = ImagicUtil.loadFile(files);
 			byte[] encoded = org.apache.commons.codec.binary.Base64.encodeBase64(bytes);
 

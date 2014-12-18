@@ -24,8 +24,6 @@ public class MemberController {
 	
 	MemberVO storedMember;
 	
-//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
-	String path = "d:/down/upload/";
 	
 	@Inject
 	private MemberService service;
@@ -83,7 +81,7 @@ public class MemberController {
 		String m_id=request.getParameter("m_id");
 		member.setM_id(m_id);
 		if(service.withdrawMember(member)==1) {  // db에서 파일 삭제
-			if (ImagicUtil.deleteDir(path+m_id)){  // 파일시스템에서 파일 삭제
+			if (ImagicUtil.deleteDir(ImagicUtil.path+m_id)){  // 파일시스템에서 파일 삭제
 				
 				session.setComplete();
 			}

@@ -31,10 +31,6 @@ public class SortableController {
 		file = new FileVO();
 	}
 	
-	// 파일 저장 기본 경로
-	//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
-	String path = "d:/down/upload/";
-	
 	// get방식으로 접속시
 	@RequestMapping(value="/sortable", method=RequestMethod.GET)
 	public String showIndexPage(HttpServletRequest request, HttpServletResponse response) {

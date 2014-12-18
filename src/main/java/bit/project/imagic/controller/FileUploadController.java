@@ -39,8 +39,6 @@ public class FileUploadController {
 
 	FileVO file;		
 	// 파일 저장 기본 경로
-	//	String path = "/Users/ProgrammingPearls/Documents/Upload/";
-	String path = "d:/down/upload/";
 	public FileUploadController() {
 		file = new FileVO();
 	}
@@ -48,8 +46,8 @@ public class FileUploadController {
 	//  폴더 생성 체크
 	public boolean makeDirCheck(String m_id , String dirName){
 		try {
-			File userDir = new File(path, m_id);
-			File userCreateDir = new File(path+ m_id, dirName);
+			File userDir = new File(ImagicUtil.path, m_id);
+			File userCreateDir = new File(ImagicUtil.path+ m_id, dirName);
 			// user id 와 같은 이름의 폴더 생성 체크
 			if (!userDir.exists()) {
 				userDir.mkdir();
@@ -154,7 +152,7 @@ public class FileUploadController {
 
 				if (fileService.renameDir(file) == 1) {  // DB에 이름 변경하면 1 반환
 					// ajax에게 값을 넘겨주기 위해서
-					boolean result = ImagicUtil.renameDir(path + m_id, oldDirName,
+					boolean result = ImagicUtil.renameDir(ImagicUtil.path + m_id, oldDirName,
 							newDirName);
 					pw.print(result);
 					pw.flush();
@@ -183,7 +181,7 @@ public class FileUploadController {
 
 			// DB에서 폴더명을 삭제하고 그에 해당하는 Image table 파일들을 삭제했다면
 			if (fileService.deleteDir(file)==1) {   
-				if (ImagicUtil.deleteDir(path+m_id+"/"+file.getDirName())){
+				if (ImagicUtil.deleteDir(ImagicUtil.path+m_id+"/"+file.getDirName())){
 					pw.print("deleteDirSuccess");  // DB, FileSystem 동시에 삭제 성공
 					pw.flush();
 				} else {
@@ -247,7 +245,7 @@ public class FileUploadController {
 					tempFile.setImgOriName(mpf.getOriginalFilename());
 					tempFile.setImgLength(mpf.getBytes().length);
 					tempFile.setImgFormat(ImagicUtil.getMediaType(mpf.getOriginalFilename()));
-					FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
+					FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(ImagicUtil.path + userID + "/" +member.getDirName()  +"/"+ genId +mpf.getOriginalFilename() ));
 					uploadList.add(tempFile);
 				} else {
 					uploadList.get(cnt-(fileCount/2)).setImgThumb(mpf.getBytes());
@@ -306,7 +304,7 @@ public class FileUploadController {
 			// DB파일 정보 삭제
 			if (fileService.removeFile(file)==1) { 
 				// 파일시스템에서 파일 삭제
-				if (ImagicUtil.removeFile(path+m_id+"/"+file.getDirName()+"/"+retrunImgSaveName)){
+				if (ImagicUtil.removeFile(ImagicUtil.path+m_id+"/"+file.getDirName()+"/"+retrunImgSaveName)){
 					pw.print("deleteFileSuccess");  // DB, FileSystem 동시에 삭제 성공
 					pw.flush();
 				} else {
