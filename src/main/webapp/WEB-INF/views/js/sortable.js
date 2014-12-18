@@ -84,20 +84,4 @@ $(document).ready(function() {
 		document.getElementById("sortResult").submit();
 	});
 
-//	$(document).on('click', 'sortResult',function(e) {
-//		// sort 된 페이지 상의 리스트를 구해옴
-//		var thumbnailList = $('.ui-state-default');
-//		// 구해온 리슨트의 imgNum 에 의해서 imgOrder를 DB에 정하고 결과값으로 도영상 제작
-//		for(var i=0; i<thumbnailList.length; i++){
-//			var imgNum = thumbnailList[i].childNodes[3].innerHTML;
-//			for(var j=0; j<fileList.length; j++){
-//				if(imgNum==fileList[i].imgNum) {
-//					fileList[j].imgOrder=i;
-//				}
-//			}
-//		}
-//		console.log(fileList);
-//
-//	});
-
 });

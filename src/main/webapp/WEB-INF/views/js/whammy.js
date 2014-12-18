@@ -1,3 +1,6 @@
+
+// 이미지를 동영상으로 만들어 주는 js
+
 /*
  var vid = new Whammy.Video();
  vid.add(canvas or data url)

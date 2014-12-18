@@ -223,30 +223,4 @@ $(document).ready(function() {
 	}); 
 	
 	
-	/*// 이미지 차례지정하는 페이지(sortable)로 가기
-	$(document).on('click', '#sortPage', function(e) {
-		
-		$.ajax({
-			type : "POST",
-			url : "/sortable",
-			cache : false,
-//			contentType: "text/plain",
-//			data : JSON.stringify(fileList),
-			data : {
-				"m_id" : fileList[0].m_id,
-				"imgNum" : fileList[0].dirNum
-			},
-			success : onSuccess,
-			error : onError
-		});
-		function onSuccess(data) {
-//			alert("get 갔다옴");
-		}
-		function onError(data) {
-			alert("오류발생");
-		}
-		
-	});
-*/
-	
 })
