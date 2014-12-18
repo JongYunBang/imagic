@@ -201,12 +201,12 @@ $(document).ready(function() {
 			if(data==4){
 				thumbnailSrc.src = thumbURL[0];		// dropzone에 썸네일 집어넣기 위해서
 				alert("파일 저장에 성공하였습니다")
-			} else if (data==3) {
+			} else /*if (data==3) {
 				alert("DB에 저장하다 에러");
 			} else if (data==2) {
 				alert("DB에 저장실패");
-			} else if (data==1) {
-				alert("파일시스템에 파일 저장하기 실패");
+			} else if (data==1)*/ {
+				alert("저장하기 실패 다시해주세요");
 			}
 		}
 		function onError(data) {

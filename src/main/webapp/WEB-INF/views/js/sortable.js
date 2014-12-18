@@ -31,8 +31,8 @@ $(document).ready(function() {
 			var imgNum=data[i].imgNum;
 			// 해당 img태그 안에 썸네일을 넣어주고
 			liList[i].childNodes[1].src=atob(data[i].imgThumb);
-			// 추가한 자식 노드에 
-			liList[i].childNodes[3].innerHTML=data[i].imgNum;
+			// 추가한 자식 노드에 imgNum 넣어주기
+			//liList[i].childNodes[3].innerHTML=data[i].imgNum;
 		}
 
 

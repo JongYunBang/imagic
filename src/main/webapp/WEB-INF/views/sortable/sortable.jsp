@@ -12,7 +12,7 @@
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="../js/sortable.js"></script>
 <style>
-    #sortable { list-style-type: decimal; margin: 0; padding: 0; width: 710px; }
+    #sortable { list-style-type: none; margin: 10px; padding: 0; width: 710px; }
     #sortable span { margin-left: 20px; float: left; width: 200px; height: 200px;}
     #sortable span li { margin: 10px 100px 20px 0; padding: 1px; float: left;
         width: 120px; height: 120px; background-size: 100% 120px;}

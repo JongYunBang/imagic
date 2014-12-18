@@ -48,7 +48,7 @@
 </head>
 <body>
 
-<span id="status">Select some images.</span><br><br>
+<span id="status">잠시만 기다려주세요</span><br><br>
 
 
 <div id="drag">

@@ -81,20 +81,25 @@ $(document).ready(function(){
     	//load image and drop into canvas
     	img.onload = function() {
 
-    		//a custom fade in and out slideshow
-    		context.globalAlpha = 0.2;
-    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
-    		video.add(context);
+    	
     		context.clearRect(0,0,context.canvas.width,context.canvas.height);
-    		context.globalAlpha = 0.4;
-    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
-    		video.add(context);
-    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
-    		context.globalAlpha = 0.6;
+    		context.globalAlpha = 0.75;
     		context.drawImage(img, 0, 0, canvas.width, canvas.height);
     		video.add(context);
     		context.clearRect(0,0,context.canvas.width,context.canvas.height);
     		context.globalAlpha = 0.8;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.85;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.9;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.95;
     		context.drawImage(img, 0, 0, canvas.width, canvas.height);
     		video.add(context);
     		context.clearRect(0,0,context.canvas.width,context.canvas.height);
@@ -102,26 +107,31 @@ $(document).ready(function(){
     		context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     		//this should be a loop based on some user input
-    		video.add(context);
-    		video.add(context);
-    		video.add(context);
-    		video.add(context);
-    		video.add(context);
-    		video.add(context);
-    		video.add(context);
-
-    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
-    		context.globalAlpha = 0.8;
+    		for (var i=0; i<50; i++) {
+        		video.add(context);
+    		}
+//    		
+    		context.globalAlpha = 0.95;
     		context.drawImage(img, 0, 0, canvas.width, canvas.height);
     		video.add(context);
     		context.clearRect(0,0,context.canvas.width,context.canvas.height);
-    		context.globalAlpha = 0.6;
+    		context.globalAlpha = 0.9;
     		context.drawImage(img, 0, 0, canvas.width, canvas.height);
     		video.add(context);
     		context.clearRect(0,0,context.canvas.width,context.canvas.height);
-    		context.globalAlpha = 0.4;
+    		context.globalAlpha = 0.85;
     		context.drawImage(img, 0, 0, canvas.width, canvas.height);
     		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.80;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		context.globalAlpha = 0.75;
+    		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    		video.add(context);
+    		context.clearRect(0,0,context.canvas.width,context.canvas.height);
+    		
 
     		ctx++;
     		finalizeVideo();
