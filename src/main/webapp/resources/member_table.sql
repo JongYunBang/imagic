@@ -1,10 +1,10 @@
-CREATE TABLE `dir` (
-  `dir_num` int(11) NOT NULL AUTO_INCREMENT,
-  `dir_m_id` varchar(45) NOT NULL,
-  `dir_name` varchar(45) NOT NULL,
-  PRIMARY KEY (`dir_num`),
-  UNIQUE KEY `dir_num_UNIQUE` (`dir_num`),
-  KEY `m_id_dir_m_id_idx` (`dir_m_id`),
-  CONSTRAINT `m_id_dir_m_id` FOREIGN KEY (`dir_m_id`) REFERENCES `member` (`m_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
-
+CREATE TABLE `member` (
+  `m_id` varchar(45) NOT NULL DEFAULT '',
+  `m_pw` char(41) NOT NULL,
+  `m_name` varchar(45) NOT NULL,
+  `m_email` varchar(100) NOT NULL,
+  `m_regDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`m_id`),
+  UNIQUE KEY `m_id_UNIQUE` (`m_id`),
+  UNIQUE KEY `m_email_UNIQUE` (`m_email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

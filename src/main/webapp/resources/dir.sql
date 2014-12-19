@@ -6,4 +6,4 @@ CREATE TABLE `dir` (
   UNIQUE KEY `dir_num_UNIQUE` (`dir_num`),
   KEY `m_id_dir_m_id_idx` (`dir_m_id`),
   CONSTRAINT `m_id_dir_m_id` FOREIGN KEY (`dir_m_id`) REFERENCES `member` (`m_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8;
