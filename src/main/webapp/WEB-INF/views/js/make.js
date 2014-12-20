@@ -52,13 +52,13 @@ $(document).ready(function(){
 
         //if we have images loaded
         if(filesarr.length>0){
-
+//
             //loop through them and process
             for(i=0; i<filesarr.length; i++) {
                 var file = filesarr[i];
                     process(file);
             }
-
+//
         } else {
             document.getElementById('status').innerHTML = "Please select some images.";
         }
@@ -107,7 +107,7 @@ $(document).ready(function(){
     		context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
     		//this should be a loop based on some user input
-    		for (var i=0; i<50; i++) {
+    		for (var i=0; i<30; i++) {
         		video.add(context);
     		}
 //    		

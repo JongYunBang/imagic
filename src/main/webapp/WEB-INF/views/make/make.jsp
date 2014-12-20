@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <head>
  <title>Imagic MakeMovie</title>
-<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script src="../js/jquery2.1.1.js"></script>
 <script src="../js/whammy.js"></script>
 <script src="../js/make.js"></script>
 

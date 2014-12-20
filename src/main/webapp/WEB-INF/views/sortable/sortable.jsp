@@ -7,9 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <head>
 <title>Imagic 사진순서 정하기</title>
-<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="../js/jquery2.1.1.js"></script>
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<script src="../js/jquery-ui.js"></script>
 <script src="../js/sortable.js"></script>
 <style>
     #sortable { list-style-type: none; margin: 10px; padding: 0; width: 710px; }

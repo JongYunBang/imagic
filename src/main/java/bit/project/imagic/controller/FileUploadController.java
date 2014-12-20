@@ -214,9 +214,11 @@ public class FileUploadController {
 		} catch (NullPointerException e) {
 			response.sendRedirect("/");
 		}
+		
 
 		Iterator<String> itr = request.getFileNames();
 		String userID=member.getM_id();
+		System.out.println("유저아이디"+userID);
 		int fileCount = request.getFileMap().size();
 
 		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)

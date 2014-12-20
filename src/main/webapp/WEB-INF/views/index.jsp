@@ -13,7 +13,7 @@
 
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script src="../js/jquery2.1.1.js"></script>
 
 <script type="text/javascript">
 
@@ -85,14 +85,7 @@
 	<br />NAME :  ${member.m_name}
 	<br />E-MAIL: ${member.m_email}
 	<br />STATE :
-				<c:choose>
-					<c:when test="${empty member.m_id}">
-						로그인되지 않았습니다. 로그인 해주세요!	
-					</c:when>
-					<c:otherwise>
-						${member.m_id} 로그인 중.....
-					</c:otherwise>
-				</c:choose> 
+				
 	
 	<!-- 로그인 -->
 	<form id="login_form" method="post"

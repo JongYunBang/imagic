@@ -5,12 +5,9 @@ $(document).ready(function() {
 	function createFolder(element, dirName){
 
 		// 열우 2014. 12. 7 일 (01:28) : 폴더 클릭 시 파일 리스트를 가져오기 위해서 a 태그 추가
-		element.innerHTML = "<span id='" + dirName + "' class='folder'><span class=\"foldername\">" + dirName + "</span>" +
-		"<span class=\"folderbutton\">" +
+		element.innerHTML = "<span id='" + dirName + "' class='folder'>" + dirName + 
 		"<button id='"+ dirName + "' class='rename'>이름변경</button> " +
-		"<button id='" + dirName + "' class='delete'>삭제</button></span>" +
-		"</span>";
-
+		"<button id='" + dirName + "' class='delete'>삭제</button></span>";
 	}
 
 	// 폴더명 고치는 function
