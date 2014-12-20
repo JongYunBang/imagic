@@ -359,22 +359,24 @@ $(document).ready(function() {
 						document.body.appendChild(img);
 						console.log("renderer");
 						// base64형태의 앞부분 제거
-						imgData = imgData.replace(/^data:image\/(png|jpg);base64,/, "");
+						imgData = imgData.replace(/^data:image\/(png|jpeg);base64,/, "");
 						// 캔버스로 이미지 그린다(원본 파일을 썸네일로 바꾸기 위해)
 						ctx.drawImage(img, 0, 0, 100, 100);
-		
 						// 캔버스에 올려진 썸네일 이미지를 dataURL형태로 변환
 						dataURL = canvas.toDataURL('image/*');
-						// dataURL을 blob 형태로 저장하기 위한 배열 
-						var thumbURL = [];
-						thumbURL[0] = dataURL;
-						// Blob 안에는 파일과 배열만이 들어갈수 있다 
-						var imgThumb = new Blob(thumbURL, { 'type': 'image/png' });
-						
 						// 변경된 썸네일을 파일리스트에 저장하기 위해서
 						currentFile.imgThumb=dataURL;
-						var imgBase64 = imgData;
-						//console.log(imgBase64);
+						
+						
+						// 원본 이미지를 blob 형태로 저장하기 위한 배열 
+						var sourceURL = [];
+						sourceURL[0] = imgData;
+						// Blob 안에는 파일과 배열만이 들어갈수 있다 
+						var imgSource = new Blob(sourceURL, { 'type': 'image/png' });
+						
+						var formData = new FormData();
+						formData.append("imgBase64", imgSource);
+						
 						$.ajax({
 							type : "POST",
 							url : "/fileUpdate",
@@ -386,8 +388,7 @@ $(document).ready(function() {
 								"imgOrinName" : currentFile.imgOriName,
 								"imgNum" : currentFile.imgNum,
 								"imgFormat" : currentFile.imgFormat,
-								"imgThumb" : dataURL,
-								"imgBase64" : imgBase64
+								"imgThumb" : dataURL
 							},
 							success : onSuccess,
 							error : onError
@@ -400,24 +401,40 @@ $(document).ready(function() {
 						 * return 3 : DB에 저장하다 에러
 						 * return 4 : 파일저장및 썸네일 DB 저장 완료
 						 */
-		
+					
 						function onSuccess(data) {
 							if(data==4){
-								thumbnailSrc.src = thumbURL[0];		// dropzone에 썸네일 집어넣기 위해서
-								alert("파일 저장에 성공하였습니다")
-							} else if (data==3) {
-								alert("DB에 저장하다 에러");
-							} else if (data==2) {
-								alert("DB에 저장실패");
-							} else if (data==1) {
-								alert("저장하기 실패 다시해주세요");
+								var xhr = new XMLHttpRequest();
+								var dzURL = "/imgFile";
+								xhr.open("POST", dzURL, true);
+						
+								// 12.11 19:45 - Ajax응답
+								xhr.onload = function(e) {
+									var data;
+									// 12.11 19:45 - 응답 완료 - 4
+									if (xhr.readyState == 4) {
+										if (status == 200) {
+											data = xhr.response;
+											if (data==4) { 
+												alert("파일 저장 성공!");
+											}
+										} else {
+											alert("받아오기실패");
+										}
+									}
+								};
+						
+								xhr.onerror = function(e) {
+									alert("Error : " + e.target.status);
+								};
+								xhr.send(formData);
 							}
 						}
 						function onError(data) {
 							alert("파일 저장 실패하였습니다");
 						}
 					};
-					img.src= imgData; // img에 원본파일 blob 형태의 데이터 전달
+					img.src= imgData; 
 			});
 		});
 	});
