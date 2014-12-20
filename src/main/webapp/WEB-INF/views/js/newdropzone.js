@@ -9,6 +9,7 @@ var method = "POST";
 var dzURL;
 var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"/>";
 
+
 // utility : elementbyId를 편하게 가져오기 위한 utility함수
 	var get = function(id) {
 		return document.getElementById(id);
@@ -181,7 +182,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			}
 			
 			// 12.11 19:45 - 생성되는 preview에 썸네일을 추가 시켜준다.
-			dropzone.createThumbnail(f, thumbnail, i); //
+			dropzone.createThumbnail(f, thumbnail, hasFiles - files.length + i); //
 		}
 	}
 	
@@ -315,11 +316,13 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			
 			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
 			
+			console.log(output);
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
 				formData.append("blob-" + blob.fileNum, blob.data);
-				console.log(blob.fileNum);
 			});
+			
+			console.log(outputBlob);
 			
 			// 12.11 19:45 - XHR 
 			xhr.open(method, dzURL, true);

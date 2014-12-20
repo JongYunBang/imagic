@@ -251,10 +251,10 @@ body {
 				<br />
 				<form id="sortable" method="post"
 					action="<%=request.getContextPath()%>/sortable">
-					<input type="button" value="사진순서 정하기"> <input type="hidden"
-						name="m_id" id="m_id" value=""> <input type="hidden"
-						name="dirNum" id="dirNum" value=""> <input type="hidden"
-						name="dirName" id="dirName" value="">
+					<input type="button" value="사진순서 정하기"> 
+					<input type="hidden" name="m_id" id="m_id" value=""> 
+					<input type="hidden" name="dirNum" id="dirNum" value=""> 
+					<input type="hidden" name="dirName" id="dirName" value="">
 				</form>
 				</div>
 			</div>
