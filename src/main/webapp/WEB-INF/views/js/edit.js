@@ -426,7 +426,8 @@ $(document).ready(function() {
 								"imgOrinName" : currentFile.imgOriName,
 								"imgNum" : currentFile.imgNum,
 								"imgFormat" : currentFile.imgFormat,
-								"imgThumb" : dataURL
+								"imgThumb" : dataURL,
+								"imgData" : imgSource
 							},
 							success : onSuccess,
 							error : onError

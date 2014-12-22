@@ -2,7 +2,9 @@ package bit.project.imagic.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,15 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import bit.project.imagic.service.EditService;
+import bit.project.imagic.util.Base64;
 import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
 
@@ -116,22 +121,22 @@ public class EditController {
 			//		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
 			//			 envMobile = true;
 			//		 }
-//			Iterator<String> itr = request.getFileNames();
-//			int fileCount = request.getFileMap().size();
-//			System.out.println("fileCount : " + fileCount);
-//			
-//			System.out.println(file.getDirName());
-//
-//			MultipartFile mpf = null;
-//			while (itr.hasNext()){
-//				String fileName = itr.next();
-//				mpf = request.getFile(fileName);
-//			}
-//			byte[] base64byte = Base64.decode(mpf.getBytes());
-//			
-//			String base64Str = new String(mpf.getBytes());
-//			String savePath = ImagicUtil.path + file.getM_id() + "/" +file.getDirName()  +"/"+ file.getImgName();
-//			FileCopyUtils.copy(base64byte, new FileOutputStream(savePath));
+			Iterator<String> itr = request.getFileNames();
+			int fileCount = request.getFileMap().size();
+			System.out.println("fileCount : " + fileCount);
+			
+			System.out.println(file.getDirName());
+
+			MultipartFile mpf = null;
+			while (itr.hasNext()){
+				String fileName = itr.next();
+				mpf = request.getFile(fileName);
+			}
+			byte[] base64byte = Base64.decode(mpf.getBytes());
+			
+			String base64Str = new String(mpf.getBytes());
+			String savePath = ImagicUtil.path + file.getM_id() + "/" +file.getDirName()  +"/"+ file.getImgName();
+			FileCopyUtils.copy(base64byte, new FileOutputStream(savePath));
 			
 			return 4;  // 파일저장및 썸네일 DB 저장 완료
 		}
