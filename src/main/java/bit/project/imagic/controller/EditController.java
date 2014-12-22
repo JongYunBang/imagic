@@ -82,14 +82,10 @@ public class EditController {
 		@RequestMapping(value="/fileUpdate", method=RequestMethod.POST)
 		public @ResponseBody int fileUpdate(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
 			//FileVO file = new FileVO();
-			file.getDirName();
-			file.getImgName();
-			file.getM_id();
-			file.getDirName();
-			
+			String savePath = null;
 			// 넘어오는 base64파일 저장하기 위해서
 			try {
-				String savePath = ImagicUtil.path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
+				savePath = ImagicUtil.path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
 				/* sourceforge에서 배포하는 Base64 클래스를 사용하면 가장 간단하게 디코딩과 이미지 파일에 저장을 동시에 처리한다*/
 //				String base64Str = file.getImgBase64();
 //				Base64.decodeToFile(base64Str, savePath);
@@ -122,22 +118,28 @@ public class EditController {
 			//			 envMobile = true;
 			//		 }
 			Iterator<String> itr = request.getFileNames();
-			int fileCount = request.getFileMap().size();
-			System.out.println("fileCount : " + fileCount);
-			
-			System.out.println(file.getDirName());
-
+			int cnt = 0;
 			MultipartFile mpf = null;
-			while (itr.hasNext()){
+			MultipartFile pathFile = null;
+			while(itr.hasNext()) {
+				cnt++;
 				String fileName = itr.next();
-				mpf = request.getFile(fileName);
+				if(cnt==1) {
+					mpf = request.getFile(fileName);
+				}else{
+					pathFile = request.getFile(fileName);
+				}
 			}
+//			int fileCount = request.getFileMap().size();
+//			System.out.println("fileCount : " + fileCount);
 			byte[] base64byte = Base64.decode(mpf.getBytes());
 			
-			String base64Str = new String(mpf.getBytes());
-			String savePath = ImagicUtil.path + file.getM_id() + "/" +file.getDirName()  +"/"+ file.getImgName();
+//			String base64Str = new String(mpf.getBytes());
+			String path = new String(pathFile.getBytes());
+			String savePath = ImagicUtil.path + path;
+			System.out.println(savePath);
 			FileCopyUtils.copy(base64byte, new FileOutputStream(savePath));
-			
+//			
 			return 4;  // 파일저장및 썸네일 DB 저장 완료
 		}
 

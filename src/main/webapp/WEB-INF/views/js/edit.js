@@ -409,25 +409,28 @@ $(document).ready(function() {
 						// 원본 이미지를 blob 형태로 저장하기 위한 배열 
 						var sourceURL = [];
 						sourceURL[0] = imgData;
-						// Blob 안에는 파일과 배열만이 들어갈수 있다 
+						// Blob 안에는 파일과 배열만이 들어갈수 있다.
 						var imgSource = new Blob(sourceURL, { 'type': 'image/png' });
 						
+						var filePath = [currentFile.m_id + "/" + currentFile.dirName + "/" + currentFile.imgName];
+						var pathSource = new Blob(filePath, { 'type': 'text/*' });
+							
+						console.log(filePath);
 						var formData = new FormData();
 						formData.append("imgBase64", imgSource);
+						formData.append("filePath", pathSource);
 						
 						$.ajax({
 							type : "POST",
 							url : "/fileUpdate",
-							cache : false,
 							data : {
 								"m_id" : currentFile.m_id,
 								"dirName" : currentFile.dirName,
 								"imgName" : currentFile.imgName,
-								"imgOrinName" : currentFile.imgOriName,
+								"imgOriName" : currentFile.imgOriName,
 								"imgNum" : currentFile.imgNum,
 								"imgFormat" : currentFile.imgFormat,
-								"imgThumb" : dataURL,
-								"imgData" : imgSource
+								"imgThumb" : dataURL
 							},
 							success : onSuccess,
 							error : onError
@@ -442,11 +445,12 @@ $(document).ready(function() {
 						 */
 					
 						function onSuccess(data) {
+							console.log(data);
 							if(data==4){
 								var xhr = new XMLHttpRequest();
 								var dzURL = "/imgFile";
 								xhr.open("POST", dzURL, true);
-						
+
 								// 12.11 19:45 - Ajax응답
 								xhr.onload = function(e) {
 									var data;
@@ -454,10 +458,13 @@ $(document).ready(function() {
 									if (xhr.readyState == 4) {
 										data = xhr.response;
 										console.log("data : " + data);
-//										imgLoad();
+										if (data == 4){
+											alert("파일을 정상적으로 저장했습니다.");
+											thumbnailSrc.src = dataURL;
+										}
 									}
 								};
-						
+
 								xhr.onerror = function(e) {
 									alert("Error : " + e.target.status);
 								};
