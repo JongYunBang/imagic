@@ -28,6 +28,14 @@ $(document).ready(function() {
     var activePreset = null		// 최종적으로 적용한 preset을 의미
     var imageLoading = false;
     
+    
+    // redo, undo
+    
+    var cPushArray = new Array();   // redo, undo 저장 array
+    var cStep = 0;
+    
+    imgLoad();
+    
     // Filter에 이벤트 적용
     for (var i = 0; i < filterSetting.length; i++) {
         var inputBtn = filterSetting[i].querySelector("input");
@@ -82,78 +90,105 @@ $(document).ready(function() {
         if(type.name =="filter"){
         	// filterList에 필터 값을 넣어준다. ("brightness : 66")
         		filterList[type.filterName] = type.filterValue;	
+        }else if(type.name=="preset") {
+    			activePreset = type.presetName;
         }
         
         logicCtx.putImageData(copyImage, 0, 0);
         // 논리 canvas에 값을 적용한다.
         Caman(logicCanvas, function () {
             console.log("render Start");
+    	
             logicCanvas.id = canvas_name;
-            if(type.name == "filter"){
-            	var attrs = Object.keys(filterList);
-                for (var i = 0; i < attrs.length; i++) {
-                    if (parseInt(filterList[attrs[i]]) != 0) {
-                        this[attrs[i]](parseInt(filterList[attrs[i]]));
-                    }
-                };	
-            }else if (type.name=="preset") {
-            		this[type.presetName]();
+            if (activePreset != null) {
+            		this[activePreset]();
             }
-            this.render();
-            console.log("render End");
+            var attrs = Object.keys(filterList);
+            for (var i = 0; i < attrs.length; i++) {
+                if (parseInt(filterList[attrs[i]]) != 0) {
+                    this[attrs[i]](parseInt(filterList[attrs[i]]));
+                }
+            };	
+    			inputDisable();
+            this.render(function() {
+            		console.log("render End");
+            		cPush(this.canvas, type);
+            		inputEnable();
+			});
         });
-        console.log("replace");
         
         // 렌더링하는 시간이 있기 때문에 replace를 지연해준다.
         var b = function () {
+        console.log("replace");
         	drawzoneElement.replaceChild(logicCanvas, document.getElementById(canvas_name));
 	        	if(element) {
 	        		element.innerHTML = type.text;
-	        		activePreset = type.presetName;
 	        	}
         };
         setTimeout(b, 800);
     }
 	
-	// 서버에서 파일 리스트 받아오기 위한 ajax
-	$.ajax({
-		type : "POST",
-		url : "/imgLoad",
-		cache : false,
-		data : {
-			
-		},
-		success : onSuccess,
-		error : onError
-	});
-	function onSuccess(data) {
-		fileList = data;
-		var imgThumbArray =[];   // 썸네일 저장용
-		for (var i=0; i<data.length; i++) {
-			var id = data[i].m_id;
-			var dirName = data[i].dirName;
-			var imgOriName = data[i].imgOriName;
-			var imgLength=data[i].imgLength;
-			var file = data[i].imgThumb;
-			var imgNum=data[i].imgNum;
-			imgThumbArray[i] = {
-					"file" : file,
-					"name" : imgOriName,
-					"size" : imgLength,
-					"imgNum" : imgNum
+    function imgLoad() {
+		// 서버에서 파일 리스트 받아오기 위한 ajax
+		$.ajax({
+			type : "POST",
+			url : "/imgLoad",
+			cache : false,
+			data : {
+				"m_id" : $('#sessionID').val(),
+				"dirName" : $('#sessionDirName').val()
+			},
+			success : onSuccess,
+			error : onError
+		});
+		function onSuccess(data) {
+			inputDisable();
+			fileList = data;
+			var imgThumbArray =[];   // 썸네일 저장용
+			for (var i=0; i<data.length; i++) {
+				var id = data[i].m_id;
+				var dirName = data[i].dirName;
+				var imgOriName = data[i].imgOriName;
+				var imgLength=data[i].imgLength;
+				var file = data[i].imgThumb;
+				var imgNum=data[i].imgNum;
+				imgThumbArray[i] = {
+						"file" : file,
+						"name" : imgOriName,
+						"size" : imgLength,
+						"imgNum" : imgNum
+				}
 			}
+			// thumbNail에게 썸네일 배열을 넘김
+			thumbNail.createFileElement(imgThumbArray);
+			
 		}
-		// thumbNail에게 썸네일 배열을 넘김
-		thumbNail.createFileElement(imgThumbArray);
-		
+		function onError(data) {
+			alert("이미지 불러오기 실패");
+		}
+    }
+    
+    
+	//랜더링 중에는 모두 Disable한다.
+	function inputDisable() {
+		// filterSetting 모든 range값 0으로 초기화
+		for (var i = 0; i < filterSetting.length; i++) {
+              var inputBtn = filterSetting[i].querySelector("input");
+              	inputBtn.disabled = true;
+		}
 	}
-	function onError(data) {
-		alert("이미지 불러오기 실패");
+	
+	//렌더링 후에는 다시 활성화한다.
+	function inputEnable() {
+		// filterSetting 모든 range값 0으로 초기화
+		for (var i = 0; i < filterSetting.length; i++) {
+              var inputBtn = filterSetting[i].querySelector("input");
+              	inputBtn.disabled = false;
+		}
 	}
 	
 	
 	function editReset() {
-		
 		// filterList 및 preset 초기화
 		filterList = {};
 		activePreset = null;
@@ -302,10 +337,14 @@ $(document).ready(function() {
                 copyImage = initCtx.getImageData(0, 0, initWidth, initHeight);
                 imageLoading = true;
                 sourceImage = image;
+                cPushArray.length = 0;
+                cStep = 0;
+                cPush(initCanvas);
 			};
 			
 			// tools 및 array 및 filterList 초기화 해주기
 			editReset();
+			inputEnable();
 		}
 		function onError(data) {
 			alert("파일 받아오기 실패 다시 클릭해주세요");
@@ -324,9 +363,9 @@ $(document).ready(function() {
 		// sourceImage를 새로운 논리 Canvas로 불러와서 적용된 preset과 fileter을 적용한다.
 		var sourceCanvas = document.createElement('canvas');
 		var sourceCtx = sourceCanvas.getContext('2d');
-		console.log("#saveCanvas");
-		console.log(sourceImage.width);
-		console.log(sourceImage.height);
+//		console.log("#saveCanvas");
+//		console.log(sourceImage.width);
+//		console.log(sourceImage.height);
 		sourceCanvas.width = sourceImage.width;
 		sourceCanvas.height = sourceImage.height;
 		sourceCtx.drawImage(sourceImage, 0, 0, sourceImage.width, sourceImage.height);
@@ -357,7 +396,7 @@ $(document).ready(function() {
 				var img = new Image();
 				img.onload = function() {
 						document.body.appendChild(img);
-						console.log("renderer");
+//						console.log("source");
 						// base64형태의 앞부분 제거
 						imgData = imgData.replace(/^data:image\/(png|jpeg);base64,/, "");
 						// 캔버스로 이미지 그린다(원본 파일을 썸네일로 바꾸기 위해)
@@ -366,7 +405,6 @@ $(document).ready(function() {
 						dataURL = canvas.toDataURL('image/*');
 						// 변경된 썸네일을 파일리스트에 저장하기 위해서
 						currentFile.imgThumb=dataURL;
-						
 						
 						// 원본 이미지를 blob 형태로 저장하기 위한 배열 
 						var sourceURL = [];
@@ -413,14 +451,9 @@ $(document).ready(function() {
 									var data;
 									// 12.11 19:45 - 응답 완료 - 4
 									if (xhr.readyState == 4) {
-										if (status == 200) {
-											data = xhr.response;
-											if (data==4) { 
-												alert("파일 저장 성공!");
-											}
-										} else {
-											alert("받아오기실패");
-										}
+										data = xhr.response;
+										console.log("data : " + data);
+//										imgLoad();
 									}
 								};
 						
@@ -438,6 +471,178 @@ $(document).ready(function() {
 			});
 		});
 	});
+	
+	
+	
+	function resetVariable() {
+		cStep = 1;
+		editReset();
+		filterList = {};
+		activePreset = null;
+		btnAble();
+	}
+	
+	function cPush(canvas, type) {
+		// push를 했을 때는 현재 Step만큼만 데이터가 존재한다.(가장 끝인 상태이기 때문)
+		cPushArray.length = cStep;
+		cStep++;
+		// 초기 사진임을 알린다.
+		if(!type){
+			type="init";
+		}
+		
+		cPushArray.push({
+			type : type,
+			dataURL : canvas.toDataURL()
+		});
+		
+		console.log(cPushArray);
+		btnAble();
+	}
+	
+	
+	$("#clear").on("click", function() {
+		
+		
+		var canvasPic = new Image();
+		canvasPic.src = cPushArray[0].dataURL;
+		canvasPic.onload = function() {
+			// 이미지를 불러와서 대체시키고
+			document.getElementById('draw').getContext('2d').drawImage(canvasPic, 0, 0);
+			resetVariable();
+		};
+		cPushArray.length = 1;
+	});
+	
+	$('#undo').on('click', function() {
+		cUndo();
+	});
+	
+	$('#redo').on('click', function() {
+		cRedo();
+	});
+	
+	function cRedo() {
+		var currentType = cPushArray[cStep].type.name;
+		if(currentType == "filter") {
+			var dataFilter = "[data-filter=" + cPushArray[cStep].type.filterName + "]";
+			console.log("filter Value : " + cPushArray[cStep].type.filterValue);
+			$(dataFilter)[0].value = cPushArray[cStep].type.filterValue;
+			$(dataFilter)[0].nextElementSibling.innerHTML = cPushArray[cStep].type.filterValue;
+			filterList[cPushArray[cStep].type.filterName] = cPushArray[cStep].type.filterValue;
+		}else if(currentType == "preset") {
+			editReset();
+			filterList = {};
+			activePreset = cPushArray[cStep].type.presetName;
+		}
+		console.log("activePreset : " + activePreset);
+		console.log("filterList");
+		console.log(filterList);
+		var canvasPic = new Image();
+		canvasPic.src = cPushArray[cStep].dataURL;
+		canvasPic.onload = function() {
+			// 이미지를 불러와서 대체시키고
+			document.getElementById('draw').getContext('2d').drawImage(canvasPic, 0, 0);
+			btnAble();
+		};
+		cStep++;
+	}
+	function cUndo() {
+		cStep--;
+		// 현재와 복원할 필터 및 프리셋 이름과 값을 저장해준다.
+		var currentType = cPushArray[cStep].type.name;
+		var currentName = cPushArray[cStep].type.filterName;
+		var currentValue = cPushArray[cStep].type.filterValue;
+		var currentPreset = cPushArray[cStep].type.presetName;
+		
+		var previousType = cPushArray[cStep-1].type.name;
+		var previousName = cPushArray[cStep-1].type.filterName;
+		var previousValue = cPushArray[cStep-1].type.filterValue;
+		var previousPreset =  cPushArray[cStep-1].type.presetName;
+		
+		// 현재 상태에 대한 초기화가 필요하다.
+		if(currentType == "filter") {
+			filterList = {};
+		}else if(currentType == "preset") {
+			activePreset = null;
+		}
+		editReset();
+		
+		// 복원할 Array가 preset이라면
+		if (previousType == "preset"){
+			// 필터를 다 지우고
+			filterList = {};
+			// activePreset에 복원할 presetValue값을 넣어준다.
+			activePreset = previousPreset;
+	    // 복원할 Array가 필터라면
+		}else if(previousType == "filter"){
+			// type이 init이나 preset인 지점까지의 필터를 다 적용시켜야한다.
+			
+			// 이 부분은 init이나 Preset인 지점까지의 깊이를 알아낸다.
+			var minusStep = 1;
+			while(cPushArray[cStep-minusStep].type !="init" && cPushArray[cStep-minusStep].type.name !="preset") {
+				minusStep++;
+			}
+
+//			console.log("cStep = " + cStep);
+//			console.log("minusStep = " + minusStep);
+			
+			// cStep-minusStep은 init이나 preset을 찾은 위치이다. 거기에 +1을 더하면 init이나 preset의 바로 전이라고 생각하면 된다.
+			// 거기서부터 현재 step의 전까지니까
+			// preset이나 init이 아닌 중간 사이 지점을 말한다.
+			// 그 사이에서 적용된 최종값들을 화면에 표시해준다.
+			for(var i= cStep- minusStep +1; i<cStep; i++) {
+//				console.log("i = " + i);
+				var dataFilter = "[data-filter=" + cPushArray[i].type.filterName + "]";
+//				console.log(dataFilter);				
+//				console.log(cPushArray);				
+				$(dataFilter)[0].value = cPushArray[i].type.filterValue;
+				$(dataFilter)[0].nextElementSibling.innerHTML = cPushArray[i].type.filterValue;
+				filterList[dataFilter] = cPushArray[i].type.filterValue;
+			}
+		}
+		// 이 작업을 해야하는 이유는 이 상태에서 save를 누르면 그 전에 적용된 내용도 적용이 되어야하기 때문이다.
+//		console.log("activePreset : " + activePreset);
+//		console.log("filterList");
+//		console.log(filterList);
+		
+		var canvasPic = new Image();
+		canvasPic.src = cPushArray[cStep-1].dataURL;
+		canvasPic.onload = function() {
+			// 이미지를 불러와서 대체시키고
+			document.getElementById('draw').getContext('2d').drawImage(canvasPic, 0, 0);
+			btnAble();
+		};
+		
+	}
+	
+	function btnAble(){
+		var clearBtn = document.getElementById("clear");
+		var undoBtn = document.getElementById("undo");
+		var redoBtn = document.getElementById("redo");
+		var saveCanvas = document.getElementById("saveCanvas");
+		console.log(cStep);
+		console.log(cPushArray.length);
+		clearBtn.disabled = false;
+        saveCanvas.disabled = false;
+	    if ((cStep == 1 && cPushArray.length == 1) || cStep ==0 || cPushArray.length==0) {
+	    		clearBtn.disabled = true;
+            undoBtn.disabled = true;
+            redoBtn.disabled = true;
+            saveCanvas.disabled = true;
+		}else if(cStep == cPushArray.length){
+			undoBtn.disabled = false;
+            redoBtn.disabled = true;
+		}else if(cStep == 1 && cPushArray.length > cStep) {
+//			clearBtn.disabled = true;
+			undoBtn.disabled = true;
+            redoBtn.disabled = false;
+		}else if(cStep < cPushArray.length) {
+			undoBtn.disabled = false;
+            redoBtn.disabled = false;
+		}
+	    
+	}
 	
 	// 이미지 차례지정하는 페이지(sortable)로 가기
 	$('#sortable').click(function(){

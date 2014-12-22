@@ -19,6 +19,9 @@
 </style>
 </head>
 <body>
+<input type="hidden" id="sessionID" value="${file.m_id}">
+<input type="hidden" id="sessionDirName" value="${file.dirName}">
+<input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 
 <ul id="sortable">
     <span>
@@ -72,9 +75,9 @@
 
 <form id="sortResult" method="post" align="center" action="<%=request.getContextPath()%>/make"> 
 	<input type="button" value="다음">
-	<input type="hidden" name="m_id" id="m_id" value="">
-	<input type="hidden" name="dirNum" id="dirNum" value="">
-	<input type="hidden" name="dirName" id="dirName" value="">
+	<input type="hidden" name="m_id" id="m_id" value="${file.m_id}">
+	<input type="hidden" name="dirName" id="dirName" value="${file.dirName}">
+	<input type="hidden" name="dirNum" id="dirNum" value="${file.dirNum}">
 </form>
 
 </body>

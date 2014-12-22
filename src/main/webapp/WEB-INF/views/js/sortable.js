@@ -6,13 +6,15 @@ $(document).ready(function() {
 	// 썸네일 움직일수 있게 해주는
 	$( "#sortable" ).sortable();
 	$( "#sortable" ).disableSelection();
-
+	
 	$.ajax({
 		type : "POST",
 		url : "/sortThumbLoad",
 		cache : false,
 		data : {
-
+			m_id : $('#sessionID').val(),
+			dirName : $('#sessionDirName').val(),
+			dirNum : $('#sessionDirNum').val()
 		},
 		success : onSuccess,
 		error : onError
@@ -54,7 +56,6 @@ $(document).ready(function() {
 					$.ajax({
 						type : "POST",
 						url : "/sortImgOrder",
-						cache : false,
 						async : false,
 						data : {
 							"imgNum" : fileList[j].imgNum,
@@ -66,7 +67,7 @@ $(document).ready(function() {
 					function onSuccess(data) {
 						
 						if(data==1){
-							
+							alert("db 값 넣기성공ㅂ")
 						} else {
 							console.log("번호저장 실패");
 						}
@@ -77,10 +78,13 @@ $(document).ready(function() {
 				}
 			}
 		}
+		console.log(fileList[0].dirName);
+		
 		console.log(fileList);
-		document.getElementById('m_id').value=fileList[0].m_id;
-		document.getElementById('dirNum').value=fileList[0].dirNum;
-		document.getElementById('dirName').value=fileList[0].dirName;
+//		document.getElementById('m_id').value=fileList[0].m_id;
+//		document.getElementById('dirNum').value=fileList[0].dirNum;
+//		document.getElementById('dirName').value=fileList[0].dirName;
+		console.log(document.getElementById('dirName').value);
 		document.getElementById("sortResult").submit();
 	});
 

@@ -37,12 +37,6 @@ public class FileUploadController {
 	@Inject
 	private FileUploadService fileService;
 
-	FileVO file;		
-	// 파일 저장 기본 경로
-	public FileUploadController() {
-		file = new FileVO();
-	}
-
 	//  폴더 생성 체크
 	public boolean makeDirCheck(String m_id , String dirName){
 		try {
@@ -77,7 +71,7 @@ public class FileUploadController {
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
 	public String showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+		FileVO file = new FileVO();
 		HttpSession session = request.getSession(false);
 		if (session==null) {
 			response.sendRedirect(request.getContextPath() + "/");
@@ -100,7 +94,7 @@ public class FileUploadController {
 
 	@RequestMapping(value="/dircreate", method=RequestMethod.POST)
 	public void dirCreate(@RequestParam(value="createName") String dirName, @RequestParam(value="m_id") String m_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		FileVO file = new FileVO();
 		file.setM_id(m_id);   //user id를 FileVO 에 저장하기
 		file.setDirName(dirName);  // user 가 생성하고자 하는 폴더네임을 FileVO 에 저장하기
 
@@ -139,6 +133,7 @@ public class FileUploadController {
 			@RequestParam(value="m_id") String m_id, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// FileVO 객체를 새로 만들어서 값 입력
+		FileVO file = new FileVO();
 		file.setM_id(m_id);
 		file.setDirName(newDirName);
 		PrintWriter pw = response.getWriter();
@@ -169,7 +164,7 @@ public class FileUploadController {
 	public void deleteDir(@RequestParam(value="m_id") String m_id,
 			@RequestParam(value="dirName") String dirName,
 			HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+		FileVO file = new FileVO();
 		PrintWriter pw = response.getWriter();
 		try {
 			HttpSession session = request.getSession(false);
@@ -253,7 +248,6 @@ public class FileUploadController {
 				}
 				cnt++;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();								
 			}
 
@@ -271,7 +265,7 @@ public class FileUploadController {
 	// 해당 유저가 선태한 폴더에 대한 파일 리스트 DB에서 가져 옴
 	@RequestMapping(value="/filelist", method=RequestMethod.POST)
 	public @ResponseBody List<FileVO> fileList(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		FileVO file = new FileVO();
 		file.setM_id(member.getM_id());
 		file.setDirName(member.getDirName());
 		response.setContentType("image/*");

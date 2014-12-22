@@ -22,7 +22,9 @@ $(document).ready(function(){
     	cache : false,
     	async : false,
     	data : {
-    		
+    		m_id : $('#sessionID').val(),
+			dirName : $('#sessionDirName').val(),
+			dirNum : $('#sessionDirNum').val()
     	},
     	success : onSuccess,
 		error : onError

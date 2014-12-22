@@ -61,7 +61,6 @@ $(document).ready(function() {
 		if (confirm('경고 : 폴더 안에 있는 모든 데이터들이 삭제 됩니다. 계속 진행하시겠습니까?')) {
 
 			var dirName = e.target.id;
-			console.log(dirName);
 			$.ajax({
 				type : "POST",
 				url : "/deleteDir",
@@ -82,7 +81,6 @@ $(document).ready(function() {
 			 * deleteDirEx : Exception 발생하고 삭제 실패
 			 */
 			function onSuccess(data) {
-				console.log(data);
 				if(data=="deleteDirSuccess"){
 					//alert("삭제하였습니다.");
 					e.target.parentElement.parentElement.remove();
@@ -120,9 +118,7 @@ $(document).ready(function() {
 			alert("공백을 입력하실수 없습니다.");
 			return;
 		}
-		// console.log(createDirName);
 		var m_id = $('#m_id').val();
-		// console.log(m_id);
 
 		$.ajax({
 			type : "POST",
@@ -174,12 +170,10 @@ $(document).ready(function() {
 		output=[];
 		outputBlob=[];
 		var dir_elements = document.getElementsByClassName('folder');
-//		console.log(dir_elements);
 		for (var i=0; i < dir_elements.length; i++){
 			var dir_element = dir_elements[i];
 			dir_element.classList.remove("clicked");
 		}
-//		console.log(e.target.id);
 		e.currentTarget.classList.add("clicked");
 
 		var m_id = $('#m_id').val();

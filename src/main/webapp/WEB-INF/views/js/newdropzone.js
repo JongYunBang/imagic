@@ -316,13 +316,10 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			
 			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
 			
-			console.log(output);
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
 				formData.append("blob-" + blob.fileNum, blob.data);
 			});
-			
-			console.log(outputBlob);
 			
 			// 12.11 19:45 - XHR 
 			xhr.open(method, dzURL, true);
@@ -366,7 +363,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 우리는 그렇게 되어있어서 에러가 안난다.
 					for(var i=0;i < data.length; i++){
 						var imgNumList = document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]');
-						console.log(imgNumList);
 						for(var j=0; j<imgNumList.length;j++){
 							if(!imgNumList[j].innerHTML){
 								imgNumList[j].innerHTML = data[i].imgNum;

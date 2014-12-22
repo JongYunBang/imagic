@@ -102,6 +102,10 @@ body {
 </style>
 </head>
 <body>
+
+<input type="hidden" id="sessionID" value="${file.m_id}">
+<input type="hidden" id="sessionDirName" value="${file.dirName}">
+
 	<div id="container">
 		<!-- header 영역 -->
 		<div id="header">편집 페이지</div>
@@ -110,9 +114,9 @@ body {
 			<div id="cavaszone">
 				<!-- tools 영역 -->
 				<div id="tools">
-					    <button id="clear">Reset</button>
-    						<button id="undo">Undo</button>
-    						<button id="redo">Redo</button>
+					    <button id="clear" disabled="disabled">Reset</button>
+    						<button id="undo" disabled="disabled">Undo</button>
+    						<button id="redo" disabled="disabled">Redo</button>
 				</div>
 				<!-- filters 영역(display:none)  -->
 				<div id="Filters">
@@ -247,7 +251,7 @@ body {
 				<div id="drawzone">
 					<canvas id="draw" width="800px" height="500px"></canvas>
 				<br />
-				<button id="saveCanvas" align="center">이미지저장</button>
+				<button id="saveCanvas" disabled="disabled">이미지저장</button>
 				<br />
 				<form id="sortable" method="post"
 					action="<%=request.getContextPath()%>/sortable">

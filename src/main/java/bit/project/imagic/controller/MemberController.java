@@ -22,9 +22,6 @@ import bit.project.imagic.vo.MemberVO;
 @SessionAttributes("member")
 public class MemberController {
 	
-	MemberVO storedMember;
-	
-	
 	@Inject
 	private MemberService service;
 	
@@ -53,7 +50,8 @@ public class MemberController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpServletResponse response, 
 			 @ModelAttribute MemberVO member) throws Exception {
-		MemberVO storedMember = null;
+		
+		MemberVO storedMember = new MemberVO();
 		if (member != null) {
 			storedMember = service.login(member);
 		}

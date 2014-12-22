@@ -78,7 +78,7 @@ public class ImagicUtil {
 				
 				// 파일이라면 리스트에 추가 해준다.
 				if(tempFile.isFile()){
-					System.out.println("Filelist : "  + tempFile.getName());
+					//System.out.println("Filelist : "  + tempFile.getName());
 					listDirs.add(tempFile);
 				}
 			}

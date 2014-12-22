@@ -47,6 +47,10 @@
     </script>
 </head>
 <body>
+<input type="hidden" id="sessionID" value="${file.m_id}">
+<input type="hidden" id="sessionDirName" value="${file.dirName}">
+<input type="hidden" id="sessionDirNum" value="${file.dirNum}">
+
 
 <span id="status">잠시만 기다려주세요</span><br><br>
 
