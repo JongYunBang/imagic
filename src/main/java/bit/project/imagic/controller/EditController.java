@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -47,6 +48,8 @@ public class EditController {
 								 @RequestParam(value="dirName")String dirName,
 								 HttpServletRequest request, 
 								 HttpServletResponse response) {
+		HttpSession session = request.getSession(false);
+		session.removeAttribute("file");
 		FileVO file = new FileVO();
 		file.setM_id(m_id);
 		file.setDirName(dirName);
