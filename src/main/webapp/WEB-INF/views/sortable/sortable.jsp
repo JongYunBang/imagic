@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
-<link rel="stylesheet" href="../css/jquery-ui.css">
+<!-- <link rel="stylesheet" href="../css/jquery-ui.css"> -->
 <script src="../js/jquery-ui.js"></script>
-<script src="../js/sortable.js"></script>
+<script src="../js/sortable.js"></script> 
+<script src="../js/sortable.js"></script> 
+<script src="../js/jquery.ui.touch-punch.min.js"></script> 
+
 <style>
     #sortable { list-style-type: none; margin: 10px; padding: 0; width: 710px; }
     #sortable span { margin-left: 20px; float: left; width: 200px; height: 200px;}

@@ -26,8 +26,8 @@ $(document).ready(function() {
 		fileList = data;
 		// sort페이지의 'li'태그의 리스트를 구하고
 		var liList= $('.ui-state-default');
-		// liList의 자식노드를 추가
-		liList.append("<span style=\"display:\"></span>");
+		// liList의 자식노드를 추가(자식노드에 imgNum 넣어주기위해서)
+		liList.append("<span style=\"display:none\"></span>");
 		for (var i=0; i<data.length; i++) {
 			// 각 사진에 해당하는 imgNum 을 가지고 와서
 			var imgNum=data[i].imgNum;

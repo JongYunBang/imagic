@@ -20,7 +20,10 @@
 	<resources location="/resources/**" mapping="/resources/" />
 	<resources location="/WEB-INF/views/js/" mapping="/js/**" />
 	<resources location="/WEB-INF/views/css/" mapping="/css/**" />
-
+	<resources location="/WEB-INF/views/img/" mapping="/img/**" />
+	<resources location="/WEB-INF/views/common/" mapping="/common/**" />
+	<resources location="/WEB-INF/views/fonts/" mapping="/fonts/**" />
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	<beans:bean
