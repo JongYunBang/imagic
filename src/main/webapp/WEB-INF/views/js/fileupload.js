@@ -9,20 +9,62 @@ $(document).ready(function() {
 		"<button id='"+ dirName + "' class='rename'>이름변경</button> " +
 		"<button id='" + dirName + "' class='delete'>삭제</button></span>";
 	}
+	
+	// 특수문자 체크
+	function wordCheck(thisword){
+		var flag = true;
+		var specialChars="~`!@#$%^&*-=+\|[](){};:'<.,>/?_";
+		wordadded = thisword;
+		for (i = 0; i < wordadded.length; i++) {
+			for (j = 0; j < specialChars.length; j++) {         
+				if (wordadded.charAt(i) == specialChars.charAt(j)){         
+					flag=false;
+					break;
+				}
+			}
+		}
+		return flag;
+	}
+
+	// 문자열중 공백 체크
+	function wordCheckSpace(strValue){
+		var flag=true;
+		if (strValue!=""){
+			for (var i=0; i < strValue.length; i++){
+				if (strValue.charAt(i) == " "){
+					flag=false;
+					break;
+				}
+			}
+		}
+		return flag;
+	}
+
+	
 
 	// 폴더명 고치는 function
 	$(document).on('click', '.rename', function(e) {
 		// 로그인 아이디값(히든) 가져오기
 		var m_id = document.getElementById('m_id').value;
 		var oldDirName = e.target.id;
-		var newDirName = prompt("변경하실 폴더명을 입력하세요!", oldDirName);
+		var newDirName=null;
+		var tag=true;
 
-		if (newDirName.trim() == "") {
-			alert("공백을 입력하실수 없습니다.");
-			return;
-		}
-		if (newDirName == null) {
-			return;
+		while(tag){
+			newDirName = prompt("변경하실 이름을 입력해주세요", "폴더명");
+			if (newDirName.trim()== "" || newDirName.length==0) {
+				alert("공백을 입력하실수 없습니다.");
+				continue;
+			}
+			if (!wordCheck(newDirName)){
+				alert("특수문자를 사용할수 없습니다.");
+				continue;
+			}
+			if (!wordCheckSpace(newDirName)){
+				alert("문자중 공백을 입력하셨네요");
+				continue;
+			}
+			tag = false;
 		}
 		// 이미 폴더 존재하는지 여부 확인
 		$.ajax({
@@ -109,15 +151,25 @@ $(document).ready(function() {
 
 	// 폴더 생성 클릭시 프롬프트창으로 폴더명 입력받아서 DB에 저장하고 태그로 폴더생성까지
 	$('#file_dir_create').click(function() {
-		var dirName = prompt("폴더명을 입력해주세요", "폴더명");
-		if (dirName == null) {
-			return;
+		var tag=true;
+		var dirName=null;
+		while(tag){
+			dirName = prompt("폴더명을 입력해주세요", "폴더명");
+			if (dirName.trim()== "" || dirName.length==0) {
+				alert("공백을 입력하실수 없습니다.");
+				continue;
+			}
+			if (!wordCheck(dirName)){
+				alert("특수문자를 사용할수 없습니다.");
+				continue;
+			}
+			if (!wordCheckSpace(dirName)){
+				alert("문자중 공백을 입력하셨네요");
+				continue;
+			}
+			tag = false;
 		}
-
-		if (dirName.trim()== "") {
-			alert("공백을 입력하실수 없습니다.");
-			return;
-		}
+		
 		var m_id = $('#m_id').val();
 
 		$.ajax({
