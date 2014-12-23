@@ -54,20 +54,29 @@ $(document).ready(function() {
 			newDirName = prompt("변경하실 이름을 입력해주세요", "폴더명");
 			if (newDirName.trim()== "" || newDirName.length==0) {
 				alert("공백을 입력하실수 없습니다.");
+				newDirName=null;
 				continue;
 			}
 			if (dirName.length>50){
 				alert("이름이 너무 길어요^^");
+				newDirName=null;
+				continue;
 			}
 			if (!wordCheck(newDirName)){
 				alert("특수문자를 사용할수 없습니다.");
+				newDirName=null;
 				continue;
 			}
 			if (!wordCheckSpace(newDirName)){
 				alert("문자중 공백을 입력하셨네요");
+				newDirName=null;
 				continue;
 			}
 			tag = false;
+		}
+		
+		if (newDirName==null){
+			return;
 		}
 		// 이미 폴더 존재하는지 여부 확인
 		$.ajax({
@@ -160,17 +169,22 @@ $(document).ready(function() {
 			dirName = prompt("폴더명을 입력해주세요", "폴더명");
 			if (dirName.trim()== "" || dirName.length==0) {
 				alert("공백을 입력하실수 없습니다.");
+				newDirName=null;
 				continue;
 			}
 			if (dirName.length>50){
 				alert("이름이 너무 길어요^^");
+				newDirName=null;
+				continue;
 			}
 			if (!wordCheck(dirName)){
 				alert("특수문자를 사용할수 없습니다.");
+				newDirName=null;
 				continue;
 			}
 			if (!wordCheckSpace(dirName)){
 				alert("문자중 공백을 입력하셨네요");
+				newDirName=null;
 				continue;
 			}
 			tag = false;
