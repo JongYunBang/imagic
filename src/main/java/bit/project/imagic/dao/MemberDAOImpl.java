@@ -15,7 +15,6 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int create(MemberVO member) throws Exception {
-//		System.out.println("DAO 에서의 member    " + member.getM_id());
 		return sqlSession.insert("registerMember", member);
 	}
 

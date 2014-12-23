@@ -78,13 +78,6 @@ $(document).ready(function() {
 				}
 			}
 		}
-		console.log(fileList[0].dirName);
-		
-		console.log(fileList);
-//		document.getElementById('m_id').value=fileList[0].m_id;
-//		document.getElementById('dirNum').value=fileList[0].dirNum;
-//		document.getElementById('dirName').value=fileList[0].dirName;
-		console.log(document.getElementById('dirName').value);
 		document.getElementById("sortResult").submit();
 	});
 

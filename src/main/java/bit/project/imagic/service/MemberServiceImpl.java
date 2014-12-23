@@ -27,9 +27,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int registerMember(MemberVO member) throws Exception {
 		int insertResult =0;
-//		System.out.println("service member " + member.getM_id());
 		insertResult = dao.create(member);
-//		System.out.println("memberserviceimp에서의 리턴값 "+insertResult);
 		return insertResult;
 	}
 

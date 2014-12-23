@@ -82,7 +82,7 @@ public class EditController {
 		return result;
 	}
 	
-	// 편집완료된 파일저장
+	// 편집완료된 파일의 정보와 썸네일을 DB에 업데이트
 		@RequestMapping(value="/fileUpdate", method=RequestMethod.POST)
 		public @ResponseBody int fileUpdate(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
 			//FileVO file = new FileVO();
@@ -112,6 +112,7 @@ public class EditController {
 	        return 4;  // 파일저장및 썸네일 DB 저장 완료 
 		}
 		
+		// 변경된 이미지파일을 실제 파일 시스템에 저장
 		@RequestMapping(value="/imgFile", method=RequestMethod.POST)
 		public @ResponseBody int imgFile(MultipartHttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
 
@@ -121,6 +122,8 @@ public class EditController {
 			//		 if (userAgent.toLowerCase().indexOf("mobile") != -1) {
 			//			 envMobile = true;
 			//		 }
+			
+			// 넘어오는 값이 파일base64정보와 파일 저장할 경로 두개로 넘어옴
 			Iterator<String> itr = request.getFileNames();
 			int cnt = 0;
 			MultipartFile mpf = null;
@@ -128,17 +131,14 @@ public class EditController {
 			while(itr.hasNext()) {
 				cnt++;
 				String fileName = itr.next();
-				if(cnt==1) {
+				if(cnt==1) {    // 파일 처리
 					mpf = request.getFile(fileName);
-				}else{
+				}else{         // 파일 패스처리
 					pathFile = request.getFile(fileName);
 				}
 			}
-//			int fileCount = request.getFileMap().size();
-//			System.out.println("fileCount : " + fileCount);
 			byte[] base64byte = Base64.decode(mpf.getBytes());
 			
-//			String base64Str = new String(mpf.getBytes());
 			String path = new String(pathFile.getBytes());
 			String savePath = ImagicUtil.path + path;
 			System.out.println(savePath);

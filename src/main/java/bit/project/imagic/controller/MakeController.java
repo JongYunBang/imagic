@@ -59,8 +59,6 @@ public class MakeController {
 		
 		List<FileVO> makeFileList = new ArrayList<FileVO>();
 		
-		System.out.println(file.getDirName());
-		
 		makeFileList = makeService.makeFileList(file);
 		// makeFileList에 들어있는 파일정보로 실제 저장된 파일 블러와서 base64로 변환해 FileVO 에 담는 과정
 		for(int i=0; i<makeFileList.size(); i++){
