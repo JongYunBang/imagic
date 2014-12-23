@@ -56,6 +56,9 @@ $(document).ready(function() {
 				alert("공백을 입력하실수 없습니다.");
 				continue;
 			}
+			if (dirName.length>50){
+				alert("이름이 너무 길어요^^");
+			}
 			if (!wordCheck(newDirName)){
 				alert("특수문자를 사용할수 없습니다.");
 				continue;
@@ -158,6 +161,9 @@ $(document).ready(function() {
 			if (dirName.trim()== "" || dirName.length==0) {
 				alert("공백을 입력하실수 없습니다.");
 				continue;
+			}
+			if (dirName.length>50){
+				alert("이름이 너무 길어요^^");
 			}
 			if (!wordCheck(dirName)){
 				alert("특수문자를 사용할수 없습니다.");
