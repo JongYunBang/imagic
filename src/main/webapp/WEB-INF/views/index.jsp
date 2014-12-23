@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
+
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,6 +42,7 @@
 		
 // 회원가입 버튼 클릭시 ajax 회원가입 처리
 		$('#signup').click(function(event) {
+			
 			var formData = $('#signup_form').serialize();
 			$.ajax({
 				type : "POST",
@@ -73,6 +74,7 @@
 	};
 </script>
 
+<title>Imagic</title>
 </head>
 <body>
 
