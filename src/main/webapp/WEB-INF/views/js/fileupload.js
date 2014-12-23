@@ -13,7 +13,7 @@ $(document).ready(function() {
 	// 특수문자 체크
 	function wordCheck(thisword){
 		var flag = true;
-		var specialChars="~`!@#$%^&*-=+\|[](){};:'<.,>/?_";
+		var specialChars="~`!@#$%^&*-=+\\|[](){};:'<.,>/?";
 		wordadded = thisword;
 		for (i = 0; i < wordadded.length; i++) {
 			for (j = 0; j < specialChars.length; j++) {         
@@ -63,7 +63,7 @@ $(document).ready(function() {
 				continue;
 			}
 			if (!wordCheck(newDirName)){
-				alert("특수문자를 사용할수 없습니다.");
+				alert("특수문자를 사용할수 없습니다.('_'만 사용가능)");
 				newDirName=null;
 				continue;
 			}
@@ -178,7 +178,7 @@ $(document).ready(function() {
 				continue;
 			}
 			if (!wordCheck(dirName)){
-				alert("특수문자를 사용할수 없습니다.");
+				alert("특수문자를 사용할수 없습니다.('_'만 사용가능)");
 				newDirName=null;
 				continue;
 			}
