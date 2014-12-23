@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE html>
-<html>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<head>
-<title>Imagic 편집 페이지</title>
-<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<%@ include file="../common/header.jsp"%>
 <script src="../js/caman.edit.full.min.js"></script>
 <script src="../js/edit.js"></script>
 <style>
@@ -100,8 +93,6 @@ body {
 	border: 1px solid black;
 }
 </style>
-</head>
-<body>
 
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
@@ -256,9 +247,9 @@ body {
 				<form id="sortable" method="post"
 					action="<%=request.getContextPath()%>/sortable">
 					<input type="button" value="사진순서 정하기"> 
-					<input type="hidden" name="m_id" id="m_id" value=""> 
-					<input type="hidden" name="dirNum" id="dirNum" value=""> 
-					<input type="hidden" name="dirName" id="dirName" value="">
+					<input type="hidden" name="m_id" id="hidden_m_id" value=""> 
+					<input type="hidden" name="dirNum" id="hidden_dirNum" value=""> 
+					<input type="hidden" name="dirName" id="hidden_dirName" value="">
 				</form>
 				</div>
 			</div>
@@ -276,5 +267,4 @@ body {
 			<!-- 푸터 -->
 		</div>
 	</div>
-</body>
-</html>
+<%@ include file="../common/footer.jsp"%>

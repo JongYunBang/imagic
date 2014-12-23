@@ -23,7 +23,7 @@ import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
 
 @Controller
-@SessionAttributes("file")
+@SessionAttributes("member")
 public class MakeController {
 	
 	@Inject

@@ -654,9 +654,9 @@ $(document).ready(function() {
 	
 	// 이미지 차례지정하는 페이지(sortable)로 가기
 	$('#sortable').click(function(){
-		document.getElementById('m_id').value=fileList[0].m_id;
-		document.getElementById('dirNum').value=fileList[0].dirNum;
-		document.getElementById('dirName').value=fileList[0].dirName;
+		document.getElementById('hidden_m_id').value=fileList[0].m_id;
+		document.getElementById('hidden_dirNum').value=fileList[0].dirNum;
+		document.getElementById('hidden_dirName').value=fileList[0].dirName;
 		document.getElementById("sortable").submit();
 	}); 
 	

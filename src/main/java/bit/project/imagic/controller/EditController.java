@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +30,7 @@ import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
 
 @Controller
-//@SessionAttributes("file")
+@SessionAttributes("member")
 public class EditController {
 	
 	@Inject

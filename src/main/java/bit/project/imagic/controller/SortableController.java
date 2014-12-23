@@ -22,7 +22,7 @@ import bit.project.imagic.service.SortService;
 import bit.project.imagic.vo.FileVO;
 
 @Controller
-@SessionAttributes("file")
+@SessionAttributes("member")
 public class SortableController {
 	
 	@Inject

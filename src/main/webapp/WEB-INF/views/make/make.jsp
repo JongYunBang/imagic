@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE html>
-<html>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<head>
- <title>Imagic MakeMovie</title>
-<script src="../js/jquery2.1.1.js"></script>
+<%@ include file="../common/header.jsp"%>
+
 <script src="../js/whammy.js"></script>
 <script src="../js/make.js"></script>
 
@@ -45,8 +39,7 @@
         })();
 
     </script>
-</head>
-<body>
+
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
@@ -72,5 +65,4 @@
 
 <canvas id="canvas" style="display:none"></canvas>
 
-</body>
-</html>
+<%@ include file="../common/footer.jsp"%>

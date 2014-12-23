@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE html>
-<html>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<head>
-<title>Imagic 사진순서 정하기</title>
-<script src="../js/jquery2.1.1.js"></script>
+<%@ include file="../common/header.jsp"%>
 <link rel="stylesheet" href="../css/jquery-ui.css">
 <script src="../js/jquery-ui.js"></script>
 <script src="../js/sortable.js"></script>
@@ -17,8 +10,6 @@
     #sortable span li { margin: 10px 100px 20px 0; padding: 1px; float: left;
         width: 120px; height: 120px; background-size: 100% 120px;}
 </style>
-</head>
-<body>
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
@@ -80,5 +71,4 @@
 	<input type="hidden" name="dirNum" id="dirNum" value="${file.dirNum}">
 </form>
 
-</body>
-</html>
+<%@ include file="../common/footer.jsp"%>

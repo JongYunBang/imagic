@@ -1,23 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="../js/jquery2.1.1.js"></script>
+<%@ include file="../common/header.jsp"%>
+
 <script src="../js/newdropzone.js"></script>
 <script src="../js/fileupload.js"></script>
-
-<link rel="stylesheet" href="../css/newdropzone.css">
 <link rel="stylesheet" href="../css/fileupload.css">
+<link rel="stylesheet" href="../css/newdropzone.css">
 
-<title>iMagic 파일 업로드</title>
-</head>
-<body>
-
-<!-- header 부분 -->
 <input type="hidden" id="m_id" value="${member.m_id }">
 <div id="file_main">
 
@@ -65,7 +54,4 @@
 </div>
 <img id="testimg"/>
 <!-- footer 부분 -->
-<footer></footer>
-
-</body>
-</html>
+<%@ include file="../common/footer.jsp"%>
