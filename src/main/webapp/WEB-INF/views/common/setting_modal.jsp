@@ -9,10 +9,13 @@
         <h4 class="modal-title">Setting</h4>
       </div>
       <div class="modal-body">
-        <p>적절한 본문…</p>
+        <p>자세한 메뉴는 다음에…</p>
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-danger full-left">회원 탈퇴</button>
+		<form method="post" action="<%=request.getContextPath()%>/withdraw" id="withdraw_form">
+			<input type="hidden" name="m_id" value="${member.m_id}">
+			<button type="button" class="btn btn-danger" id="withdraw">회원 탈퇴</button>
+		</form>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

@@ -35,10 +35,11 @@
         <div class="navbar-collapse collapse navbar-inverse-collapse">
             <ul class="nav navbar-nav">
             	<!-- 메뉴 넣는 부분 -->
-                <li class="active"><a href="#">　　</a></li>
+                <li class="active"><a href="#"></a></li>
                 <li><a onclick="loginCheck();">Upload</a></li>
                 <li><a href="#">Edit</a></li>
                 <li><a href="#">Make</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#settingModal"><span class="glyphicon glyphicon-cog"></span>Setting</a></li>
                 <!-- 임시 li -->
                 <li style="color : white">
                 	ID :  ${member.m_id} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PW :  ${member.m_pw}&nbsp;&nbsp;&nbsp; 
@@ -55,7 +56,7 @@
 						<li>
 							<a data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span>${member.m_name}<span class="caret"></span></a>
 						  		<ul class="dropdown-menu" role="menu">
-						    		<li><a data-toggle="modal" data-target="#settingModal"><span class="glyphicon glyphicon-cog"></span>Setting</a></li>
+						    		<li><a href="#" data-toggle="modal" data-target="#settingModal"><span class="glyphicon glyphicon-cog"></span>Setting</a></li>
 <!-- 						    		<li><a href="#">Another action</a></li> -->
 <!-- 						    		<li><a href="#">Something else here</a></li> -->
 						    		<li class="divider"></li>
@@ -70,7 +71,7 @@
 					</c:otherwise>
 				</c:choose>
 <!-- 				<li><a data-toggle="modal" data-target=".bs-modal-sm">Log-in</a></li> -->
-				<li><a data-toggle="modal" data-target=".bs-modal-lg"><span class="glyphicon glyphicon-pencil"></span>Register</a></li>
+				<li><a href="#" data-toggle="modal" data-target=".bs-modal-lg" id="register"><span class="glyphicon glyphicon-pencil"></span>Register</a></li>
 
 
 			</ul>

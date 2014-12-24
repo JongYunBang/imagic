@@ -40,9 +40,10 @@ public class MemberController {
 				pw.write("2");    // DB에 회원 입력 오류  회원가입실패
 				pw.flush();
 			}
+		}else{
+			pw.write("3");	// DB에 해당 아이디 존재 다시입력유도
+			pw.flush();
 		}
-		pw.write("3");	// DB에 해당 아이디 존재 다시입력유도
-		pw.flush();
 		pw.close();
 	}
 	
@@ -57,8 +58,12 @@ public class MemberController {
 		}
 		if(storedMember==null) {
 			pw.write("loginError");
-			pw.close();
+			pw.flush();
+		} else {
+			pw.write("loginSuccess");
+			pw.flush();
 		}
+		pw.close();
 		// 종윤 2014.12.8(10:00) : getSession으로 변경(Session 한개 관리를 위해서)
 		HttpSession session = request.getSession();
 		session.setAttribute("member", storedMember);
