@@ -45,6 +45,11 @@ public class MemberDAOImpl implements MemberDAO {
 		return 0;
 	}
 
+	@Override
+	public int regMemCheck(MemberVO member) throws Exception {
+		return sqlSession.selectOne("regMemCheck", member);
+	}
+
 	
 
 

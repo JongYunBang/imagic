@@ -1,6 +1,7 @@
 package bit.project.imagic.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -27,33 +29,36 @@ public class MemberController {
 	
 	// 회원 가입 처리
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public String register(HttpServletRequest req, HttpServletResponse res, MemberVO member) throws Exception {
-				
-		try {
-			int result = service.registerMember(member);
-			if (result==1) {
-				
-				System.out.println("가입성공");
-				return "index";
+	public void register(@ModelAttribute MemberVO member, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		PrintWriter pw = res.getWriter();
+		int memberCheck = service.regMemCheck(member);
+		if (memberCheck==0){    // DB에 해당 아이디 있는지 확인 없으면 0이 반환
+			int result = service.registerMember(member);  
+			if (result==1) {   // DB에 해당 유저 데이터 입력하면서 회원가입 성공
+				pw.write("1");
+				pw.flush();
 			} else {
-				req.setAttribute("failMessage", "DB에 값 넣기 실패");
-				return null ;
+				pw.write("2");    // DB에 회원 입력 오류  회원가입실패
+				pw.flush();
 			}
-			
-		} catch (Exception e) {
-			req.setAttribute("failMessage", e.getMessage());
-			return null;
 		}
+		pw.write("3");	// DB에 해당 아이디 존재 다시입력유도
+		pw.flush();
+		pw.close();
 	}
 	
 	// 로그인 처리부분
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpServletResponse response, 
 			 @ModelAttribute MemberVO member) throws Exception {
-		
+		PrintWriter pw = response.getWriter();
 		MemberVO storedMember = new MemberVO();
 		if (member != null) {
 			storedMember = service.login(member);
+		}
+		if(storedMember==null) {
+			pw.write("loginError");
+			pw.close();
 		}
 		// 종윤 2014.12.8(10:00) : getSession으로 변경(Session 한개 관리를 위해서)
 		HttpSession session = request.getSession();

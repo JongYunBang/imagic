@@ -16,7 +16,7 @@
                                     <input class="form-control middle" placeholder="UserName" name="m_name" type="text" required>
                                     <input class="form-control middle" placeholder="E-mail" name="m_email" type="email" required>
                                     <input class="form-control bottom" placeholder="Password" name="m_pw" type="password" value="" required>
-                                    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Register">
+                                    <input class="btn btn-lg btn-primary btn-block" type="submit" id="signup" value="Register">
                                     <p class="text-center" style="margin-top:10px;"><a href="#">Already have an account?</a></p>
                                 </fieldset>
                             </form>

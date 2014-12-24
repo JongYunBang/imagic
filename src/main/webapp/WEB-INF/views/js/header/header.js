@@ -11,6 +11,9 @@ $(document).ready(function() {
 		});
 		event.preventDefault();
 		function onSuccess(data) {
+			if(data=="loginError"){
+				alert("아이디와 패스워드를 정확히 입력해 주세요");
+			}
 			window.location.href="/";  // 정상적으로 로그인시 index 페이지 다시로딩
 		}
 		function onError(data, status) {
@@ -37,6 +40,8 @@ $(document).ready(function() {
 
 	//	회원가입 버튼 클릭시 ajax 회원가입 처리
 	$('#signup').click(function(event) {
+		event.preventDefault();
+		console.log("signup 들어옴")
 		var formData = $('#signup_form').serialize();
 		$.ajax({
 			type : "POST",
@@ -45,11 +50,26 @@ $(document).ready(function() {
 			success : onSuccess,
 			error : onError
 		});
-		event.preventDefault();
+		
+		/**
+		 * 반환값 정리 
+		 *  1 : 회원가입 성공 
+		 *  2 : 회원가입 DB입력중 오류발생
+		 *  3 : 아이디 중복
+		 */
 		function onSuccess(data) {
+			console.log(data);
+			if (data==1){
+				alert("회원가입이 완료되었습니다.");
+			} else if (data==2) {
+				alert("회원가입중 오류가 발생하였습니다. 다시 시도해 주세요");
+			} else if (data==3) {
+				alert("이미 존재하는 아이디 입니다.")
+			}
+			
 			window.location.href="/";
 		}
-		function onError(data, status) {
+		function onError(data) {
 			alert("error");
 		}
 	});

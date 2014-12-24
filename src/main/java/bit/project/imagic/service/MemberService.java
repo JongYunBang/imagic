@@ -7,7 +7,7 @@ public interface MemberService {
 	
 	MemberVO login(MemberVO member) throws Exception;
 
-	MemberVO checkLogin(MemberVO member) throws Exception;
+	int regMemCheck(MemberVO member) throws Exception;
 	
 	MemberVO getMember(String m_id) throws Exception;
 	
