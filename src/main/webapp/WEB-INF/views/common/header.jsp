@@ -6,17 +6,17 @@
 <!DOCTYPE html>
 <html>
 <head lang="ko">
-<script src="../js/jquery2.1.1.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/header/header.js"></script>
-<link href="../css/bootstrap.css" rel="stylesheet">
-<link href="../css/common.css" rel="stylesheet">
-<link href="../css/header/modal.css" rel="stylesheet">
-<link href="../css/header/header.css" rel="stylesheet">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta charset="UTF-8">
+	<script src="../js/jquery2.1.1.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/header/header.js"></script>
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../css/common.css" rel="stylesheet">
+	<link href="../css/header/modal.css" rel="stylesheet">
+	<link href="../css/header/header.css" rel="stylesheet">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 <title>Imagic</title>
 </head>
@@ -30,27 +30,18 @@
                 <span class="icon-bar"></span>
             </button>
             <!-- 로고 넣는 부분 -->
-            <a class="navbar-brand" href="#">iMagic</a>
+            <a class="navbar-brand" href="<%=request.getContextPath()%>/">iMagic</a>
         </div>
         <div class="navbar-collapse collapse navbar-inverse-collapse">
             <ul class="nav navbar-nav">
-            	<!-- 메뉴 넣는 부분 -->
-                <li class="active"><a href="#"></a></li>
-                <li><a onclick="loginCheck();">Upload</a></li>
-                <li><a href="#">Edit</a></li>
-                <li><a href="#">Make</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#settingModal"><span class="glyphicon glyphicon-cog"></span>Setting</a></li>
-                <!-- 임시 li -->
-                <li style="color : white">
-                	ID :  ${member.m_id} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PW :  ${member.m_pw}&nbsp;&nbsp;&nbsp; 
-                	Session_Object : <%=session.getAttribute("member")%> &nbsp;&nbsp;&nbsp; Request_Object : <%=request.getAttribute("member") %>&nbsp;&nbsp;&nbsp;
-					ModelAndView_Object : ${member}</li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
             	<!-- 헤더 오른쪽 메뉴 -->
 				<c:choose>
 					<c:when test="${empty member.m_id }"> 
 						<li><a href="#" data-toggle="modal" data-target=".bs-modal-sm"><span class="glyphicon glyphicon-log-in"></span>Log-in</a></li>
+						<li><a href="#" data-toggle="modal" data-target=".bs-modal-lg" id="register"><span class="glyphicon glyphicon-star"></span>Register</a></li>
 					</c:when>
 					<c:otherwise>
 						<li>
@@ -71,7 +62,7 @@
 					</c:otherwise>
 				</c:choose>
 <!-- 				<li><a data-toggle="modal" data-target=".bs-modal-sm">Log-in</a></li> -->
-				<li><a href="#" data-toggle="modal" data-target=".bs-modal-lg" id="register"><span class="glyphicon glyphicon-pencil"></span>Register</a></li>
+				
 
 
 			</ul>

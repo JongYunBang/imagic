@@ -142,7 +142,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 							"<span class=\"dz-upload\" data-dz-uploadprogress></span>" +
 						"</div>\n  " +
 						"<div class=\"dz-delete\">" +
-							"<span data-dz-delete>delete</span>" +
+							"<span data-dz-delete class='btn btn-default'>Delete</span>" +
 						"</div>\n    " +
 						"<div class=\"dz-state\">" +
 							"<span data-dz-state>saved</span>" +

@@ -55,9 +55,11 @@ $(document).ready(function() {
 
 	// 회원가입 버튼을 눌렀을 때 기본값 초기화
 	$('#register').click(function(event) {
-		var signCovers = $('.signCover input');
-		for(var i=0;i<signCovers.length-1;i++) {
-			signCovers[i].value = "";
+		var signInput = $('.signCover input');
+		var signSpan = $('.signCover span');
+		for(var i=0;i<signInput.length-1;i++) {
+			signInput[i].value = "";
+			signSpan[i].style.display = "none";
 		}
 	});
 	

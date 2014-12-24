@@ -109,7 +109,7 @@
 	});
 	
 </script>
-<div class="modal fade bs-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade bs-modal-lg" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-body">
@@ -145,9 +145,9 @@
                                 </fieldset>
                             </form>
                         </div>
-                        <div style="height:20px">
-<!--                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-                        </div>
+	                    <div class="modal-footer" style="margin-top:50px">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    	                </div>
                 </div>
             </div>
         </div>

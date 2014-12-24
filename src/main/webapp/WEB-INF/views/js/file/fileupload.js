@@ -5,9 +5,10 @@ $(document).ready(function() {
 	function createFolder(element, dirName){
 
 		// 열우 2014. 12. 7 일 (01:28) : 폴더 클릭 시 파일 리스트를 가져오기 위해서 a 태그 추가
-		element.innerHTML = "<span id='" + dirName + "' class='folder'>" + dirName + 
-		"<button id='"+ dirName + "' class='rename'>이름변경</button> " +
-		"<button id='" + dirName + "' class='delete'>삭제</button></span>";
+		element.innerHTML = 
+		"<div id='"+ dirName + "' class='folder ellipsis'>" + dirName + "</div>" +	
+		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-trash delete pull-right' style='text-decoration: none'></a><span>" +
+		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-pencil rename pull-right' style='text-decoration: none'></a><span>";
 	}
 
 	// 폴더명 고치는 function
@@ -19,7 +20,7 @@ $(document).ready(function() {
 		var tag=true;
 
 		while(tag){
-			newDirName = prompt("변경하실 이름을 입력해주세요", "폴더명");
+			newDirName = prompt("변경하실 이름을 입력해주세요", oldDirName);
 			if (newDirName.trim()== "" || newDirName.length==0) {
 				alert("공백을 입력하실수 없습니다.");
 				newDirName=null;
@@ -191,6 +192,7 @@ $(document).ready(function() {
 				var userDirList = document.getElementById('file_user_dir');
 				var newDir = document.createElement('li');
 				newDir.id = dirName;
+				newDir.classList.add('list-group-item');
 				createFolder(newDir, dirName);
 				userDirList.appendChild(newDir);
 			}
@@ -204,6 +206,8 @@ $(document).ready(function() {
 	$(document).on('click', '.folder', function (e) {
 //		종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
+		
+		// 	background-color: #C0C0C0;
 		currentDir=e.target.id;
 		dropzone.resetDropzone();
 		hasFiles=0;
@@ -213,8 +217,12 @@ $(document).ready(function() {
 		for (var i=0; i < dir_elements.length; i++){
 			var dir_element = dir_elements[i];
 			dir_element.classList.remove("clicked");
+			dir_element.parentElement.style.backgroundColor="#FFFFFF";
 		}
 		e.currentTarget.classList.add("clicked");
+		e.target.parentElement.style.backgroundColor="#C0C0C0";
+		
+		
 
 		var m_id = $('#m_id').val();
 		$('#drop_zone').data("folder", $(this)[0].id);
@@ -280,6 +288,8 @@ $(document).ready(function() {
 		}
 		
 		document.getElementById('dirName').value=currentDir;
-		document.getElementById("edit").submit();
+		
+		// 12. 24  수정됨		
+		document.getElementById("edit_form").submit();
 	}); 
 });
