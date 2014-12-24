@@ -25,4 +25,9 @@
 		delete from member
 		where m_id=#{m_id}
 	</delete>
+	
+	<select id="regMemCheck" parameterType="bit.project.imagic.vo.MemberVO" resultType="int">
+		select count(*) from member
+		where m_id=#{m_id}
+	</select>
 </mapper>

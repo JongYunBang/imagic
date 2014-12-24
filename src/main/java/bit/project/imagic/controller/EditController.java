@@ -85,18 +85,6 @@ public class EditController {
 	// 편집완료된 파일의 정보와 썸네일을 DB에 업데이트
 		@RequestMapping(value="/fileUpdate", method=RequestMethod.POST)
 		public @ResponseBody int fileUpdate(@ModelAttribute("file") FileVO file, HttpServletRequest request, HttpServletResponse response) throws Exception {
-			//FileVO file = new FileVO();
-			String savePath = null;
-			// 넘어오는 base64파일 저장하기 위해서
-			try {
-				savePath = ImagicUtil.path+file.getM_id()+"/"+file.getDirName()+"/"+file.getImgName();
-				/* sourceforge에서 배포하는 Base64 클래스를 사용하면 가장 간단하게 디코딩과 이미지 파일에 저장을 동시에 처리한다*/
-//				String base64Str = file.getImgBase64();
-//				Base64.decodeToFile(base64Str, savePath);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 1;  // 파일시스템에 파일 저장하기 실패 
-			}
 			
 			try {
 				// 썸네일 이미지를 DB에 저장하기 위해서
@@ -141,9 +129,8 @@ public class EditController {
 			
 			String path = new String(pathFile.getBytes());
 			String savePath = ImagicUtil.path + path;
-			System.out.println(savePath);
 			FileCopyUtils.copy(base64byte, new FileOutputStream(savePath));
-//			
+			
 			return 4;  // 파일저장및 썸네일 DB 저장 완료
 		}
 
