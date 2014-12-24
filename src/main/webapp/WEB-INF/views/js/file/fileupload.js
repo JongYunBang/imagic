@@ -9,38 +9,6 @@ $(document).ready(function() {
 		"<button id='"+ dirName + "' class='rename'>이름변경</button> " +
 		"<button id='" + dirName + "' class='delete'>삭제</button></span>";
 	}
-	
-	// 특수문자 체크
-	function wordCheck(thisword){
-		var flag = true;
-		var specialChars="~`!@#$%^&*-=+\\|[](){};:'<.,>/?";
-		wordadded = thisword;
-		for (i = 0; i < wordadded.length; i++) {
-			for (j = 0; j < specialChars.length; j++) {         
-				if (wordadded.charAt(i) == specialChars.charAt(j)){         
-					flag=false;
-					break;
-				}
-			}
-		}
-		return flag;
-	}
-
-	// 문자열중 공백 체크
-	function wordCheckSpace(strValue){
-		var flag=true;
-		if (strValue!=""){
-			for (var i=0; i < strValue.length; i++){
-				if (strValue.charAt(i) == " "){
-					flag=false;
-					break;
-				}
-			}
-		}
-		return flag;
-	}
-
-	
 
 	// 폴더명 고치는 function
 	$(document).on('click', '.rename', function(e) {

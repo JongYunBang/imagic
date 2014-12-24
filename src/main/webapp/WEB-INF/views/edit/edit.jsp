@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
-<script src="../js/caman.edit.full.min.js"></script>
-<script src="../js/edit.js"></script>
+<script src="../js/edit/caman.edit.full.min.js"></script>
+<script src="../js/edit/edit.js"></script>
 <style>
 body {
 	width: 100%;

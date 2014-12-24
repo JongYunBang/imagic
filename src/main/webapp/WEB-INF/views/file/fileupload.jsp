@@ -2,10 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
 
-<script src="../js/newdropzone.js"></script>
-<script src="../js/fileupload.js"></script>
-<link rel="stylesheet" href="../css/fileupload.css">
-<link rel="stylesheet" href="../css/newdropzone.css">
+<script src="../js/file/newdropzone.js"></script>
+<script src="../js/file/fileupload.js"></script>
+<link rel="stylesheet" href="../css/file/fileupload.css">
+<link rel="stylesheet" href="../css/file/newdropzone.css">
 
 <input type="hidden" id="m_id" value="${member.m_id }">
 <div id="file_main">

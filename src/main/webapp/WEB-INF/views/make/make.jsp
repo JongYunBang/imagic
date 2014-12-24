@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
 
-<script src="../js/whammy.js"></script>
-<script src="../js/make.js"></script>
+<script src="../js/make/whammy.js"></script>
+<script src="../js/make/make.js"></script>
 
 
     <style>
