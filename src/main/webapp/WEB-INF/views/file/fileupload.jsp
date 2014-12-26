@@ -28,7 +28,7 @@
 			</div>
 			<br />
 			<!-- 폴더 생성 -->
-			<div id="file_dir_create">
+			<div id="file_dir_create" class="folder" align="center">
 				<span class="glyphicon glyphicon-folder-open"></span>폴더 만들기
 			</div>
 
@@ -38,8 +38,8 @@
 				<c:forEach var="result" items="${dir_result}" varStatus="status">
 					<li class="list-group-item" id="${result}">
 					<div id="${result}" class='folder ellipsis'>${result}</div>
-					<span><a class='glyphicon glyphicon-trash delete pull-right' id="${result}" style="text-decoration: none"></a></span> 
-					<span><a class='glyphicon glyphicon-pencil rename pull-right' id="${result}" style="text-decoration: none"></a></span>
+					<span><a class='glyphicon glyphicon-trash delete pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="수정하기"></a></span> 
+					<span><a class='glyphicon glyphicon-pencil rename pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="삭제"></a></span>
 					</li>
 				</c:forEach>
 			</ul>
@@ -67,13 +67,17 @@
 			</div>
 
 			<form id="edit_form" method="post" action="<%=request.getContextPath()%>/edit">
-				<div class="alert alert-success">
+				<div id="nextBtnOn" class="alert alert-success">
 					<strong>알림:</strong> 다음 페이지로 이동 합니다.
 					<div style="display: inline-block;">
 						<a class="btn btn-success pull-right" id="edit" style="width: 108px"> <span
 							class="glyphicon glyphicon-ok"></span>NEXT
 						</a>
 					</div>
+				</div>
+				
+				<div id="nextBtnOff" class="alert alert-success">
+					<strong>알림:</strong> 모바일 기기에서는 파일 업로드까지만 지원합니다.<br/> PC에서 접속해 주시기 바랍니다.
 				</div>
 				 
 				<input type="hidden" name="m_id" id="m_id" value="${member.m_id }"> 

@@ -1,6 +1,15 @@
 $(document).ready(function() {
 	var m_id = document.getElementById('m_id').value;
 	var currentDir=null;
+	
+	// 모바일인지 pc에서 접속하는지 체크하기 위해서
+	var ua = window.navigator.userAgent;
+	if(/lgtelecom/i.test(ua) || /Android/i.test(ua) || /blackberry/i.test(ua) || /iPhone/i.test(ua) || /iPad/i.test(ua) || /samsung/i.test(ua) || /symbian/i.test(ua) || /sony/i.test(ua) || /SCH-/i.test(ua) || /SPH-/i.test(ua) || /nokia/i.test(ua) || /bada/i.test(ua) || /semc/i.test(ua) || /IEMobile/i.test(ua) || /Mobile/i.test(ua) || /PPC/i.test(ua) || /Windows CE/i.test(ua) || /Windows Phone/i.test(ua) || /webOS/i.test(ua) || /Opera Mini/i.test(ua) || /Opera Mobi/i.test(ua) || /POLARIS/i.test(ua) || /SonyEricsson/i.test(ua) || /symbos/i.test(ua)){
+		$("#nextBtnOn").attr("style","display: none;");
+	}else{
+		$("#nextBtnOff").attr("style","display: none;");
+	}
+	
 	// 태그 생성 funtion
 	function createFolder(element, dirName){
 
@@ -10,7 +19,7 @@ $(document).ready(function() {
 		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-trash delete pull-right' style='text-decoration: none'></a></span>" +
 		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-pencil rename pull-right' style='text-decoration: none'></a></span>";
 	}
-
+	
 	// 폴더명 고치는 function
 	$(document).on('click', '.rename', function(e) {
 		// 로그인 아이디값(히든) 가져오기
