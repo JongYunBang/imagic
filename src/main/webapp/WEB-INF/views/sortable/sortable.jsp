@@ -16,7 +16,9 @@
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 
-<ul id="sortable">
+<div class="container">
+
+<ul class="row" id="sortable">
     <span>
     	<li id="li1" class="ui-state-default">
     		<img id="img1" class="thumbnail">
@@ -66,11 +68,27 @@
 
 <br/>
 
-<form id="sortResult" method="post" align="center" action="<%=request.getContextPath()%>/make"> 
+<div class="row">
+<form id="sortResult" method="post" action="<%=request.getContextPath()%>/make"> 
 	<input type="button" value="다음">
+	
+	<div class="alert alert-success pull-right">
+				<strong>알림:</strong> 다음 페이지로 이동 합니다.
+				<div style="display: inline-block;">
+					<a class="btn btn-success" style="width: 108px">
+						<span class="glyphicon glyphicon-ok"></span>NEXT
+					</a>
+				</div>
+			</div>
+	
+	
 	<input type="hidden" name="m_id" id="m_id" value="${file.m_id}">
 	<input type="hidden" name="dirName" id="dirName" value="${file.dirName}">
 	<input type="hidden" name="dirNum" id="dirNum" value="${file.dirNum}">
 </form>
+</div>
+
+
+</div>
 
 <%@ include file="../common/footer.jsp"%>
