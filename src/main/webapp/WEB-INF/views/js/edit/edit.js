@@ -94,8 +94,9 @@ $(document).ready(function() {
     			activePreset = type.presetName;
         }
         
-//        console.log("clickfilterList");
-//        console.log(filterList);
+        console.log("click");
+        console.log("preset = " + activePreset);
+        console.log(filterList);
         logicCtx.putImageData(copyImage, 0, 0);
         // 논리 canvas에 값을 적용한다.
         Caman(logicCanvas, function () {
@@ -193,7 +194,6 @@ $(document).ready(function() {
 	function editReset() {
 		// filterList 및 preset 초기화
 		filterList = {};
-		activePreset = null;
 		
 		// filterSetting 모든 range값 0으로 초기화
 		for (var i = 0; i < filterSetting.length; i++) {
@@ -573,8 +573,6 @@ $(document).ready(function() {
 		// 현재 상태에 대한 초기화가 필요하다.
 		if(currentType == "filter") {
 			filterList = {};
-		}else if(currentType == "preset") {
-			activePreset = null;
 		}
 		editReset();
 		
@@ -610,9 +608,9 @@ $(document).ready(function() {
 			}
 		}
 		// 이 작업을 해야하는 이유는 이 상태에서 save를 누르면 그 전에 적용된 내용도 적용이 되어야하기 때문이다.
-//		console.log("activePreset : " + activePreset);
-//		console.log("filterList");
-//		console.log(filterList);
+		console.log("activePreset : " + activePreset);
+		console.log("filterList");
+		console.log(filterList);
 		
 		var canvasPic = new Image();
 		canvasPic.src = cPushArray[cStep-1].dataURL;
