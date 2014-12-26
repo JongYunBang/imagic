@@ -188,7 +188,7 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
+		
 		<!-- Test Artifacts -->
 		<dependency>
 			<groupId>org.springframework</groupId>

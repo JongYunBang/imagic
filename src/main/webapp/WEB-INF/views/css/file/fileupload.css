@@ -52,7 +52,7 @@ li .glyphicon-trash {
 .btn-danger.btn-outline:hover {
     color: #fff;
 }
-.folder:hover {
+.makeFolder:hover {
 	color : red;
 	cursor: pointer;
 }

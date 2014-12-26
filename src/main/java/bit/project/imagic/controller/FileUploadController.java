@@ -60,12 +60,7 @@ public class FileUploadController {
 	@RequestMapping(value="/fileupload", method=RequestMethod.GET)
 	public String showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		//		// 세션 검사를 통해서 접근 제어!
-		//		if (!ImagicUtil.checkSession(member)) {
-		//			response.sendRedirect(request.getContextPath() + "/");
-		//			return null;
-		//		}	
-		return "index";
+		return "/file/fileupload";
 	}
 
 	// 파일 업로드 창을 띄우기 위한 맵핑
@@ -167,9 +162,6 @@ public class FileUploadController {
 		FileVO file = new FileVO();
 		PrintWriter pw = response.getWriter();
 		try {
-			HttpSession session = request.getSession(false);
-			if (session.isNew()){
-			}
 			file.setDirName(null);
 			file.setM_id(m_id);
 			file.setDirName(dirName);
@@ -187,9 +179,6 @@ public class FileUploadController {
 				pw.print("deleteDirDBFail"); // DB 에서의 dirName 삭제 실패
 				pw.flush();
 			}
-		} catch (NullPointerException e) {
-			pw.print("SessionNullEx"); // // session 검사실패 세션없음
-			e.printStackTrace();
 		} catch (Exception e) {
 			pw.print("deleteFileEx"); // Exception 발생하고 삭제 실패
 			e.printStackTrace();
@@ -207,7 +196,7 @@ public class FileUploadController {
 			if (session.isNew()){
 			}
 		} catch (NullPointerException e) {
-			response.sendRedirect("/");
+			response.sendRedirect("/upload");
 		}
 		
 
@@ -285,10 +274,6 @@ public class FileUploadController {
 		// DB에서 폴더명을 삭제하고 그에 해당하는 Image table 파일들을 삭제했다면
 		PrintWriter pw = response.getWriter();
 		try {
-			HttpSession session = request.getSession(false);
-			if (session.isNew()){
-			}
-
 			FileVO file = new FileVO();
 			file.setM_id(m_id);
 			file.setDirName(dirName);
@@ -310,9 +295,6 @@ public class FileUploadController {
 				pw.print("deleteFileDBFail"); // DB 에서의 File 삭제 실패
 				pw.flush();
 			}
-		} catch (NullPointerException e) {
-			pw.print("SessionNullEx"); // session 검사실패 세션없음
-			e.printStackTrace();
 		} catch (Exception e) {
 			pw.print("deleteFileEx"); // Exception 발생하고 삭제 실패
 			e.printStackTrace();

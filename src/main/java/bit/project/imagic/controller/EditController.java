@@ -40,7 +40,7 @@ public class EditController {
 	// 나중에 index로 바꿀것
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
 	public String showIndexPage(HttpServletRequest request, HttpServletResponse response) {
-		return "edit/edit";
+		return "/file/fileupload";
 	}
 	
 	// 에디트 페이지 로딩하면서 세션어트리뷰트에 m_id값과 현재 작업중인 폴더를 저장함

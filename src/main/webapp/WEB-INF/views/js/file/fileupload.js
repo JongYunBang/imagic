@@ -142,7 +142,7 @@ $(document).ready(function() {
 	});
 
 	// 폴더 생성 클릭시 프롬프트창으로 폴더명 입력받아서 DB에 저장하고 태그로 폴더생성까지
-	$('#file_dir_create').click(function() {
+	$('#file_dir_create').click(function(e) {
 		var tag=true;
 		var dirName=null;
 		while(tag){
@@ -217,7 +217,6 @@ $(document).ready(function() {
 	$(document).on('click', '.folder', function (e) {
 //		종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
-		
 		// 	background-color: #C0C0C0;
 		currentDir=e.target.id;
 		dropzone.resetDropzone();

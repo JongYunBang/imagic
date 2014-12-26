@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,7 +35,7 @@ public class SortableController {
 	// get방식으로 접속시
 	@RequestMapping(value="/sortable", method=RequestMethod.GET)
 	public String showIndexPage(HttpServletRequest request, HttpServletResponse response) {
-		return "sortable/sortable";
+		return "/file/fileupload";
 	}
 	
 	// edit 페이지에서 다음 버튼눌렀을떄 유저의 정보를받아와서 저장
@@ -52,6 +53,14 @@ public class SortableController {
 //		}
 //		String json = sb.toString();
 //		System.out.println(json);
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.isNew()){
+			}
+		} catch (NullPointerException e) {
+			response.sendRedirect("/fileupload");
+		}
+		
 		FileVO file = new FileVO();
 		file.setM_id(m_id);
 		file.setDirNum(dirNum);

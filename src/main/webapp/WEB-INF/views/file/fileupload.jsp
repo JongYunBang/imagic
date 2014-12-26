@@ -28,7 +28,7 @@
 			</div>
 			<br />
 			<!-- 폴더 생성 -->
-			<div id="file_dir_create" class="folder" align="center">
+			<div id="file_dir_create" class="makeFolder" align="center">
 				<span class="glyphicon glyphicon-folder-open"></span>폴더 만들기
 			</div>
 

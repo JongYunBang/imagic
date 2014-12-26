@@ -1,12 +1,14 @@
 package bit.project.imagic.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,7 +35,7 @@ public class MakeController {
 	// 나중에 index로 바꿀것
 	@RequestMapping(value="/make", method=RequestMethod.GET)
 	public String showIndexPage(HttpServletRequest request, HttpServletResponse response) {
-		return "make/make";
+		return "file/fileupload";
 	}
 
 	// make페이지 로딩
@@ -42,7 +44,14 @@ public class MakeController {
 			@RequestParam(value="dirName")String dirName,
 			@RequestParam(value="dirNum")int dirNum,
 			HttpServletRequest request, 
-			HttpServletResponse response){
+			HttpServletResponse response) throws IOException{
+		try {
+			HttpSession session = request.getSession(false);
+			if (session.isNew()){
+			}
+		} catch (NullPointerException e) {
+			response.sendRedirect("/fileupload");
+		}
 		FileVO file =new FileVO();
 		file.setM_id(m_id);
 		file.setDirName(dirName);

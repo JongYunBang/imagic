@@ -52,13 +52,23 @@
 		$('.signup-id').on('blur', function(event){
 			var user_id = $('.signup-id').val();
 			var id_regist = /^\w{4,12}$/;
-			if(user_id.search(id_regist)==-1){
-					$('#signup_id_check_message')[0].style.display="inline";
-					return validate_id = false;
+			var kor_check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+			if (kor_check.test(user_id)){
+				$('#signup_id_check_message')[0].style.display="none";
+				$('#signup_id_check_message_2')[0].style.display="inline";
+				return validate_id = false;
 			}else{
+				if((user_id.length < 4) || (user_id.length > 12)){
+					$('#signup_id_check_message')[0].style.display="inline";
+					$('#signup_id_check_message_2')[0].style.display="none";
+					return validate_id = false;
+				}else{
 					$('#signup_id_check_message')[0].style.display="none";
+					$('#signup_id_check_message_2')[0].style.display="none";
 					return validate_id = true;
+				}
 			}
+
 		});
 		 $('.signup-pw').on('blur', function (event) {// 회원가입 비밀번호 설정 4자에서 10자 이내
                 var user_pw = $('.signup-pw').val();
@@ -122,6 +132,7 @@
 									<div class="signCover">
                                     <input class="form-control top signup-id" placeholder="Your ID" name="m_id" type="text" required maxlength="12">
                                     <span id='signup_id_check_message' style="display:none">4자 이상 12자 이하로 입력 해주세요.</span>
+                                    <span id='signup_id_check_message_2' style="display:none">영문, 숫자만 입력 가능합니다..</span>
                                    	</div>
                                    	<div class="signCover">
                                     <input class="form-control middle signup-pw" placeholder="Password" name="m_pw" type="password" value="" required maxlength="15">
