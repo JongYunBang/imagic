@@ -8,60 +8,69 @@
 
     <style>
         body {text-align: center;}
-        ul {list-style:none;}
-        #drag { border: 10px solid black; text-align: center; padding:20px; width: 500px; margin: auto; display: inline-block;}
-        #einput {width:400px;}
-        #output {margin:20px;}
-
-        #filesinput {
-            visibility: collapse;
-            width: 0px;
-        }
-        #output img{
-            border: 5px solid #333;
-            margin-right: 2px;
-        }
-        #small label {font-size:14px;}
-        #small div {margin:5px 0;}
-
     </style>
-    <script>
-        //analytics tag
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-941940-28']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-    </script>
 
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 
 
-<span id="status">잠시만 기다려주세요</span><br><br>
-
-
-<div id="drag">
-    <div id="small">
-        <div><label>Width:</label><input id="width" type="number" step="1" value="500"></div>
-        <div><label>Height:</label><input id="height" type="number" step="1" value="300"></div>
-        <div><label>Video Frame Rate:</label><input id="framerate" type="number" step="1" value="15"></div>
+<div>
+    <div>
+       
+    	<br/>
+    	<div id="preset" >
+	    	<div id="step1">
+	    		<span>영상의 가로와 세로 방향을 정해주세요</span><br/>
+	    		<span id="step1Str" style="color: skyblue;"></span><br/>
+	    		<input type="radio" name="imgDirection" value="가로방향" />가로방향
+	    		<input type="radio" name="imgDirection" value="세로방향" />세로방향
+	    	</div>
+	    	
+	    	<div id="step2">
+	    		<span>영상의 비율을 정해주세요</span>
+	    		<span id="step2Str" style="color: skyblue;"></span><br/>
+	    		<input type="radio" name="imgRatio" id="ratio16x9" value="16x9" checked /><span id="ratio16x9span">16X9</span>
+	    		<input type="radio" name="imgRatio" id="ratio4x3" value="4x3" /><span id="ratio4x3span">4X3</span>
+	    	</div>
+	    	
+	    	<div id="step3">
+	    		<span>영상의 Quality를 선택해 주세요</span><br/>   	
+	    		<input type="radio" id="imgHi" name="imgQuality"value="" checked /><span id="imgHiSpan"></span>
+	    		<input type="radio" id="imgMiddle" name="imgQuality" value=""/><span id="imgMiddleSpan"></span>
+	    		<input type="radio" id="imgLow" name="imgQuality" value=""/><span id="imgLowSpan"></span>
+	    	</div>
+	    	
+	    	<div id="step4">
+	    		<span> 제작할 영상의 시간을 선택해 주세요</span><br/>
+	    		<input type="radio" id="imgRT15" name="imgRunTime" value="16" checked /><span id="imgRT15">15초</span>
+	    		<input type="radio" id="imgRT30" name="imgRunTime" value="9" /><span id="imgRT30">30초</span>
+	    		<input type="radio" id="imgRT60" name="imgRunTime" value="6" /><span id="imgRT60">60초</span>
+	    		<input type="radio" id="imgRT90" name="imgRunTime" value="5" /><span id="imgRT90">90초</span>
+	    	</div>
+    	</div>
+    	
+    	<div>
+    		<button id="userSetBn" >사용자가 직접 지정</button>
+    	</div>
+    	<br/>
+    	<div id="userSet" style="display: none;">
+	    	<div><label>Width:</label><input id="width" type="number" step="1" value="500"></div>
+	        <div><label>Height:</label><input id="height" type="number" step="1" value="300"></div>
+	        <div><label>Video Frame Rate:</label><input id="framerate" type="number" step="1" value="15"></div><br/>
+    	</div>
+    	<div>
+    		<button id="userSetClose" style="display: none;">사용자지정 창 닫기</button>
+    	</div><br/>
     </div>
     <button id="createvideo">Create Video</button>
-</div>
+</div><br/>
 
-<br>
+<span id="status">선택해 주세요</span><br><br>
+<a style="display:none" id="download" download="video.webm">동영상 다운로드</a><br>
 <video id="awesome" controls autoplay></video>
 <br>
 
-<a style="display:none" id="download" download="video.webm">Download WebM</a>
 
 <canvas id="canvas" style="display:none"></canvas>
 

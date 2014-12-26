@@ -7,68 +7,84 @@
 }
 
 .dropzone {
+	margin : 0 auto;
 	border: 1px solid rgba(0, 0, 0, 0.08);
 	background: rgba(0, 0, 0, 0.02);
 	padding: 1em;
 	min-height: 360px;
-	height: 500px;
+	min-height: 630px;
+	max-width: 510px;
+	min-width: 260px;
 	cursor: pointer;
 }
 
 .dz-preview {
 	position: relative;
 	border: 1px solid #000;
-	width: 130px;
+	width: 120px;
 	height: 180px;
 	display: inline-block;
-	margin: 10px;
-	vertical-align: top;
+	margin: 10px 20px 10px 20px;
 	cursor: default;
 	border: 1px solid #acacac;
-	padding: 6px 10px 6px 10px;
+	padding: 5px 10px 5px 10px;
+	-webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
+	box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
+	background-color: white;
 }
 
 .dz-details img {
-	absolute : top left;
 	display: block;
+	position: absolute;
+	top: 10px;
+	z-index:10;
 }
 
+.dz-details img:hover{
+	opacity : 0.1;
+}
 
 .dz-filename, .dz-size {
-	display: none;	
+	display: inline-block;
+	position: relative;	
+	opacity : 1;
+	z-index:100;
+	left : 5px;
+	overflow: hidden;
 }
 
-.dropzone .dz-preview:hover .dz-details img,
-.dropzone-previews .dz-preview:hover .dz-details img {
-  display: none;
+.dz-filename {
+	top: 12px;
+	height:70px;
+	width: 90px;
+	z-index:10;
 }
 
-.dz-detail {
-	opacity: 1;
-	-ms-filter: none;
-	filter: none;
-	-webkit-transition: opacity 0.3s ease-in-out;
-	-moz-transition: opacity 0.3s ease-in-out;
-	-o-transition: opacity 0.3s ease-in-out;
-	-ms-transition: opacity 0.3s ease-in-out;
-	transition: opacity 0.3s ease-in-out;
-	/* background-image: url("../img/spritemap.png"); */
-	background-repeat: no-repeat;
-	background-position: 0 0;
+.dz-size {
+	top: 32px;
+}
+
+.dz-state {
+	position : absolute;
+	width : 40px;
+	height : 40px;
+	top : -10px;
+	right : -5px;
+	background-image: url("../../img/upload_image.png");
+	background-position: 0px 0px;
+	z-index: 300;
+}
+
+[data-dz-state], .dz-num {
+	display: none;
+}
+
+.dz-delete {
 	position: absolute;
-	width: 428px;
-	height: 123px;
-	margin-left: -214px;
-	top: 20%;
-	left: 50%;
-}
-
-.dropzone .dz-default.dz-message span, .dz-started.dz-message span {
-	display: none;
-}
-
-.dz-state, .dz-num {
-	display: none;
+	width: 100px;
+	display : block;
+	bottom : 5px;
+	margin : 0 auto;
 }
 
 #progress_bar {
@@ -89,9 +105,17 @@
 	width: 0;
 }
 
+#progress_bar.loading {
+	opacity: 1.0;
+}
+
 [data-dz-thumbnail] {
 	width: 100px;
 	height: 100px;
-	margin: 10px 5px 0 0;
 	border: 1px solid #000;
+}
+
+[data-dz-delete] {
+	width : 100px;
+	margin-bottom: 5px;
 }

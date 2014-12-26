@@ -6,9 +6,9 @@ $(document).ready(function() {
 
 		// 열우 2014. 12. 7 일 (01:28) : 폴더 클릭 시 파일 리스트를 가져오기 위해서 a 태그 추가
 		element.innerHTML = 
-		"<div id='"+ dirName + "' class='folder ellipsis'>" + dirName + "</div>" +	
-		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-trash delete pull-right' style='text-decoration: none'></a><span>" +
-		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-pencil rename pull-right' style='text-decoration: none'></a><span>";
+		"<div id='"+ dirName + "' class='folder ellipsis'>" + dirName +"</div>" + 
+		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-trash delete pull-right' style='text-decoration: none'></a></span>" +
+		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-pencil rename pull-right' style='text-decoration: none'></a></span>";
 	}
 
 	// 폴더명 고치는 function
@@ -65,7 +65,9 @@ $(document).ready(function() {
 			if(data=="true"){
 				//alert("변경되었습니다.");
 				var dirElement = e.target.parentElement.parentElement;
+				console.log(dirElement);
 				dirElement.id=newDirName;
+				dirElement.classList.add('list-group-item');
 				createFolder(dirElement, newDirName);
 				dirElement.childNodes[0].classList.add("clicked");
 			}else if(data=="false"){
@@ -116,7 +118,7 @@ $(document).ready(function() {
 					alert("실패 : DB는 삭제 했으나 FileSystem 존재");
 
 					// 열우 2014. 12. 6 토 (23:50) : DB에서는 삭제했기 때문에 목록에서도 지워줘야함.
-					//e.target.parentElement.remove();
+					e.target.parentElement.remove();
 					dropzone.resetDropzone();
 				} else if(data == "SessionNullEx"){ // // session 검사실패 세션없음") 
 					alert("세션이 만료 되었습니다");

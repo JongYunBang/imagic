@@ -1,6 +1,6 @@
 * {
-	font-family: Roboto, arial, "Times New Roman", Serif;
-	text-decoration: none;	
+	font-family: 'Nanum Gothic', 'Titillium Web', sans-serif!important;
+	text-decoration: none!important;
 }
 
 .ellipsis { width: 100px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }

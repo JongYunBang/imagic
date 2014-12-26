@@ -7,19 +7,17 @@
 
 <div class="container">
 	<div style="text-align: center">
-    <h1 class="heading">The world’s best photo editing SDK</h1>
-    <p class="lead">Trusted by thousands of developers. Powering billions of photo edits.<br/>
-        Add Aviary’s free SDK to your app or website in minutes.</p>
-        
+    <h1 class="heading">iMagic에 오신것을 환영합니다.</h1>
+    <p class="lead">사진들을 모아 동영상으로 간직하세요!<br/>
+       간단한 과정과 작은 시간으로 당신의 소중한 추억을 간직할 수 있습니다.</p>
     
-        <!--  -->
 	<c:choose>
 	<c:when test="${empty member.m_id }"> 
-		<p><a class="btn btn-lg btn-primary" data-toggle="modal" data-target=".bs-modal-sm">Get started today</a></p>
+		<p><a class="btn btn-lg btn-primary" data-toggle="modal" data-target=".bs-modal-sm">시작해볼까요?</a></p>
 	</c:when>
 	<c:otherwise>
 		<form id="upload_form" method="post" action="<%=request.getContextPath()%>/fileupload">
-		<p><a class="btn btn-lg btn-primary" id="btn_start">Get started today</a></p>
+		<p><a class="btn btn-lg btn-primary" id="btn_start">시작해볼까요?</a></p>
 		</form>
 	</c:otherwise>
 	</c:choose>			        

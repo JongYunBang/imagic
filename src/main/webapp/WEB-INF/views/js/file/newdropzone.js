@@ -129,29 +129,29 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		// 파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성
-			template = dropzone.createElement( 
-					"<div class=\"dz-preview dz-file-preview\">\n  " +
-						"<div class=\"dz-details\">\n    " +
-							"<div class=\"dz-filename\">" +
-								"<span data-dz-name></span>" +
-							"</div>\n    " +
-							"<div class=\"dz-size\" data-dz-size></div>\n    " +
-							"<img data-dz-thumbnail />\n  " +
-						"</div>\n  " +
-						"<div class=\"dz-progress\">" +
-							"<span class=\"dz-upload\" data-dz-uploadprogress></span>" +
-						"</div>\n  " +
-						"<div class=\"dz-delete\">" +
-							"<span data-dz-delete class='btn btn-default'>Delete</span>" +
-						"</div>\n    " +
-						"<div class=\"dz-state\">" +
-							"<span data-dz-state>saved</span>" +
-						"</div>\n" +
-						"<div class=\"dz-num\">" +
-						"<span data-dz-imgNum></span>" +
-						"</div>\n    " +
-					"</div>"
-					);
+			template = dropzone.createElement(
+			"<div class=\"dz-preview dz-file-preview\">\n  " +
+				"<div class=\"dz-details\">\n    " +
+					"<div class=\"dz-filename\">" +
+						"<span data-dz-name></span>" +
+					"</div>\n    " +
+					"<div class=\"dz-size\" data-dz-size></div>\n    " +
+					"<img data-dz-thumbnail />\n  " +
+				"</div>\n  " +
+//			 "<div class=\"dz-mark\">" +
+//			 "<span class=\"dz-mark\"></span>" +
+//			 "</div>\n " +
+				"<div class=\"dz-delete\">" +
+					"<span data-dz-delete class='btn btn-default'>Delete</span>" +
+				"</div>\n    " +
+				"<div class=\"dz-state\">" +
+					"<span data-dz-state>saved</span>" +
+				"</div>\n" +
+				"<div class=\"dz-num\">" +
+					"<span data-dz-imgNum></span>" +
+				"</div>\n    " +
+			"</div>"
+		);
 			
 			// 12.11 19:45 - preview를 클릭해도 dropzone 이벤트가 발생하지 않음
 			template.addEventListener('mouseover', dropzone.handleMouseEnter);
@@ -178,6 +178,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			// 이것을 통해서 사용자가 직접 올린 파일만 output에 데이터를 담는다!
 			if (f.constructor.name == "File" ){
 				template.querySelector('[data-dz-state]').innerHTML ='upload';
+				template.querySelector('[data-dz-state]').parentElement.style.backgroundPosition ="-40px 0px";
 				output.push(f);
 			}
 			
@@ -371,13 +372,12 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 						}
 					}
 					
-					
 					// 12.11 19:45 - 업로드 후 상태 태그 값 Saved로 변경
 					var stateList = document.getElementById("drop_zone").querySelectorAll('[data-dz-state]');
 					for (var i=0; i<stateList.length; i++) {
 						stateList[i].innerHTML = 'saved';
+						stateList[i].parentElement.style.backgroundPosition = '0px 0px';
 					}
-					
 					
 					// 12.11 19:45 - 업로드 후 데이터 초기화
 					output = [];

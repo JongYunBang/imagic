@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head lang="ko">
+<title>Imagic</title>
 	<script src="../js/jquery2.1.1.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/header/header.js"></script>
@@ -13,12 +14,27 @@
 	<link href="../css/common.css" rel="stylesheet">
 	<link href="../css/header/modal.css" rel="stylesheet">
 	<link href="../css/header/header.css" rel="stylesheet">
+<!-- 	<link href='http://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'> -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
-<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-<title>Imagic</title>
+	<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.10/webfont.js"></script>
+	<script>
+	  WebFont.load({
+	 
+	    // For google fonts
+	    google: {
+	      families: ['Titillium Web', 'Droid Serif']
+	    },
+	    // For early access or custom font
+	    custom: {
+	        families: ['Nanum Gothic'],
+	        urls: ['http://fonts.googleapis.com/earlyaccess/nanumgothic.css']
+	    }
+	 
+	  });
+	</script>
 </head>
 <body>
 <div class="navbar navbar-inverse">
@@ -45,7 +61,7 @@
 					</c:when>
 					<c:otherwise>
 						<li>
-							<a data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span>${member.m_name}<span class="caret"></span></a>
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span>${member.m_name}<span class="caret"></span></a>
 						  		<ul class="dropdown-menu" role="menu">
 						    		<li><a href="#" data-toggle="modal" data-target="#settingModal"><span class="glyphicon glyphicon-cog"></span>Setting</a></li>
 <!-- 						    		<li><a href="#">Another action</a></li> -->

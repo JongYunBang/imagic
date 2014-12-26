@@ -12,11 +12,11 @@
 <input type="hidden" id="m_id" value="${member.m_id}">
 <div class="container">
 		<div style="text-align: center">
-	     <h2 class="heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-		</div>                
-	
+	     <h2 class="heading">추억을 간직할 수 있는 <span class="text-muted">앨범</span></h2>
+	     	<p class="lead"></p>	
+            <p class="lead">연인과 함께! 동료와 함께! 사랑하는 사람들과 함께!</p>	 
+            <p class="lead">사진을 모바일과 PC에서 자유롭게 올리세요!</p>
+         </div>
 	<hr class="colorgraph">
 
 	<div class="row">
@@ -50,10 +50,6 @@
 			<input type="file" id="files" name="files []" style="display: none;"
 				multiple />
 			<div id="drop_zone" class="dropzone" data-folder>
-				<div class="dz-default dz-message">
-					<span>Drop files here to upload</span>
-				</div>
-
 			</div>
 			<div id="progress_bar">
 				<div class="percent"></div>

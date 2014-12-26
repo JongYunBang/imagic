@@ -395,7 +395,7 @@ $(document).ready(function() {
 				// 썸네일 만들 캔버스에 넘겨줄 원본파일 불러오기 위해서 image생성
 				var img = new Image();
 				img.onload = function() {
-						document.body.appendChild(img);
+//						document.body.appendChild(img);
 //						console.log("source");
 						// base64형태의 앞부분 제거
 						imgData = imgData.replace(/^data:image\/(png|jpeg);base64,/, "");
@@ -415,7 +415,7 @@ $(document).ready(function() {
 						var filePath = [currentFile.m_id + "/" + currentFile.dirName + "/" + currentFile.imgName];
 						var pathSource = new Blob(filePath, { 'type': 'text/*' });
 							
-						console.log(filePath);
+//						console.log(filePath);
 						var formData = new FormData();
 						formData.append("imgBase64", imgSource);
 						formData.append("filePath", pathSource);
@@ -534,7 +534,7 @@ $(document).ready(function() {
 		var currentType = cPushArray[cStep].type.name;
 		if(currentType == "filter") {
 			var dataFilter = "[data-filter=" + cPushArray[cStep].type.filterName + "]";
-			console.log("filter Value : " + cPushArray[cStep].type.filterValue);
+//			console.log("filter Value : " + cPushArray[cStep].type.filterValue);
 			$(dataFilter)[0].value = cPushArray[cStep].type.filterValue;
 			$(dataFilter)[0].nextElementSibling.innerHTML = cPushArray[cStep].type.filterValue;
 			filterList[cPushArray[cStep].type.filterName] = cPushArray[cStep].type.filterValue;
@@ -543,9 +543,9 @@ $(document).ready(function() {
 			filterList = {};
 			activePreset = cPushArray[cStep].type.presetName;
 		}
-		console.log("activePreset : " + activePreset);
-		console.log("filterList");
-		console.log(filterList);
+//		console.log("activePreset : " + activePreset);
+//		console.log("filterList");
+//		console.log(filterList);
 		var canvasPic = new Image();
 		canvasPic.src = cPushArray[cStep].dataURL;
 		canvasPic.onload = function() {
@@ -602,11 +602,9 @@ $(document).ready(function() {
 			for(var i= cStep- minusStep +1; i<cStep; i++) {
 //				console.log("i = " + i);
 				var dataFilter = "[data-filter=" + cPushArray[i].type.filterName + "]";
-//				console.log(dataFilter);				
-//				console.log(cPushArray);				
 				$(dataFilter)[0].value = cPushArray[i].type.filterValue;
 				$(dataFilter)[0].nextElementSibling.innerHTML = cPushArray[i].type.filterValue;
-				filterList[dataFilter] = cPushArray[i].type.filterValue;
+				filterList[cPushArray[cStep].type.filterName] = cPushArray[i].type.filterValue;
 			}
 		}
 		// 이 작업을 해야하는 이유는 이 상태에서 save를 누르면 그 전에 적용된 내용도 적용이 되어야하기 때문이다.
