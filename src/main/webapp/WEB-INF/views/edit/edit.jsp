@@ -4,7 +4,6 @@
 <script src="../js/edit/caman.edit.full.min.js"></script>
 <script src="../js/edit/edit.js"></script>
 <link rel="stylesheet" href="../css/edit/edit.css">
-
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 
