@@ -249,7 +249,7 @@
 				<version>2.2</version>
 				<configuration>
 					<path>/</path>
-					<port>14150</port>
+					<port>80</port>
 				</configuration>
 				<dependencies>
 					<dependency>

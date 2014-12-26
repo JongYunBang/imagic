@@ -38,8 +38,8 @@
 				<c:forEach var="result" items="${dir_result}" varStatus="status">
 					<li class="list-group-item" id="${result}">
 					<div id="${result}" class='folder ellipsis'>${result}</div>
-					<span><a class='glyphicon glyphicon-trash delete pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="수정하기"></a></span> 
-					<span><a class='glyphicon glyphicon-pencil rename pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="삭제"></a></span>
+					<span><a class='glyphicon glyphicon-trash delete pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="삭제"></a></span> 
+					<span><a class='glyphicon glyphicon-pencil rename pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="수정하기"></a></span>
 					</li>
 				</c:forEach>
 			</ul>
