@@ -26,11 +26,6 @@ public class SortableController {
 	
 	@Inject
 	private SortService sortService;
-//	FileVO file;
-//	
-//	public SortableController() {
-//		file = new FileVO();
-//	}
 	
 	// get방식으로 접속시
 	@RequestMapping(value="/sortable", method=RequestMethod.GET)
