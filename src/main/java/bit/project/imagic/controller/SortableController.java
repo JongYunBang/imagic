@@ -1,6 +1,7 @@
 package bit.project.imagic.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,20 +18,33 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.service.SortService;
 import bit.project.imagic.vo.FileVO;
+import bit.project.imagic.vo.MemberVO;
 
 @Controller
 @SessionAttributes("member")
 public class SortableController {
 	
 	@Inject
+	private FileUploadService fileService;
+	
+	@Inject
 	private SortService sortService;
 	
 	// get방식으로 접속시
 	@RequestMapping(value="/sortable", method=RequestMethod.GET)
-	public String showIndexPage(HttpServletRequest request, HttpServletResponse response) {
-		return "/file/fileupload";
+	public ModelAndView showIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		FileVO file = new FileVO();
+		HttpSession session = request.getSession(false);
+		MemberVO member=(MemberVO) session.getAttribute("member");
+		String m_id=member.getM_id();
+		file.setM_id(m_id);
+		List<String> listDirs = new ArrayList<String>();
+		listDirs = fileService.selectDir(file);
+
+		return new ModelAndView("/file/fileupload", "dir_result", listDirs);
 	}
 	
 	// edit 페이지에서 다음 버튼눌렀을떄 유저의 정보를받아와서 저장

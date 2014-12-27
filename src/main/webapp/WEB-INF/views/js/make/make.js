@@ -308,4 +308,12 @@ $(document).ready(function(){
         }
 
     }
+    
+    // BACK 버튼
+    $('#makeBackBtn').on('click', function(e) {
+		document.getElementById('makeBack').submit();
+	})
+    
+    
+    
 });

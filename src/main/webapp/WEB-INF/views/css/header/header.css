@@ -3,6 +3,10 @@
 	text-decoration: none!important;
 }
 
+.navbar-brand{
+	font-size: 18px;
+}
+
 .ellipsis { width: 100px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 

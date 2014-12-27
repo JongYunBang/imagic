@@ -80,5 +80,9 @@ $(document).ready(function() {
 		}
 		document.getElementById("sortResult").submit();
 	});
-
+	
+	// Back
+	$('#sortBackBtn').on('click', function(e) {
+		document.getElementById('sortBack').submit();
+	})
 });

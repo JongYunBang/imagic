@@ -19,13 +19,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.service.MakeService;
 import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
+import bit.project.imagic.vo.MemberVO;
 
 @Controller
 @SessionAttributes("member")
 public class MakeController {
+	
+	@Inject
+	private FileUploadService fileService;
 
 	@Inject
 	MakeService makeService;
@@ -34,8 +39,16 @@ public class MakeController {
 	//테스트를 위해서 GET 방식 일시적으러 풀어놓음 
 	// 나중에 index로 바꿀것
 	@RequestMapping(value="/make", method=RequestMethod.GET)
-	public String showIndexPage(HttpServletRequest request, HttpServletResponse response) {
-		return "file/fileupload";
+	public ModelAndView showIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		FileVO file = new FileVO();
+		HttpSession session = request.getSession(false);
+		MemberVO member=(MemberVO) session.getAttribute("member");
+		String m_id=member.getM_id();
+		file.setM_id(m_id);
+		List<String> listDirs = new ArrayList<String>();
+		listDirs = fileService.selectDir(file);
+
+		return new ModelAndView("/file/fileupload", "dir_result", listDirs);
 	}
 
 	// make페이지 로딩

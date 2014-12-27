@@ -352,6 +352,15 @@ $(document).ready(function() {
 			alert("파일 받아오기 실패 다시 클릭해주세요");
 		}
 	});
+	
+	// BACK 버튼 
+	$('#editBackBtn').on('click', function(e) {
+		console.log("버튼클릭 드렁옴");
+		var m_id = $('#sessionID').val();
+		console.log(m_id);
+		document.getElementById('eidt_m_id').value=m_id;
+		document.getElementById("editBack").submit();
+	})
 
 	
 	//TODO : 작업한 내용이 1개 이상 될 때 save버튼을 활성화 시켜주는 기능을 추가시켜준다. 0개면 다시 disable상태이다.(Undo Redo 기능에 넣으면 괜찮을 듯)

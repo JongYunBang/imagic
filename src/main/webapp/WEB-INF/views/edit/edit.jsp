@@ -5,6 +5,7 @@
 <script src="../js/edit/edit.js"></script>
 <link rel="stylesheet" href="../css/edit/edit.css">
 <input type="hidden" id="sessionID" value="${file.m_id}">
+<input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 
 <div class="container">
@@ -210,25 +211,37 @@
 		</div>
 	</div>
 
-
+	<!-- BACK 버튼 -->
+	<div>
+		<div class="alert alert-success pull-left">
+			<form id="editBack" method="post" action="<%=request.getContextPath()%>/fileupload">
+				<strong>알림:</strong> 이전 페이지로 이동 합니다.
+				<div style="display: inline-block;">
+					<a class="btn btn-success" id="editBackBtn" style="width: 108px">
+						<span class="glyphicon glyphicon-ok"></span>BACK
+					</a>
+				</div>
+				<input type="hidden" name="m_id" id="eidt_m_id" value=""> 
+			</form>
+		</div>
+	</div>
 
 
 	<!-- NEXT 버튼 -->
 	<div>
-		<form id="sortable" method="post"
-			action="<%=request.getContextPath()%>/sortable">
-			<div class="alert alert-success pull-right">
+		<div class="alert alert-success pull-right">
+			<form id="sortable" method="post" action="<%=request.getContextPath()%>/sortable">
 				<strong>알림:</strong> 다음 페이지로 이동 합니다.
 				<div style="display: inline-block;">
 					<a class="btn btn-success" id="sortable" style="width: 108px">
 						<span class="glyphicon glyphicon-ok"></span>NEXT
 					</a>
 				</div>
-			</div>
-			<input type="hidden" name="m_id" id="hidden_m_id" value=""> <input
-				type="hidden" name="dirNum" id="hidden_dirNum" value=""> <input
-				type="hidden" name="dirName" id="hidden_dirName" value="">
-		</form>
+				<input type="hidden" name="m_id" id="hidden_m_id" value=""> 
+				<input type="hidden" name="dirNum" id="hidden_dirNum" value=""> 
+				<input type="hidden" name="dirName" id="hidden_dirName" value="">
+			</form>
+		</div>
 	</div>
 
 

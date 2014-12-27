@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,13 +26,18 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import bit.project.imagic.service.EditService;
+import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.util.Base64;
 import bit.project.imagic.util.ImagicUtil;
 import bit.project.imagic.vo.FileVO;
+import bit.project.imagic.vo.MemberVO;
 
 @Controller
 @SessionAttributes("member")
 public class EditController {
+	
+	@Inject
+	private FileUploadService fileService;
 	
 	@Inject
 	private EditService editService;
@@ -39,8 +45,16 @@ public class EditController {
 	//테스트를 위해서 GET 방식 일시적으러 풀어놓음 
 	// 나중에 index로 바꿀것
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
-	public String showIndexPage(HttpServletRequest request, HttpServletResponse response) {
-		return "/file/fileupload";
+	public ModelAndView showIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		FileVO file = new FileVO();
+		HttpSession session = request.getSession(false);
+		MemberVO member=(MemberVO) session.getAttribute("member");
+		String m_id=member.getM_id();
+		file.setM_id(m_id);
+		List<String> listDirs = new ArrayList<String>();
+		listDirs = fileService.selectDir(file);
+
+		return new ModelAndView("/file/fileupload", "dir_result", listDirs);
 	}
 	
 	// 에디트 페이지 로딩하면서 세션어트리뷰트에 m_id값과 현재 작업중인 폴더를 저장함

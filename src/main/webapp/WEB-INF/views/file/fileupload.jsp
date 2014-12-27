@@ -45,7 +45,7 @@
 			</ul>
 		</div>
 
-
+		<!--  드랍존 -->
 		<div class="col-md-6" id="file_main_bside">
 			<input type="file" id="files" name="files []" style="display: none;"
 				multiple />
@@ -55,7 +55,13 @@
 				<div class="percent"></div>
 			</div>
 		</div>
-
+		
+		<!-- ******* 뒤로가기 버튼 수정 해야함 ******* -->
+		<a class="btn btn-success pull-right" style="width: 108px" href="<%=request.getContextPath()%>/">
+			<span class="glyphicon glyphicon-ok"></span>BACK
+		</a>
+		
+		<!--  업로드 버튼 -->
 		<div class="col-md-4">
 			<div class="alert alert-warning">
 				<strong>주의:</strong>업로드 버튼 입니다. 
@@ -65,8 +71,9 @@
 					</a>
 				</div>
 			</div>
-
+			
 			<form id="edit_form" method="post" action="<%=request.getContextPath()%>/edit">
+			    <!-- PC접속일 경우 보여지는 edit페이지로 가는 버튼 -->
 				<div id="nextBtnOn" class="alert alert-success">
 					<strong>알림:</strong> 다음 페이지로 이동 합니다.
 					<div style="display: inline-block;">
@@ -75,7 +82,7 @@
 						</a>
 					</div>
 				</div>
-				
+				<!-- 모바일 기기에서 접속하면 보여지는 안내문 -->
 				<div id="nextBtnOff" class="alert alert-success">
 					<strong>알림:</strong> 모바일 기기에서는 파일 업로드까지만 지원합니다.<br/> PC에서 접속해 주시기 바랍니다.
 				</div>

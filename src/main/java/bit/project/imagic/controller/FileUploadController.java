@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import bit.project.imagic.service.FileUploadService;
 import bit.project.imagic.util.ImagicUtil;
@@ -59,13 +60,12 @@ public class FileUploadController {
 	// 파일 업로드창을 주소를 쳐서 들어온 경우 처리
 	@RequestMapping(value="/fileupload", method=RequestMethod.GET)
 	public String showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		return "/file/fileupload";
+		return "index";
 	}
 
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
-	public String showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		FileVO file = new FileVO();
 		HttpSession session = request.getSession(false);
 		if (session==null) {
@@ -83,8 +83,8 @@ public class FileUploadController {
 		listDirs = fileService.selectDir(file);
 
 		// DB에서 넘어온 dirList session 에 넘기기
-		session.setAttribute("dir_result", listDirs);
-		return "file/fileupload";
+		//session.setAttribute("dir_result", listDirs);
+		return new ModelAndView("/file/fileupload", "dir_result", listDirs);
 	}
 
 	@RequestMapping(value="/dircreate", method=RequestMethod.POST)

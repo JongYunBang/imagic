@@ -72,6 +72,22 @@
 <br>
 
 
-<canvas id="canvas" style="display:none"></canvas>
+<canvas id="canvas" style="display:none"></canvas><br/>
+
+<!--  뒤로가기 버튼 -->
+<form id="makeBack" method="post" action="<%=request.getContextPath()%>/sortable"> 
+	<!-- <input type="button" value="다음"> -->
+		<div class="alert alert-success pull-left">
+				<strong>알림:</strong> 이전 페이지로 이동 합니다.
+				<div style="display: inline-block;">
+					<a class="btn btn-success" id="makeBackBtn" style="width: 108px">
+						<span class="glyphicon glyphicon-ok"></span>BACK
+					</a>
+				</div>
+		</div>
+	<input type="hidden" name="m_id" id="back_m_id" value="${file.m_id}">
+	<input type="hidden" name="dirNum" id="back_dirNum" value="${file.dirNum}">
+	<input type="hidden" name="dirName" id="back_dirName" value="${file.dirName}">
+</form>
 
 <%@ include file="../common/footer.jsp"%>
