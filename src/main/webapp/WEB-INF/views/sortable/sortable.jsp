@@ -17,8 +17,8 @@
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 
 <div class="container">
-
-<ul class="row" id="sortable">
+<div class="row">
+<ul class="col-centered" id="sortable">
     <span>
     	<li id="li1" class="ui-state-default">
     		<img id="img1" class="thumbnail">
@@ -65,7 +65,7 @@
     	</li>
     </span>
 </ul>
-
+</div>
 <br/>
 
 <div class="row">

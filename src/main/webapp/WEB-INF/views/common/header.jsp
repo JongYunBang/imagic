@@ -46,7 +46,7 @@
                 <span class="icon-bar"></span>
             </button>
             <!-- 로고 넣는 부분 -->
-            <a class="navbar-brand" href="<%=request.getContextPath()%>/"><span class="glyphicon glyphicon-road">Travie</a>
+            <a class="navbar-brand" href="<%=request.getContextPath()%>/"><span class="glyphicon glyphicon-road"></span>Travie</a>
         </div>
         <div class="navbar-collapse collapse navbar-inverse-collapse">
             <ul class="nav navbar-nav">
