@@ -10,6 +10,7 @@ $(document).ready(function() {
 		$("#nextBtnOff").attr("style","display: none;");
 	}
 	
+	
 	// 태그 생성 funtion
 	function createFolder(element, dirName){
 

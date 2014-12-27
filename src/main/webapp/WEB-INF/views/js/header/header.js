@@ -30,6 +30,18 @@ function wordCheckSpace(strValue){
 }
 	
 $(document).ready(function() {
+	
+	// 백스페이스 막기
+	$(document).keydown(function(e){ 
+        if(e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA"){       
+            if(e.keyCode === 8){   
+            return false;
+            }
+        }
+    });
+ 
+    window.history.forward(0);
+	
 	//로그인 버튼 클릭시 Ajax로 로그인 처리 
 	$('#login').click(function(event) {
 		var formData = $('#login_form').serialize();
