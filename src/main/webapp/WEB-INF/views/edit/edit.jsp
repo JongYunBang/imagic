@@ -46,28 +46,31 @@
 		<!-- 필터 드롭다운 -->
 		<div class="col-xs-2" id="Filterdown">
 			<div class="Filter btn-group">
-				<button type="button" class="btn btn-primary" data-toggle="collapse"
-					data-target="#filterList">Filter</button>
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filterList">Filter</button>
 			</div>
 		</div>
 
 		<!-- 버튼 박스 -->
 		<div class="col-xs-8" id="tools">
-			<button type="button" class="btn btn-default" id="clear"
-				disabled="disabled">
+			<button type="button" class="btn btn-default" id="clear" disabled="disabled">
 				<span class="glyphicon glyphicon-repeat"></span> Reset
 			</button>
-			<button type="button" class="btn btn-default" id="undo"
-				disabled="disabled">
-				<span class="glyphicon glyphicon-arrow-left"></span> Undo
+			<button type="button" class="btn btn-default" id="undo" disabled="disabled">
+				<span class="glyphicon glyphicon-arrow-left"></span> Undo 
 			</button>
 			<button type="button" class="btn btn-default" id="redo"
 				disabled="disabled">
 				<span class="glyphicon glyphicon-arrow-right"></span> Redo
 			</button>
+			
+			<a type="button" class="btn btn-default pull-right disabled"
+				id="saveCanvasDown">
+				<span class="glyphicon glyphicon-save"></span>다운로드
+			</a>
+				
 			<button type="button" class="btn btn-default pull-right"
 				id="saveCanvas" disabled="disabled">
-				<span class="glyphicon glyphicon-save"></span> 이미지저장
+				<span class="glyphicon "></span> 변경내용저장
 			</button>
 		</div>
 

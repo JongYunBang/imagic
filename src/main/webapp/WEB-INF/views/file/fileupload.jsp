@@ -5,6 +5,7 @@
 
 <script src="../js/file/newdropzone.js"></script>
 <script src="../js/file/fileupload.js"></script>
+<script src="../js/jquery.ui.touch-punch.min.js"></script>
 <link rel="stylesheet" href="../css/file/fileupload.css">
 <link rel="stylesheet" href="../css/file/newdropzone.css">
 
@@ -38,8 +39,8 @@
 				<c:forEach var="result" items="${dir_result}" varStatus="status">
 					<li class="list-group-item" id="${result}">
 					<div id="${result}" class='folder ellipsis'>${result}</div>
-					<span><a class='glyphicon glyphicon-trash delete pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="삭제"></a></span> 
-					<span><a class='glyphicon glyphicon-pencil rename pull-right' id="${result}" style="text-decoration: none; cursor:pointer;" title="수정하기"></a></span>
+					<span class='glyphicon glyphicon-trash delete pull-right' id="${result}" title="삭제"></span> 
+					<span class='glyphicon glyphicon-pencil rename pull-right' id="${result}" title="수정"></span>
 					</li>
 				</c:forEach>
 			</ul>

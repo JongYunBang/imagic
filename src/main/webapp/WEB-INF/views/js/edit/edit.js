@@ -347,6 +347,8 @@ $(document).ready(function() {
 			// tools 및 array 및 filterList 초기화 해주기
 			editReset();
 			inputEnable();
+			var saveCanvasDown = document.getElementById('saveCanvasDown');
+			saveCanvasDown.classList.remove('disabled');
 		}
 		function onError(data) {
 			alert("파일 받아오기 실패 다시 클릭해주세요");
@@ -361,10 +363,15 @@ $(document).ready(function() {
 		document.getElementById('eidt_m_id').value=m_id;
 		document.getElementById("editBack").submit();
 	})
-
 	
-	//TODO : 작업한 내용이 1개 이상 될 때 save버튼을 활성화 시켜주는 기능을 추가시켜준다. 0개면 다시 disable상태이다.(Undo Redo 기능에 넣으면 괜찮을 듯)
+	// 캔버스 이미지 다운로드 
+	$(document).on('click', '#saveCanvasDown', function(e) {
+		var down = document.getElementById('saveCanvasDown');
+		down.href= sourceImage.src;
+		down.download=currentFile.imgOriName;
+	})
 	
+	// 캔버스 변경사항 저장
 	$(document).on('click', '#saveCanvas', function(e) {
 		
 		if (!imageLoading) {
@@ -641,7 +648,7 @@ $(document).ready(function() {
 		clearBtn.disabled = false;
         saveCanvas.disabled = false;
 	    if ((cStep == 1 && cPushArray.length == 1) || cStep ==0 || cPushArray.length==0) {
-	    		clearBtn.disabled = true;
+	    	clearBtn.disabled = true;
             undoBtn.disabled = true;
             redoBtn.disabled = true;
             saveCanvas.disabled = true;

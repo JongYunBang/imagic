@@ -36,9 +36,9 @@
 	    	
 	    	<div id="step3">
 	    		<span>영상의 Quality를 선택해 주세요</span><br/>   	
-	    		<input type="radio" id="imgHi" name="imgQuality"value="" checked /><span id="imgHiSpan"></span>
+	    		<input type="radio" id="imgLow" name="imgQuality" value="" checked /><span id="imgLowSpan"></span>
 	    		<input type="radio" id="imgMiddle" name="imgQuality" value=""/><span id="imgMiddleSpan"></span>
-	    		<input type="radio" id="imgLow" name="imgQuality" value=""/><span id="imgLowSpan"></span>
+	    		<input type="radio" id="imgHi" name="imgQuality"value="" /><span id="imgHiSpan"></span>
 	    	</div>
 	    	
 	    	<div id="step4">

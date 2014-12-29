@@ -17,8 +17,8 @@ $(document).ready(function() {
 		// 열우 2014. 12. 7 일 (01:28) : 폴더 클릭 시 파일 리스트를 가져오기 위해서 a 태그 추가
 		element.innerHTML = 
 		"<div id='"+ dirName + "' class='folder ellipsis'>" + dirName +"</div>" + 
-		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-trash delete pull-right' style='text-decoration: none'></a></span>" +
-		"<span><a id='"+ dirName + "' class='glyphicon glyphicon-pencil rename pull-right' style='text-decoration: none'></a></span>";
+		"<span id='"+ dirName + "' class='glyphicon glyphicon-trash delete pull-right' title='삭제'></span>" +
+		"<span id='"+ dirName + "' class='glyphicon glyphicon-pencil rename pull-right' title='수정'></span>";
 	}
 	
 	// 폴더명 고치는 function
@@ -118,7 +118,7 @@ $(document).ready(function() {
 			function onSuccess(data) {
 				if(data=="deleteDirSuccess"){
 					//alert("삭제하였습니다.");
-					e.target.parentElement.parentElement.remove();
+					e.target.parentElement.remove();
 					dropzone.resetDropzone();
 					hasFiles = 0;
 //					window.location.href="/fileupload";
@@ -215,7 +215,7 @@ $(document).ready(function() {
 	});
 
 	//	열우 2014. 12. 7 일 (01:39) : 폴더 클릭 시 파일 리스트를 받아오기 위한 함수
-	$(document).on('click', '.folder', function (e) {
+	$(document).on('click touchend', '.list-group-item', function (e) {
 //		종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
 		// 	background-color: #C0C0C0;
@@ -227,11 +227,9 @@ $(document).ready(function() {
 		var dir_elements = document.getElementsByClassName('folder');
 		for (var i=0; i < dir_elements.length; i++){
 			var dir_element = dir_elements[i];
-			dir_element.classList.remove("clicked");
-			dir_element.parentElement.style.backgroundColor="#FFFFFF";
+			dir_element.parentElement.classList.remove("clicked");
 		}
 		e.currentTarget.classList.add("clicked");
-		e.target.parentElement.style.backgroundColor="#C0C0C0";
 		
 		
 

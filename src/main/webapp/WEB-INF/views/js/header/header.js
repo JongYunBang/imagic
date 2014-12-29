@@ -40,7 +40,6 @@ $(document).ready(function() {
         }
     });
  
-    window.history.forward(0);
 	
 	//로그인 버튼 클릭시 Ajax로 로그인 처리 
 	$('#login').click(function(event) {

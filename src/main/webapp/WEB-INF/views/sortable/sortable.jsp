@@ -4,7 +4,7 @@
 <!-- <link rel="stylesheet" href="../css/jquery-ui.css"> -->
 <script src="../js/jquery-ui.js"></script>
 <script src="../js/sortable/sortable.js"></script> 
-<script src="../js/sortable/jquery.ui.touch-punch.min.js"></script> 
+<script src="../js/jquery.ui.touch-punch.min.js"></script> 
 
 <style>
     #sortable { list-style-type: none; margin: 10px; padding: 0; width: 710px; }
