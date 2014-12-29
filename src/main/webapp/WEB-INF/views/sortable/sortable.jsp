@@ -18,7 +18,8 @@
 
 <div class="container">
 <div class="row">
-<ul class="col-centered" id="sortable">
+<div class="col-md-2"></div>
+<ul class="col-md-6" id="sortable">
     <span>
     	<li id="li1" class="ui-state-default">
     		<img id="img1" class="thumbnail">
@@ -65,6 +66,7 @@
     	</li>
     </span>
 </ul>
+<div class="col-md-4"></div>
 </div>
 <br/>
 
