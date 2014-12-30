@@ -40,7 +40,7 @@ $(document).ready(function() {
         var inputBtn = filterSetting[i].querySelector("input");
         inputBtn.addEventListener("change", function (e) {
             // 현재 data-filter Attribute의 값 ("brightness")
-            var filterName = e.target.attributes[5].value;
+            var filterName = e.target.parentElement.parentElement.children[0].innerHTML;
             // 현재 filter의 value값 ("66")
             var filterValue = e.target.value;
             // filterValue span에 filterValue 값을 나타낸다.
@@ -370,7 +370,8 @@ $(document).ready(function() {
 		down.href = sourceImage.src;
 		down.download = currentFile.imgOriName;
 		
-	})
+		console.log(down);
+	});
 	
 	// 변경내용 저장 버튼
 	$(document).on('click', '#saveCanvas', function(e) {

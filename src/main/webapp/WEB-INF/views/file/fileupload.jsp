@@ -59,7 +59,7 @@
 		
 		<!--  업로드 버튼 -->
 		<div class="col-md-4 alert">
-<!-- 			<!-- ******* 뒤로가기 버튼 수정 해야함 ******* --> 
+<!-- 			 ******* 뒤로가기 버튼 수정 해야함 ******* --> 
 <!-- 			<div class="alert alert-info"> -->
 <!-- 				<div style="display: inline-block;"> -->
 <%-- 					<a ^class="btn btn-success pull-right" style="width: 108px" href="<%=request.getContextPath()%>/"> --%>

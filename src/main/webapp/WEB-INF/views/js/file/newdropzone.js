@@ -15,7 +15,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		return document.getElementById(id);
 	}
 	
-////////////
 	
 // Prototype
 	// 12.11 19:45 - 배열 삭제 후 자동 당겨오기(index값 재설정)
@@ -29,7 +28,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		return file.size;
 	};
 	
-////////////
 	
 	/* console 디버깅을 편하게 하기 위한 함수 객체
 	   사용법은 단순한 메시지를 보려면 메시지만 입력하면 되고
@@ -122,7 +120,9 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		// 서버에 저장된 파일 개수 카운팅
 //		if()/
 		
-		if(files.constructor.name != "FileList") {
+		if(Object.prototype.toString.call(files) != "[object FileList]") {
+			// chrome 사용 했던 거
+			// files.constructor.name != "FileList"	  
 			hasFiles = hasFiles + files.length;
 		}
 		
@@ -138,9 +138,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					"<div class=\"dz-size\" data-dz-size></div>\n    " +
 					"<img data-dz-thumbnail />\n  " +
 				"</div>\n  " +
-//			 "<div class=\"dz-mark\">" +
-//			 "<span class=\"dz-mark\"></span>" +
-//			 "</div>\n " +
 				"<div class=\"dz-delete\">" +
 					"<span data-dz-delete class='btn btn-default'>Delete</span>" +
 				"</div>\n    " +
@@ -172,11 +169,14 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			removeFile.addEventListener('click', dropzone.removeFile, false);
 			thumbnail = template.querySelector('[data-dz-thumbnail]');
 			thumbnail.alt = f.name;
+			//console.log( Object.prototype.toString.call(f));
 			/////
-			
 			// 12.11 19:45 - 파일의 종류가 File일때만 output에 넣어준다.
 			// 이것을 통해서 사용자가 직접 올린 파일만 output에 데이터를 담는다!
-			if (f.constructor.name == "File" ){
+			// Object.prototype.toString.call(f) >> ie에서 File인지 알아보려고
+			
+			if (f.constructor.name == "File" || Object.prototype.toString.call(f) == "[object File]"){
+				//console.log("11111");
 				template.querySelector('[data-dz-state]').innerHTML ='upload';
 				template.querySelector('[data-dz-state]').parentElement.style.backgroundPosition ="-40px 0px";
 				output.push(f);
@@ -305,6 +305,23 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	
 		// 데이터 전송을 위해 XHR을 생성한다.
 		var xhr = new XMLHttpRequest();
+//		var xhr=null;
+//		try {
+//			xhr = new HMLHttpRequest();
+//		} catch (trymicrosoft) {
+//			try{
+//				xhr = new ActiveXObject("Msxml2.XMLHTTP");
+//			} catch(othermicrosoft) {
+//				try {
+//					xhr = new ActiveXObject("Microsoft.XMLHTTP");
+//				} catch (failed) {
+//					xhr = null;
+//				}
+//			}
+//		}
+//		if (xhr == null) {
+//			alert("xhr null");
+//		}
 		var progress = document.querySelector('.percent');
 
 		// 12.11 19:45 - 전송될 데이터가 존재하면
@@ -314,14 +331,14 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			$.each(output, function(i, file) {
 				formData.append('file-' + i, file);
 			});
-			
+			console.log(output);
 			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
 			
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
 				formData.append("blob-" + blob.fileNum, blob.data);
 			});
-			
+			console.log(outputBlob);
 			// 12.11 19:45 - XHR 
 			xhr.open(method, dzURL, true);
 			xhr.responseType = 'json';
@@ -351,7 +368,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					status = xhr.status;
 					if (status == 200) {
 						data = xhr.response;
-						
 					} else {
 						alert("받아오기실패");
 					}
@@ -362,10 +378,16 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 그래서 data-dz-imgnum이 비어있는 span을 찾아서 그에 맞는 값을 넣어주면 된다.
 					// 이것은 둘다 순서대로 만들어지고 순서대로 data값이 들어온다는 전제하에 작동된다. 
 					// 우리는 그렇게 되어있어서 에러가 안난다.
+
+					// 브라우저 체크
+					if (hasBrowser() == "IE") {
+						data = JSON.parse(data);
+					}
+					
 					for(var i=0;i < data.length; i++){
 						var imgNumList = document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]');
 						for(var j=0; j<imgNumList.length;j++){
-							if(!imgNumList[j].innerHTML){
+							if(imgNumList[j].innerHTML=="undefined" || !(imgNumList[j].innerHTML)){
 								imgNumList[j].innerHTML = data[i].imgNum;
 								break;
 							}
@@ -415,20 +437,20 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	// 드랍존에서 파일 삭제 하기 위한 곳
 	dropzone.removeFile = function(e) {
 		// 12.11 19:45 - dropzone안에 생성되어있는 preview안에 있는 state 태그의 값
-		var stateValue = e.target.parentElement.nextSibling.nextElementSibling.childNodes[0].innerHTML;
+		
+		var stateValue = e.target.parentElement.nextElementSibling.childNodes[0].innerHTML;	
 		var id = $('#m_id').val();
 		var dirName = $('#drop_zone').data('folder');
 		
 		// 12.11 19:45 - dropzone안에 생성되어있는 preview안에 태그의 id		
 		var imgName = e.target.parentElement.parentElement.id;
 		// 12.11 19:45 - dropzone안에 생성되어있는 preview안에 있는 imgNum 태그의 값
-		var imgNum = e.target.parentElement.nextSibling.nextSibling.nextSibling.nextElementSibling.childNodes[0].innerHTML;
+		var imgNum = e.target.parentElement.nextElementSibling.nextElementSibling.childNodes[0].innerHTML;
 				
 		if (stateValue == 'saved') {  // 서버에 저장된 파일
 			$.ajax({
 				type : "POST",
 				url : "/removeFile",
-				cache : false,
 				data : {
 					"m_id" : id,
 					"dirName" : dirName,
@@ -449,23 +471,29 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			function onSuccess(data) {
 				if(data=="deleteFileSuccess"){
 					//alert("삭제하였습니다.");
-					
-					// 12.11 19:45 - preview 통채로 날리기
-					e.target.parentElement.parentElement.remove();
-					hasFiles = hasFiles - 1;
+
 				}else if(data=="deleteFileDBFail"){
 					alert("실패 : DB 에서의 File 삭제 실패");
 				}else if(data=="deleteFileFail") {
 					alert("실패 : DB는 삭제 했으나 FileSystem 존재");
-					
-					// 12.11 19:45 - preview 통채로 날리기  
-					e.target.parentElement.parentElement.remove();
 				}else if(data=="deleteFileEx") {
 					alert("실패 : Exception 발생하고 삭제 실패");
 				}else if(data="SessionNullEx") {
 					alert("세션이 만료되었습니다.");
 					window.location.href="/";
 				}
+			
+				if(hasBrowser() == "IE") {
+					var temp = e.target.parentElement.parentElement;
+					while(temp.hasChildNodes()) {
+						temp.removeChild(temp.firstChild);
+					}
+					temp.removeNode();
+				}else {
+					// 12.11 19:45 - preview 통채로 날리기
+					e.target.parentElement.parentElement.remove();
+				}
+				hasFiles = hasFiles - 1;
 			}
 			function onError(data, status) {
 				alert("삭제실패");
@@ -490,9 +518,18 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			}
 			outputBlob.remove(sliceIndex);
 			
-			// 12.11 19:45 - preview 통채로 날리기  
-			e.target.parentElement.parentElement.remove();
+			if(hasBrowser() == "IE") {
+				var temp = e.target.parentElement.parentElement;
+				while(temp.hasChildNodes()) {
+					temp.removeChild(temp.firstChild);
+				}
+				temp.removeNode();
+			}else {
+				// 12.11 19:45 - preview 통채로 날리기
+				e.target.parentElement.parentElement.remove();
+			}
 			hasFiles = hasFiles - 1;
+			
 		}
 	}
 	

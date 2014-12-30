@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	
 	var m_id = document.getElementById('m_id').value;
 	var currentDir=null;
 	
@@ -101,12 +102,10 @@ $(document).ready(function() {
 		e.stopPropagation();
 		e.preventDefault();
 		if (confirm('경고 : 폴더 안에 있는 모든 데이터들이 삭제 됩니다. 계속 진행하시겠습니까?')) {
-
 			var dirName = e.target.id;
 			$.ajax({
 				type : "POST",
 				url : "/deleteDir",
-				cache : false,
 				data : {
 					"m_id" : m_id,
 					"dirName" : dirName
@@ -139,7 +138,15 @@ $(document).ready(function() {
 					alert("실패 : Exception 발생하고 삭제 실패");
 				}
 				dropzone.resetDropzone();
-				e.target.parentElement.remove();
+				if(hasBrowser()=="IE"){
+					var temp = e.target.parentElement;
+					while(temp.hasChildNodes()) {
+						temp.removeChild(temp.firstChild);
+					}
+					temp.removeNode();
+				}else{
+					e.target.parentElement.remove();
+				}
 				hasFiles = 0;
 			}
 			function onError(data, status) {
@@ -236,8 +243,6 @@ $(document).ready(function() {
 			dir_element.parentElement.classList.remove("clicked");
 		}
 		e.currentTarget.classList.add("clicked");
-		
-		
 
 		var m_id = $('#m_id').val();
 		$('#drop_zone').data("folder", $(this)[0].id);

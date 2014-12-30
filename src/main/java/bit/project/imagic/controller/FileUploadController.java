@@ -75,15 +75,6 @@ public class FileUploadController {
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
 	public ModelAndView showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		FileVO file = new FileVO();
-//		HttpSession session = request.getSession(false);
-//		if (session==null) {
-//			response.sendRedirect(request.getContextPath() + "/");
-//		}
-//
-//		if (member==null || !ImagicUtil.checkMemberId(member)){
-//			//			return "index";
-//			response.sendRedirect(request.getContextPath() + "/");
-//		}
 
 		String m_id=member.getM_id();
 		file.setM_id(m_id);

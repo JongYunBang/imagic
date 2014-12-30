@@ -352,6 +352,7 @@ window.Whammy = (function () {
     // here's something else taken verbatim from weppy, awesome rite?
 
     function parseWebP(riff) {
+    	console.log(riff);
         var VP8 = riff.RIFF[0].WEBP[0];
 
         var frame_start = VP8.indexOf('\x9d\x01\x2a'); //A VP8 keyframe starts with the 0x9d012a header
@@ -384,7 +385,6 @@ window.Whammy = (function () {
     function parseRIFF(string) {
         var offset = 0;
         var chunks = {};
-
         while (offset < string.length) {
             var id = string.substr(offset, 4);
             var len = parseInt(string.substr(offset + 4, 4).split('').map(function (i) {
@@ -435,12 +435,13 @@ window.Whammy = (function () {
         }
         if (frame.toDataURL) {
             frame = frame.toDataURL('image/webp', this.quality)
+//            console.log(frame);
         } else if (typeof frame != "string") {
             throw "frame must be a a HTMLCanvasElement, a CanvasRenderingContext2D or a DataURI formatted string"
         }
-        if (!(/^data:image\/webp;base64,/ig).test(frame)) {
-            throw "Input must be formatted properly as a base64 encoded DataURI of type image/webp";
-        }
+//        if (!(/^data:image\/webp;base64,/ig).test(frame)) {
+//            throw "Input must be formatted properly as a base64 encoded DataURI of type image/webp";
+//        }
         this.frames.push({
             image: frame,
             duration: duration || this.duration

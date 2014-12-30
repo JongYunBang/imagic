@@ -53,19 +53,18 @@ public class MemberController {
 			 @ModelAttribute MemberVO member) throws Exception {
 		PrintWriter pw = response.getWriter();
 		MemberVO storedMember = new MemberVO();
-		if (member != null) {
-			storedMember = service.login(member);
-		}
-		if(storedMember==null) {
-			pw.write("loginError");
-			pw.flush();
-		} else {
-			pw.write("loginSuccess");
-			pw.flush();
-		}
+			try {
+				storedMember = service.login(member);
+				pw.write("loginSuccess");
+				pw.flush();
+			} catch (Exception e) {
+				e.printStackTrace();
+				pw.write("loginError");
+				pw.flush();
+			}
 		pw.close();
 		// 종윤 2014.12.8(10:00) : getSession으로 변경(Session 한개 관리를 위해서)
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		session.setAttribute("member", storedMember);
 		return "index";
 	}
