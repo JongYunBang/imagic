@@ -22,8 +22,8 @@ $(document).ready(function() {
 
 
 	function onSuccess(data) {
-
 		fileList = data;
+		console.log(fileList);
 		// sort페이지의 'li'태그의 리스트를 구하고
 		var liList= $('.ui-state-default');
 		// liList의 자식노드를 추가(자식노드에 imgNum 넣어주기위해서)
@@ -32,9 +32,9 @@ $(document).ready(function() {
 			// 각 사진에 해당하는 imgNum 을 가지고 와서
 			var imgNum=data[i].imgNum;
 			// 해당 img태그 안에 썸네일을 넣어주고
-			liList[i].childNodes[1].src=atob(data[i].imgThumb);
+			liList[i].childNodes[0].src=atob(data[i].imgThumb);
 			// 추가한 자식 노드에 imgNum 넣어주기
-			liList[i].childNodes[3].innerHTML=data[i].imgNum;
+			liList[i].childNodes[1].innerHTML=data[i].imgNum;
 		}
 
 
@@ -48,7 +48,7 @@ $(document).ready(function() {
 		var thumbnailList = $('.ui-state-default');
 		// 구해온 리슨트의 imgNum 에 의해서 imgOrder를 DB에 정하고 결과값으로 동영상 제작
 		for(var i=0; i<thumbnailList.length; i++){
-			var imgNum = thumbnailList[i].childNodes[3].innerHTML;
+			var imgNum = thumbnailList[i].childNodes[1].innerHTML;
 			for(var j=0; j<fileList.length; j++){
 				if(imgNum==fileList[j].imgNum) {
 					fileList[j].imgOrder=i;

@@ -59,23 +59,31 @@ public class FileUploadController {
 
 	// 파일 업로드창을 주소를 쳐서 들어온 경우 처리
 	@RequestMapping(value="/fileupload", method=RequestMethod.GET)
-	public String showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "index";
+	public ModelAndView showFlieUploadPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		FileVO file = new FileVO();
+		HttpSession session = request.getSession(false);
+		MemberVO member=(MemberVO) session.getAttribute("member");
+		String m_id=member.getM_id();
+		file.setM_id(m_id);
+		List<String> listDirs = new ArrayList<String>();
+		listDirs = fileService.selectDir(file);
+
+		return new ModelAndView("/file/fileupload", "dir_result", listDirs);
 	}
 
 	// 파일 업로드 창을 띄우기 위한 맵핑
 	@RequestMapping(value="/fileupload", method=RequestMethod.POST)
 	public ModelAndView showFlieUploadPage_2(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		FileVO file = new FileVO();
-		HttpSession session = request.getSession(false);
-		if (session==null) {
-			response.sendRedirect(request.getContextPath() + "/");
-		}
-
-		if (member==null || !ImagicUtil.checkMemberId(member)){
-			//			return "index";
-			response.sendRedirect(request.getContextPath() + "/");
-		}
+//		HttpSession session = request.getSession(false);
+//		if (session==null) {
+//			response.sendRedirect(request.getContextPath() + "/");
+//		}
+//
+//		if (member==null || !ImagicUtil.checkMemberId(member)){
+//			//			return "index";
+//			response.sendRedirect(request.getContextPath() + "/");
+//		}
 
 		String m_id=member.getM_id();
 		file.setM_id(m_id);

@@ -67,11 +67,11 @@ $(document).ready(function(){
 		
 		// 최대 가로와 최대 세로의 길이 비교로 화면에 미리 띄워줄 글과 화면비율 선택하기
 		if(maxWidth>=maxHeight){
-			$("#step1Str").html("'가로방향으로 영상을 제작하는것을 추천드립니다.'");
+			$("#step1Str").html("'가로방향을 추천드립니다.'");
 			insertVerValue(maxWidth, ratio_16x9);
 			$('input[name=imgDirection]')[0].checked=true;
 		} else {
-			$('#step1Str').html("세로방향으로 영상을 제작하는것을 추천드립니다.");
+			$('#step1Str').html("세로방향을 추천드립니다.");
 			insertHorValue(maxHeight, ratio_16x9);
 			$('input[name=imgDirection]')[1].checked=true;
 		}
@@ -129,6 +129,7 @@ $(document).ready(function(){
 		$("#preset").attr("style","display: none;");
 		$("#userSetClose").attr("style","");
 		$("#userSet").attr("style","");
+		$("#userSetBn").attr("style", "display: none;");
 		
 	});
 	// 유저지정 창 닫기 버튼 클릭시
@@ -137,6 +138,7 @@ $(document).ready(function(){
 		$("#preset").attr("style","");
 		$("#userSet").attr("style","display: none;");
 		$("#userSetClose").attr("style","display: none;");
+		$("#userSetBn").attr("style", "");
 		
 	});
 	

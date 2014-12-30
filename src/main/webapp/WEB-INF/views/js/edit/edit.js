@@ -88,8 +88,11 @@ $(document).ready(function() {
         	document.getElementById("saveCanvas").removeAttribute("disabled");
         	
         if(type.name =="filter"){
-        	// filterList에 필터 값을 넣어준다. ("brightness : 66")
-        		filterList[type.filterName] = type.filterValue;	
+        	if((filterList[type.filterName]=="gamma" &&  type.filterValue ==0)) {
+        		delete filterList[type.filterName]; 
+        	}else{
+        		filterList[type.filterName] = type.filterValue;
+        	}
         }else if(type.name=="preset") {
     			activePreset = type.presetName;
         }
@@ -357,21 +360,21 @@ $(document).ready(function() {
 	
 	// BACK 버튼 
 	$('#editBackBtn').on('click', function(e) {
-		console.log("버튼클릭 드렁옴");
 		var m_id = $('#sessionID').val();
-		console.log(m_id);
 		document.getElementById('eidt_m_id').value=m_id;
 		document.getElementById("editBack").submit();
 	})
+
 	
-	// 캔버스 이미지 다운로드 
+	// 이미지 저장 버튼
 	$(document).on('click', '#saveCanvasDown', function(e) {
 		var down = document.getElementById('saveCanvasDown');
-		down.href= sourceImage.src;
-		down.download=currentFile.imgOriName;
+		down.href = sourceImage.src;
+		down.download = currentFile.imgOriName;
+		
 	})
 	
-	// 캔버스 변경사항 저장
+	// 변경내용 저장 버튼
 	$(document).on('click', '#saveCanvas', function(e) {
 		
 		if (!imageLoading) {
@@ -402,7 +405,7 @@ $(document).ready(function() {
 //				console.log("render end");
 				
 				// 캔버스 이미지를 base64 형태로 받아옴
-				var imgData = sourceCanvas.toDataURL("image/png");
+				var imgData = sourceCanvas.toDataURL("image/" + currentFile.imgFormat);
 				
 				// 썸네일을 만들어줄 canvas를 생성한다.
 				var canvas = document.createElement('canvas');
@@ -479,6 +482,7 @@ $(document).ready(function() {
 										if (data == 4){
 											alert("파일을 정상적으로 저장했습니다.");
 											thumbnailSrc.src = dataURL;
+											sourceImage.src = sourceCanvas.toDataURL("image/" + currentFile.imgFormat);
 										}
 									}
 								};
@@ -648,7 +652,7 @@ $(document).ready(function() {
 		clearBtn.disabled = false;
         saveCanvas.disabled = false;
 	    if ((cStep == 1 && cPushArray.length == 1) || cStep ==0 || cPushArray.length==0) {
-	    	clearBtn.disabled = true;
+	    		clearBtn.disabled = true;
             undoBtn.disabled = true;
             redoBtn.disabled = true;
             saveCanvas.disabled = true;

@@ -57,11 +57,6 @@ li .glyphicon-trash {
 	cursor: pointer;
 }
 
-.list-group-item {
-	cursor: pointer;
-	background-color : #FFFFFF;
-}
-
-.list-group-item.clicked {
-	background-color : #C0C0C0;
+.alert {
+	
 }
