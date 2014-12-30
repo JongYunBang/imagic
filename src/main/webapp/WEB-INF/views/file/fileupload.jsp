@@ -57,18 +57,20 @@
 			</div>
 		</div>
 		
-		<!-- ******* 뒤로가기 버튼 수정 해야함 ******* -->
-		<a class="btn btn-success pull-right" style="width: 108px" href="<%=request.getContextPath()%>/">
-			<span class="glyphicon glyphicon-ok"></span>BACK
-		</a>
-		
 		<!--  업로드 버튼 -->
-		<div class="col-md-4">
+		<div class="col-md-4 alert">
+<!-- 			<!-- ******* 뒤로가기 버튼 수정 해야함 ******* --> 
+<!-- 			<div class="alert alert-info"> -->
+<!-- 				<div style="display: inline-block;"> -->
+<%-- 					<a ^class="btn btn-success pull-right" style="width: 108px" href="<%=request.getContextPath()%>/"> --%>
+<!-- 					<span class="glyphicon glyphicon-ok pull-left"></span>BACK</a> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			<div class="alert alert-warning">
-				<strong>주의:</strong>업로드 버튼 입니다. 
+				<strong>주의:</strong>업로드 버튼을 누르셔야 저장이 됩니다.<br/>
 				<div style="display: inline-block;">
-					<a class="btn btn-warning pull-right" id="upload_dropzone" style="width: 108px"> <span
-						class="glyphicon glyphicon-cloud-upload pull-left"></span> UPLOAD
+					<a class="btn btn-warning pull-right" id="upload_dropzone" style="width: 108px"> 
+						<span class="glyphicon glyphicon-cloud-upload pull-left"></span> UPLOAD
 					</a>
 				</div>
 			</div>

@@ -3,7 +3,9 @@
 <%@ include file="../common/header.jsp"%>
 <script src="../js/edit/caman.edit.full.min.js"></script>
 <script src="../js/edit/edit.js"></script>
+<script src="../js/edit/jquery.bxslider.min.js"></script>
 <link rel="stylesheet" href="../css/edit/edit.css">
+<link rel="stylesheet" href="../css/edit/jquery.bxslider.css">
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
@@ -208,9 +210,9 @@
 	<div id="thumbnailzone" style="background-color: #C0C0C0">
 		<!-- 이미지 미리보기(썸네일) 바 -->
 		<div id="imageList">
-			<span><a class="glyphicon glyphicon-chevron-left"></a></span>
+			<div class="thumbnailLeft"><a href="#" class="glyphicon glyphicon-chevron-left"></a></div>
 			<div id="thumbNail" class="dropzone" data-folder></div>
-			<span><a class="glyphicon glyphicon-chevron-right"></a></span>
+			<div class="thumbnailRight"><a href="#" class="glyphicon glyphicon-chevron-right"></a></div>
 		</div>
 	</div>
 

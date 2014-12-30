@@ -138,7 +138,6 @@ $(document).ready(function() {
 		$.ajax({
 			type : "POST",
 			url : "/imgLoad",
-			cache : false,
 			data : {
 				"m_id" : $('#sessionID').val(),
 				"dirName" : $('#sessionDirName').val()

@@ -41,7 +41,6 @@
 #display{
 	display: flex;
 	display: -webkit-flex;
-	
 }
 
 [data-tv-thumbnail] {
@@ -62,4 +61,17 @@
 }
 .glyphicon.glyphicon-chevron-right {
     font-size: 30px;
+}
+
+.thumbnailLeft, .thumbnailRight {
+	width:30px;
+	display: block;
+	float:left;
+	height:110px;
+}
+ .thumbnailRight {
+ 	float:right;
+ }
+.thumbnailLeft > a, .thumbnailRight> a {
+	top : 40px;
 }

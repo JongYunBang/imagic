@@ -7,7 +7,8 @@
 	font-size: 18px;
 }
 
-.ellipsis { width: 100px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+/* 12월 30일 수정 CSS*/
+.ellipsis { width: 60%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
 
 .heading {
@@ -88,4 +89,9 @@
 		color : red;
 /* 		display: table-row; */
 	}
+}
+
+/* 12월 30일 수정 CSS*/
+@media screen and (min-width:992px) and (max-width:1099px) {
+	.ellipsis { width: 50px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 }

@@ -1,62 +1,98 @@
 @CHARSET "UTF-8";
+
 body {
-	height:100%;
+	height: 100%;
 }
 
 a {
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 li .glyphicon-pencil {
- 	position: absolute;
-	right : 30px;
+	position: absolute;
+	right: 40px;
 	top: 12px;
- }
- 
+}
+
 li .glyphicon-trash {
- 	position: absolute;
-	right : 10px;
+	position: absolute;
+	right: 15px;
 	top: 12px;
- } 
+}
 
 .btn-outline {
-    background-color: transparent;
-    color: inherit;
-    transition: all .5s;
+	background-color: transparent;
+	color: inherit;
+	transition: all .5s;
 }
 
 .btn-primary.btn-outline {
-    color: #428bca;
+	color: #428bca;
 }
 
 .btn-success.btn-outline {
-    color: #5cb85c;
+	color: #5cb85c;
 }
 
 .btn-info.btn-outline {
-    color: #5bc0de;
+	color: #5bc0de;
 }
 
 .btn-warning.btn-outline {
-    color: #f0ad4e;
+	color: #f0ad4e;
 }
 
 .btn-danger.btn-outline {
-    color: #d9534f;
+	color: #d9534f;
 }
 
-.btn-primary.btn-outline:hover,
-.btn-success.btn-outline:hover,
-.btn-info.btn-outline:hover,
-.btn-warning.btn-outline:hover,
-.btn-danger.btn-outline:hover {
-    color: #fff;
+.btn-primary.btn-outline:hover, .btn-success.btn-outline:hover,
+	.btn-info.btn-outline:hover, .btn-warning.btn-outline:hover,
+	.btn-danger.btn-outline:hover {
+	color: #fff;
 }
-.makeFolder:hover {
-	color : red;
+
+.makeFolder:active {
+	color: red;
 	cursor: pointer;
 }
 
-.alert {
+.list-group-item {
+	cursor: pointer;
+	background-color: #FFFFFF;
+}
+
+.list-group-item.clicked {
+	background-color: #C0C0C0;
+}
+
+.list-group-item.clicked div {
+	color : red;
+}
+
+#file_main_aside, #file_main_bside {
+	padding-left: 15px;
+}
+
+.col-md-4 .alert {
+	width: 100%;
+	height: 100%;
+}
+
+/* 12월 30일 수정 CSS 아래 다*/ 
+
+#nextBtnOn {
 	
+}
+
+.rename, .delete {
+	color : #669ae1;
+}
+
+.rename:active {
+	color : red;
+}
+
+.delete:active {
+	color:red;
 }
