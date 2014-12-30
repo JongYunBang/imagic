@@ -150,16 +150,20 @@ public class FileUploadController {
 
 				if (fileService.renameDir(file) == 1) {  // DB에 이름 변경하면 1 반환
 					// ajax에게 값을 넘겨주기 위해서
-					boolean result = ImagicUtil.renameDir(ImagicUtil.path + m_id, oldDirName,
-							newDirName);
+					boolean result = ImagicUtil.renameDir(ImagicUtil.path + m_id, oldDirName, newDirName);
 					pw.print(result);
 					pw.flush();
 				}
+			} else {
+			pw.print("false");
+			pw.flush();
 			}
 		} catch (NullPointerException e) {
 			pw.print("SessionNullEx"); // // session 검사실패 세션없음
+			pw.flush();
 			e.printStackTrace();
 		}
+		pw.close();
 	}
 
 	// 폴더 삭제를 처리를 위한 컨트롤러

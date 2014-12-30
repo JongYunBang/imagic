@@ -28,30 +28,35 @@ $(document).ready(function() {
 		var oldDirName = e.target.id;
 		var newDirName=null;
 		var tag=true;
+		newDirName = folderNameCheck();
 
-		while(tag){
-			newDirName = prompt("변경하실 이름을 입력해주세요", oldDirName);
-			if (newDirName.trim()== "" || newDirName.length==0) {
-				alert("공백을 입력하실수 없습니다.");
-				newDirName=null;
-				continue;
+		function folderNameCheck() {
+			var newName=null
+			while(tag){
+				newName = prompt("변경하실 이름을 입력해주세요", oldDirName);
+				if (newName.trim()== "" || newName.length==0) {
+					alert("공백을 입력하실수 없습니다.");
+					newName=null;
+					continue;
+				}
+				if (dirName.length>50){
+					alert("이름이 너무 길어요^^");
+					newName=null;
+					continue;
+				}
+				if (!wordCheck(newName)){
+					alert("특수문자를 사용할수 없습니다.('_'만 사용가능)");
+					newName=null;
+					continue;
+				}
+				if (!wordCheckSpace(newName)){
+					alert("문자중 공백을 입력하셨네요");
+					newName=null;
+					continue;
+				}
+				tag = false;
 			}
-			if (dirName.length>50){
-				alert("이름이 너무 길어요^^");
-				newDirName=null;
-				continue;
-			}
-			if (!wordCheck(newDirName)){
-				alert("특수문자를 사용할수 없습니다.('_'만 사용가능)");
-				newDirName=null;
-				continue;
-			}
-			if (!wordCheckSpace(newDirName)){
-				alert("문자중 공백을 입력하셨네요");
-				newDirName=null;
-				continue;
-			}
-			tag = false;
+			return newName;
 		}
 		
 		if (newDirName==null){
@@ -73,9 +78,7 @@ $(document).ready(function() {
 
 		function onSuccess(data) {
 			if(data=="true"){
-				//alert("변경되었습니다.");
-				var dirElement = e.target.parentElement.parentElement;
-				console.log(dirElement);
+				var dirElement = e.target.parentElement;
 				dirElement.id=newDirName;
 				dirElement.classList.add('list-group-item');
 				createFolder(dirElement, newDirName);
@@ -118,9 +121,6 @@ $(document).ready(function() {
 			function onSuccess(data) {
 				if(data=="deleteDirSuccess"){
 					//alert("삭제하였습니다.");
-					e.target.parentElement.remove();
-					dropzone.resetDropzone();
-					hasFiles = 0;
 //					window.location.href="/fileupload";
 				}else if(data=="deleteDirDBFail"){
 					alert("실패 : DB 에서의 dirName 삭제 실패");
@@ -128,13 +128,15 @@ $(document).ready(function() {
 					alert("실패 : DB는 삭제 했으나 FileSystem 존재");
 
 					// 열우 2014. 12. 6 토 (23:50) : DB에서는 삭제했기 때문에 목록에서도 지워줘야함.
-					e.target.parentElement.remove();
-					dropzone.resetDropzone();
+
 				} else if(data == "SessionNullEx"){ // // session 검사실패 세션없음") 
 					alert("세션이 만료 되었습니다");
 				}else if(data=="deleteDirEx") {
 					alert("실패 : Exception 발생하고 삭제 실패");
 				}
+				dropzone.resetDropzone();
+				e.target.parentElement.remove();
+				hasFiles = 0;
 			}
 			function onError(data, status) {
 				alert("폴더 삭제하기가 실패하였습니다(응답없음)");

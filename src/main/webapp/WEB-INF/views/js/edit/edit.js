@@ -1,6 +1,5 @@
 
 $(document).ready(function() {
-	// edit창에서 쓰일 전역변수
 	var fileList=[];
 	
 	// 현재 선택된 개체에 대한 FileVO의 정보저장
@@ -402,11 +401,11 @@ $(document).ready(function() {
 				}
 			}
 			this.render(function() {
-//				console.log("render end");
+				console.log("render end");
 				
 				// 캔버스 이미지를 base64 형태로 받아옴
 				var imgData = sourceCanvas.toDataURL("image/" + currentFile.imgFormat);
-				
+				console.log(currentFile.imgFormat);
 				// 썸네일을 만들어줄 canvas를 생성한다.
 				var canvas = document.createElement('canvas');
 				var ctx = canvas.getContext('2d');
@@ -419,7 +418,7 @@ $(document).ready(function() {
 //						document.body.appendChild(img);
 //						console.log("source");
 						// base64형태의 앞부분 제거
-						imgData = imgData.replace(/^data:image\/(png|jpeg);base64,/, "");
+						imgData = imgData.replace(/^data:image\/(png|jpeg|gif|tiff);base64,/, "");
 						// 캔버스로 이미지 그린다(원본 파일을 썸네일로 바꾸기 위해)
 						ctx.drawImage(img, 0, 0, 100, 100);
 						// 캔버스에 올려진 썸네일 이미지를 dataURL형태로 변환
@@ -431,7 +430,7 @@ $(document).ready(function() {
 						var sourceURL = [];
 						sourceURL[0] = imgData;
 						// Blob 안에는 파일과 배열만이 들어갈수 있다.
-						var imgSource = new Blob(sourceURL, { 'type': 'image/png' });
+						var imgSource = new Blob(sourceURL, { 'type': 'image/' + currentFile.imgFormat });
 						
 						var filePath = [currentFile.m_id + "/" + currentFile.dirName + "/" + currentFile.imgName];
 						var pathSource = new Blob(filePath, { 'type': 'text/*' });
