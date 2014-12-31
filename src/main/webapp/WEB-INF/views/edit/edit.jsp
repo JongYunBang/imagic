@@ -4,8 +4,11 @@
 <script src="../js/edit/caman.edit.full.min.js"></script>
 <script src="../js/edit/edit.js"></script>
 <script src="../js/edit/jquery.bxslider.min.js"></script>
+
 <link rel="stylesheet" href="../css/edit/edit.css">
 <link rel="stylesheet" href="../css/edit/jquery.bxslider.css">
+
+
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
@@ -17,7 +20,7 @@
 		<!-- Preset 필터 드롭다운 -->
 		<div class="col-md-2 btn-group" id="PresetFilters">
 			<button type="button" class="btn btn-info dropdown-toggle"
-				data-toggle="dropdown">Preset Filter <span class="caret"></span></button>
+				data-toggle="dropdown">Preset Filter <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
 				<li><a data-preset="vintage">Vintage</a></li>
@@ -79,7 +82,7 @@
 	<!-- 필터 collapse -->
 	<div class="collapse row well" id="filterList"
 		style="margin-top: 10px;">
-		<div class="col-md-12">
+		<div class="row">
 			<div class="FilterName col-md-2">
 				<p>brightness</p>
 

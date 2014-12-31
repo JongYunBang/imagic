@@ -3,6 +3,7 @@ var outputBlob = [];  // 썸네일(blob) 저장 배열
 var hasFiles = 0;
 var maxFiles = 9; // 최대 업로드 가능 파일 수
 var files;
+var bNum=0;
 var thumbnailWidth = 100;
 var thumbnailHeight = 100;
 var method = "POST";
@@ -184,6 +185,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			
 			// 12.11 19:45 - 생성되는 preview에 썸네일을 추가 시켜준다.
 			dropzone.createThumbnail(f, thumbnail, hasFiles - files.length + i); //
+			
 		}
 	}
 	
@@ -232,11 +234,13 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				// Blob 안에는 파일과 배열만이 들어갈수 있다 
 				var bb = new Blob(ab, { 'type': 'image/png' });
 				var blob = {
-						"fileNum" : i,
+						"fileNum" : bNum,
 						"data" : bb 
 				}
+				bNum++;
 				bb.name = blobReturn.name;
 				outputBlob.push(blob);    		// output에 blob 데이터 push
+				console.log(blob.fileNum);
 				element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
 			};
 			reader.readAsDataURL(f);
@@ -331,14 +335,22 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			$.each(output, function(i, file) {
 				formData.append('file-' + i, file);
 			});
-			console.log(output);
+			console.log("sort 이전 ----------")
+			$.each(outputBlob, function(i, blob) {
+				console.log(blob.fileNum);
+			})
 			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
+			console.log("sort 이후----------")
 			
+			for(var i=0; outputBlob.length>i; i++) {
+				outputBlob[0].fileNum=i;
+			}
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
-				formData.append("blob-" + blob.fileNum, blob.data);
+				formData.append("blob-" + i, blob.data);
+				console.log(blob.fileNum);
 			});
-			console.log(outputBlob);
+//			console.log(outputBlob);
 			// 12.11 19:45 - XHR 
 			xhr.open(method, dzURL, true);
 			xhr.responseType = 'json';
@@ -364,14 +376,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					progress.style.width = '100%';
 					progress.textContent = '100%';
 					document.getElementById('progress_bar').className = '';
-
-					status = xhr.status;
-					if (status == 200) {
-						data = xhr.response;
-					} else {
-						alert("받아오기실패");
-					}
-
+					data = xhr.response;
 					// 열우 2014. 12. 13 (12:33) 
 					// data는 현재 업로드된 data의 개수만 가져오기 때문에 기존 업로드 된 숫자와는 관련이 없다.
 					// 그렇기 때문에 지금 data-dz-imgnum의 innerHTML이 존재하지 않는 개수와 동일하다.
@@ -382,6 +387,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 브라우저 체크
 					if (hasBrowser() == "IE") {
 						data = JSON.parse(data);
+						console.log("data IE parser 들어옴");
 					}
 					
 					for(var i=0;i < data.length; i++){
@@ -404,6 +410,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 12.11 19:45 - 업로드 후 데이터 초기화
 					output = [];
 					outputBlob = [];
+					bNum=0;
 					// input 태그에 files를 초기화 하기 위해서
 					var input = $('#files');
 					var newInput = input.clone(true); // true 는 속성까지 복사해 옴
@@ -519,6 +526,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			}
 			outputBlob.remove(sliceIndex);
 			
+			
 			if(hasBrowser() == "IE") {
 				var temp = e.target.parentElement.parentElement;
 				while(temp.hasChildNodes()) {
@@ -531,6 +539,10 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			}
 			hasFiles = hasFiles - 1;
 			
+			// input 태그에 files를 초기화 하기 위해서
+			var input = $('#files');
+			var newInput = input.clone(true); // true 는 속성까지 복사해 옴
+			input[0].files = newInput[0].files;
 		}
 	}
 	
