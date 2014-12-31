@@ -6,7 +6,7 @@
 	
 	
 /* 	background-image: url("../../img/travieMain1.jpg"); */
-	background: #49525b url("../../img/travieMain4.jpg")  no-repeat 100% 0%;
+	background: #49525b url("../../img/travieMain1.jpg")  no-repeat 100% 0%;
 /* 	background-repeat: no-repeat 100% 0%; */
 	background-size: cover;
 }
@@ -25,7 +25,9 @@
   .heading {
   	font-size: 30px;
   }
-  
+  .text-muted{
+  font-size: 20px;
+  }
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1600px) {

@@ -415,6 +415,7 @@ cite {
 }
 
 .text-muted {
+	font-size: 40px;
   color: #999999;
 }
 
@@ -5057,8 +5058,9 @@ a.thumbnail:focus {
 
 .alert-warning {
   color: #c09853;
-  background-color: #fcf8e3;
+/*   background-color: #fcf8e3; */
   border-color: #fbeed5;
+  background-color : #FAF0BC;
 }
 
 .alert-warning hr {

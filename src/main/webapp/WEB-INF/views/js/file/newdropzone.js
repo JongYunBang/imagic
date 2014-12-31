@@ -252,7 +252,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		evt.stopPropagation();
 		evt.preventDefault();
 		files = evt.target.files; // FileList 객체
-		
+		console.log(files);
 		// 이미지 파일인지 검사
 		for(var i =0; i<files.length; i++ ){
 			if(files[i].type.match("image/*") == null){
@@ -499,6 +499,11 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				alert("삭제실패");
 			}
 		}else if (stateValue == 'upload') {  // 사용자가 새로 올린파일
+			
+			// 업로드했던 파일을 FileList에서도 삭제(다시 업로드 하기 위해서)
+			console.log(files);
+			
+			
 			// 해당 파일 삭제
 			var sliceIndex;
 			for(var i=0; output.length>i; i++) {
@@ -530,6 +535,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			}
 			hasFiles = hasFiles - 1;
 			
+
 		}
 	}
 	

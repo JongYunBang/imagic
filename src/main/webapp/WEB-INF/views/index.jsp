@@ -38,18 +38,17 @@
 	<div class="row">
 		<div class="col-md-7">
 			<h2 class="heading">
-				First featurette heading. <span class="text-muted">It'll blow
-					your mind.</span>
+				간편한 방법으로 사진을 올리세요. <span class="text-muted">언제
+					어디서나!</span>
 			</h2>
-			<p class="lead">Donec ullamcorper nulla non metus auctor
-				fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
-				commodo cursus magna, vel scelerisque nisl consectetur. Fusce
-				dapibus, tellus ac cursus commodo.</p>
+			<p class="lead">Travie는 PC와 TabletPC, 스마트폰 
+			모든 기기에서의 사진 업로드를 지원합니다. 스마트폰에 보관된 사진들, 
+			PC연결이 어려우시다면 스마트폰에서 바로 올리세요.</p>
 		</div>
 
 		<%-- <a href="<%= request.getContextPath() %>/member/mypage">마이페이지</a><br/> --%>
 		<div class="col-md-5">
-			<img class="img-responsive" src="./img/F1-1.jpg" />
+			<img class="img-responsive" src="./img/img1.jpg" />
 		</div>
 	</div>
 
@@ -57,17 +56,16 @@
 
 	<div class="row">
 		<div class="col-md-5">
-			<img class="img-responsive" src="img/F1-2.jpg" />
+			<img class="img-responsive" src="img/img2.jpg" />
 		</div>
 		<div class="col-md-7">
 			<h2 class="heading">
-				Oh yeah, it's that good. <span class="text-muted">See for
-					yourself.</span>
+				올린 사진들을 편집하세요. <span class="text-muted">적은 click으로
+					많은 변화를!</span>
 			</h2>
-			<p class="lead">Donec ullamcorper nulla non metus auctor
-				fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
-				commodo cursus magna, vel scelerisque nisl consectetur. Fusce
-				dapibus, tellus ac cursus commodo.</p>
+			<p class="lead">CamenJS에서 지원하는 강력한 Filter 기능으로
+			원하는 광원 효과를 직접 넣어 보세요. 하나하나 조절하기 귀찮으시다면
+			Filter의 기능이 복합적으로 담겨 있는 PresetFilter를 추천합니다. </p>
 		</div>
 	</div>
 
@@ -76,15 +74,14 @@
 	<div class="row">
 		<div class="col-md-7">
 			<h2 class="heading">
-				And lastly, this one. <span class="text-muted">Checkmate.</span>
+				마지막으로 동영상을 제작하세요. <span class="text-muted">추억이 몇 배가 됩니다!</span>
 			</h2>
-			<p class="lead">Donec ullamcorper nulla non metus auctor
-				fringilla. Vestibulum id ligula porta felis euismod semper. Praesent
-				commodo cursus magna, vel scelerisque nisl consectetur. Fusce
-				dapibus, tellus ac cursus commodo.</p>
+			<p class="lead">업로드한 사진에 따라 비율과 품질, 재생시간 등을 직접 조절 하실 수 있습니다.
+			부끄러움이 심하시다면 할 말을 미리 동영상 안에 넣는 것도 가능하지요.
+			제작한 동영상은 내려받기를 통해 간직하거나 원하는 곳에 활용하세요.</p>
 		</div>
 		<div class="col-md-5">
-			<img class="img-responsive" src="/img/F1-3.jpg">
+			<img class="img-responsive" src="/img/img3.jpg">
 		</div>
 	</div>
 

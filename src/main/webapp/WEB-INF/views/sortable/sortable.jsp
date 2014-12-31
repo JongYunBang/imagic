@@ -34,11 +34,11 @@
 <div class="row">
 <form id="sortBack" method="post" action="<%=request.getContextPath()%>/edit"> 
 	<!-- <input type="button" value="다음"> -->
-		<div class="alert alert-success pull-left">
-				<strong>알림:</strong> 다음 페이지로 이동 합니다.
+		<div class="alert alert-warning pull-left">
+				<strong>알림:</strong> 이전 페이지로 이동 합니다.
 				<div style="display: inline-block;">
-					<a class="btn btn-success" id="sortBackBtn" style="width: 108px">
-						<span class="glyphicon glyphicon-ok"></span>BACK
+					<a class="btn btn-warning" id="sortBackBtn" style="width: 108px">
+						<span class="glyphicon glyphicon-arrow-left"></span>BACK
 					</a>
 				</div>
 		</div>

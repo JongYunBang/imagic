@@ -3,22 +3,21 @@
 <%@ include file="../common/header.jsp"%>
 <script src="../js/edit/caman.edit.full.min.js"></script>
 <script src="../js/edit/edit.js"></script>
+<script src="../js/edit/jquery.bxslider.min.js"></script>
 <link rel="stylesheet" href="../css/edit/edit.css">
+<link rel="stylesheet" href="../css/edit/jquery.bxslider.css">
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 
-<div class="container">
+<div class="container" id="editBody">
 
-	<div class="row">
+	<div class="row well">
 
 		<!-- Preset 필터 드롭다운 -->
-		<div class="col-xs-2 btn-group" id="PresetFilters">
+		<div class="col-md-2 btn-group" id="PresetFilters">
 			<button type="button" class="btn btn-info dropdown-toggle"
-				data-toggle="dropdown">Preset Filter</button>
-			<button type="button" class="btn btn-info dropdown-toggle"
-				data-toggle="dropdown">
-				<span class="caret"></span>
+				data-toggle="dropdown">Preset Filter <span class="caret"></span></button>
 			</button>
 			<ul class="dropdown-menu">
 				<li><a data-preset="vintage">Vintage</a></li>
@@ -44,14 +43,14 @@
 
 
 		<!-- 필터 드롭다운 -->
-		<div class="col-xs-2" id="Filterdown">
+		<div class="col-md-2" id="Filterdown">
 			<div class="Filter btn-group">
-				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filterList">Filter</button>
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filterList">Filter <span class="caret"></span></button>
 			</div>
 		</div>
 
 		<!-- 버튼 박스 -->
-		<div class="col-xs-8" id="tools">
+		<div class="col-md-8" id="tools">
 			<button type="button" class="btn btn-default" id="clear" disabled="disabled">
 				<span class="glyphicon glyphicon-repeat"></span> Reset
 			</button>
@@ -65,12 +64,12 @@
 			
 			<a type="button" class="btn btn-default pull-right disabled"
 				id="saveCanvasDown">
-				<span class="glyphicon glyphicon-save"></span>다운로드
+				<span class="glyphicon glyphicon-download-alt"></span>다운로드
 			</a>
 				
 			<button type="button" class="btn btn-default pull-right"
 				id="saveCanvas" disabled="disabled">
-				<span class="glyphicon "></span> 변경내용저장
+				<span class="glyphicon glyphicon-import"></span> 변경내용저장
 			</button>
 		</div>
 
@@ -78,8 +77,8 @@
 
 
 	<!-- 필터 collapse -->
-	<div class=" collapse row" id="filterList"
-		style="background-color: #d0d0d0; margin-top: 10px;">
+	<div class="collapse row well" id="filterList"
+		style="margin-top: 10px;">
 		<div class="col-md-12">
 			<div class="FilterName col-md-2">
 				<p>brightness</p>
@@ -194,41 +193,43 @@
 
 		</div>
 	</div>
+</div>
 
-
-	<div class="row display" style="margin-top: 10px;">
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
-			<!-- 캔버스 -->
-			<div id="drawzone">
-				<canvas id="draw" width="800px" height="500px"></canvas>
-			</div>
+	<div class="drawArea">
+		<div class="text-center" style="margin-top: 10px; display: table-cell; margin : 0 auto;">
+				<!-- 캔버스 -->
+				<div id="drawzone"> 
+					<canvas id="draw"></canvas>
+				</div>
 		</div>
 	</div>
-	<div id="thumbnailzone" style="background-color: #C0C0C0">
+	<div id="thumbnailzone">
 		<!-- 이미지 미리보기(썸네일) 바 -->
-		<div id="imageList">
-			<span><a class="glyphicon glyphicon-chevron-left"></a></span>
-			<div id="thumbNail" class="dropzone" data-folder></div>
-			<span><a class="glyphicon glyphicon-chevron-right"></a></span>
-		</div>
+<!-- 			<div class="thumbnailLeft"><a href="#" class="glyphicon glyphicon-chevron-left"></a></div> -->
+<!-- <a href="#" class="glyphicon glyphicon-chevron-left"></a> -->
+			<ul id="thumbNail" class="dropzone" data-folder></ul>
+<!-- 			<a href="#" class="glyphicon glyphicon-chevron-right"></a> -->
+<!-- 			<div id="thumbNail" class="dropzone" data-folder></div> -->
+			
+<!-- 			<div class="thumbnailRight"><a href="#" class="glyphicon glyphicon-chevron-right"></a></div> -->
 	</div>
 
+
+<div class="container">
 	<!-- BACK 버튼 -->
 	<div>
-		<div class="alert alert-success pull-left">
+		<div class="alert alert-warning pull-left">
 			<form id="editBack" method="post" action="<%=request.getContextPath()%>/fileupload">
 				<strong>알림:</strong> 이전 페이지로 이동 합니다.
 				<div style="display: inline-block;">
-					<a class="btn btn-success" id="editBackBtn" style="width: 108px">
-						<span class="glyphicon glyphicon-ok"></span>BACK
+					<a class="btn btn-warning" id="editBackBtn" style="width: 108px">
+						<span class="glyphicon glyphicon-arrow-left  pull-left"></span>BACK
 					</a>
 				</div>
 				<input type="hidden" name="m_id" id="eidt_m_id" value=""> 
 			</form>
 		</div>
 	</div>
-
 
 	<!-- NEXT 버튼 -->
 	<div>
@@ -237,7 +238,7 @@
 				<strong>알림:</strong> 다음 페이지로 이동 합니다.
 				<div style="display: inline-block;">
 					<a class="btn btn-success" id="sortable" style="width: 108px">
-						<span class="glyphicon glyphicon-ok"></span>NEXT
+						<span class="glyphicon glyphicon-ok  pull-left"></span>NEXT
 					</a>
 				</div>
 				<input type="hidden" name="m_id" id="hidden_m_id" value=""> 
@@ -246,9 +247,8 @@
 			</form>
 		</div>
 	</div>
-
-
 </div>
+
 
 
 <%@ include file="../common/footer.jsp"%>
