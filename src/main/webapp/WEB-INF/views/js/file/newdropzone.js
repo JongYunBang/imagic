@@ -274,7 +274,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	dropzone.handleDragSelect = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
-		var files = evt.dataTransfer.files; // FileList 객체
+		files = evt.dataTransfer.files; // FileList 객체
 
 		// 이미지 파일인지 검사
 		for(var i =0; i<files.length; i++ ){
@@ -499,18 +499,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				alert("삭제실패");
 			}
 		}else if (stateValue == 'upload') {  // 사용자가 새로 올린파일
-			// 업로드했던 파일을 FileList에서도 삭제(다시 업로드 하기 위해서)
-			// input 태그에 files를 초기화 하기 위해서
-//			var input = $('#files');
-			var newInput = files.clone(true); // true 는 속성까지 복사해 옴
-			var newCnt = 0;
-			for(var i=0; files.length >i;i++){
-				if(files[i].name != imgName){
-					newInput[newCnt++] = files[i];
-				}
-			}
-			files = newInput;
-			console.log(files);
 			
 			// 해당 파일 삭제
 			var sliceIndex;
