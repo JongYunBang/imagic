@@ -3,14 +3,21 @@ $(document).ready(function() {
 	var m_id = document.getElementById('m_id').value;
 	var currentDir=null;
 	
+	// 접속한 디바이스 구부을 통해 pc와 mobile 간의 행동을 다르게 파악하기 위해 
+	var connDiviceActive=null;   
+	
 	// 모바일인지 pc에서 접속하는지 체크하기 위해서
 	var ua = window.navigator.userAgent;
 	if(/lgtelecom/i.test(ua) || /Android/i.test(ua) || /blackberry/i.test(ua) || /iPhone/i.test(ua) || /iPad/i.test(ua) || /samsung/i.test(ua) || /symbian/i.test(ua) || /sony/i.test(ua) || /SCH-/i.test(ua) || /SPH-/i.test(ua) || /nokia/i.test(ua) || /bada/i.test(ua) || /semc/i.test(ua) || /IEMobile/i.test(ua) || /Mobile/i.test(ua) || /PPC/i.test(ua) || /Windows CE/i.test(ua) || /Windows Phone/i.test(ua) || /webOS/i.test(ua) || /Opera Mini/i.test(ua) || /Opera Mobi/i.test(ua) || /POLARIS/i.test(ua) || /SonyEricsson/i.test(ua) || /symbos/i.test(ua)){
+		// 모바일 접속
 		$("#nextBtnOn").attr("style","display: none;");
+		connDiviceActive = 'touchend';
 	}else{
+		// pc접속
 		$("#nextBtnOff").attr("style","display: none;");
+		connDiviceActive = 'click';
 	}
-	
+	console.log(connDiviceActive);
 	
 	// 태그 생성 funtion
 	function createFolder(element, dirName){
@@ -228,7 +235,7 @@ $(document).ready(function() {
 	});
 
 	//	열우 2014. 12. 7 일 (01:39) : 폴더 클릭 시 파일 리스트를 받아오기 위한 함수
-	$(document).on('click touchend', '.list-group-item', function (e) {
+	$(document).on(connDiviceActive, '.list-group-item', function (e) {
 //		종윤 2014. 12. 8 월 (15:27) : 폴더 선택 시 버튼 생성 여부
 		// 사용자 폴더 ul 선택
 		// 	background-color: #C0C0C0;
@@ -246,6 +253,7 @@ $(document).ready(function() {
 
 		var m_id = $('#m_id').val();
 		$('#drop_zone').data("folder", $(this)[0].id);
+		
 		$.ajax({
 			type : "POST",
 			url : "/filelist",

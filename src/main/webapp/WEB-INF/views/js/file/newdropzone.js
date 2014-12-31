@@ -447,7 +447,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		var imgName = e.target.parentElement.parentElement.id;
 		// 12.11 19:45 - dropzone안에 생성되어있는 preview안에 있는 imgNum 태그의 값
 		var imgNum = e.target.parentElement.nextElementSibling.nextElementSibling.childNodes[0].innerHTML;
-				
+			
 		if (stateValue == 'saved') {  // 서버에 저장된 파일
 			$.ajax({
 				type : "POST",
