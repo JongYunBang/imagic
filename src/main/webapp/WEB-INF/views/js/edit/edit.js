@@ -226,19 +226,35 @@ $(document).ready(function() {
 		// 파일이 파일객체들의 파일리스트로 존재한다.
 		for (var i = 0; f = files[i]; i++) {
 			// preview Template을 생성
-			template = thumbNail.createElement( 
-					"<div class=\"tv-preview tv-file-preview\">\n  " +
-						"<div class=\"tv-details\">\n    " +
-							"<div style=\"display:none\" class=\"tv-filename\">" +
-								"<span data-tv-name></span>" +
-							"</div>\n    " +
-						"<img data-tv-thumbnail />\n  " +
-						"</div>\n  " +
-						"<div style=\"display:none\" class=\"tv-num\">" +
-						"<span data-tv-imgNum></span>" +
-						"</div>\n    " +
-					"</div><br/>"
-					);
+			template = document.createElement('li');
+			template.innerHTML = "<div class=\"tv-preview tv-file-preview\">" +
+													"<div class=\"tv-details\">" +
+														"<div style=\"display:none\" class=\"tv-filename\">" +
+															"<span data-tv-name></span>" +
+														"</div>" +
+													"<img data-tv-thumbnail />" +
+													"</div>" +
+													"<div style=\"display:none\" class=\"tv-num\">" +
+													"<span data-tv-imgNum></span>" +
+													"</div>" +
+												"</div>";
+			
+//			template = thumbNail.createElement( 
+//					"<div class=\"tv-preview tv-file-preview\">" +
+//						"<div class=\"tv-details\">" +
+//							"<div style=\"display:none\" class=\"tv-filename\">" +
+//								"<span data-tv-name></span>" +
+//							"</div>" +
+//						"<img data-tv-thumbnail />" +
+//						"</div>" +
+//						"<div style=\"display:none\" class=\"tv-num\">" +
+//						"<span data-tv-imgNum></span>" +
+//						"</div>" +
+//					"</div>"
+//						
+//					);
+			
+			
 			
 			template.id = f.name;  // 이미지 이름넣기
 			document.getElementById('thumbNail').appendChild(template);
@@ -252,6 +268,12 @@ $(document).ready(function() {
 			thumbnail.alt = f.name;
 			thumbnail.src = atob(f.file);
 		}
+		$('.dropzone').bxSlider({
+			  minSlides: 3,
+			  maxSlides: 6,
+			  slideWidth: 120,
+			  slideMargin: 0
+			});
 	}
 	
 	// 썸네일 클릭시 해당파일 가져오기
@@ -259,7 +281,7 @@ $(document).ready(function() {
 		// 현재 타겟의 src 저장위해 
 		thumbnailSrc = e.target;
 		// 이미지 넘버 페이지에서 가져오기
-		var imgNum = e.target.parentElement.nextSibling.nextSibling.firstChild.innerHTML;
+		var imgNum = e.target.parentElement.nextSibling.firstChild.innerHTML;
 		var file=null;
 		currentFile=null;
 		for (var i=0; i<fileList.length; i++) {

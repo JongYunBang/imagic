@@ -194,19 +194,19 @@ public class FileUploadController {
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
 	public @ResponseBody List<FileVO> upload(@ModelAttribute("member") MemberVO member,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		try {
-			HttpSession session = request.getSession(false);
-			if (session.isNew()){
-			}
-		} catch (NullPointerException e) {
-			response.sendRedirect("/upload");
-		}
+//		try {
+//			HttpSession session = request.getSession(false);
+//			if (session.isNew()){
+//			}
+//		} catch (NullPointerException e) {
+//			response.sendRedirect("/upload");
+//		}
 		
 
 		Iterator<String> itr = request.getFileNames();
 		String userID=member.getM_id();
 		int fileCount = request.getFileMap().size();
-
+		
 		// 모바일에서 접속한 환경인지 아닌지 확인하는 부분(만약 모바일 페이지를 따로 만든다면 이런식으로 구분하면 좋을 듯)
 		//		boolean envMobile = false;
 		//		 String userAgent = request.getHeader("user-agent");
@@ -222,11 +222,12 @@ public class FileUploadController {
 			// 2014.12.06(11:13) : 실제 파일 시스템에 저장될 유일한 이름을 위한 id 생성
 			String genId = UUID.randomUUID().toString();
 			String fileName = itr.next();
+			System.out.println(fileName);
 			mpf = request.getFile(fileName);
 			
 			// 각 파일에 대한 정보 가져와서 임시로 저장
 			try {
-				if((fileCount/2)>cnt) {
+				if((fileCount/2) > cnt) {
 					tempFile.setM_id(userID);
 					tempFile.setDirName(member.getDirName());
 					tempFile.setImgName(genId+mpf.getOriginalFilename());
@@ -238,10 +239,10 @@ public class FileUploadController {
 				} else {
 					uploadList.get(cnt-(fileCount/2)).setImgThumb(mpf.getBytes());
 				}
-				cnt++;
 			} catch (IOException e) {
 				e.printStackTrace();								
 			}
+			cnt++;
 
 		}
 		
