@@ -2079,6 +2079,46 @@ fieldset[disabled] .btn-default.active {
   border-color: #cccccc;
 }
 
+.btn-jusang {
+	color: #ffffff;
+	background-color: #009B8D;
+	border-color: #008c7e;
+}
+.btn-jusang:hover,
+.btn-jusang:focus,
+.btn-jusang:active,
+.btn-jusang.active,
+.open .dropdown-toggle.btn-jusang {
+  color: #ffffff;
+  background-color: #008c7e;
+  border-color: #008c7e;
+}
+
+.btn-jusang:active,
+.btn-jusang.active,
+.open .dropdown-toggle.btn-jusang {
+  background-image: none;
+}
+
+.btn-jusang.disabled,
+.btn-jusang[disabled],
+fieldset[disabled] .btn-jusang,
+.btn-jusang.disabled:hover,
+.btn-jusang[disabled]:hover,
+fieldset[disabled] .btn-jusang:hover,
+.btn-jusang.disabled:focus,
+.btn-jusang[disabled]:focus,
+fieldset[disabled] .btn-jusang:focus,
+.btn-jusang.disabled:active,
+.btn-jusang[disabled]:active,
+fieldset[disabled] .btn-jusang:active,
+.btn-jusang.disabled.active,
+.btn-jusang[disabled].active,
+fieldset[disabled] .btn-jusang.active {
+  background-color: #009B8D;
+  border-color: #008c7e;
+}
+
 .btn-primary {
   color: #ffffff;
   background-color: #428bca;

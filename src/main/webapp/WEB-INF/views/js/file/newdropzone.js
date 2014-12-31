@@ -240,7 +240,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				bNum++;
 				bb.name = blobReturn.name;
 				outputBlob.push(blob);    		// output에 blob 데이터 push
-				console.log(blob.fileNum);
 				element.src = dataURL;		// dropzone에 썸네일 집어넣기 위해서
 			};
 			reader.readAsDataURL(f);
@@ -335,12 +334,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			$.each(output, function(i, file) {
 				formData.append('file-' + i, file);
 			});
-			console.log("sort 이전 ----------")
-			$.each(outputBlob, function(i, blob) {
-				console.log(blob.fileNum);
-			})
 			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
-			console.log("sort 이후----------")
 			
 			for(var i=0; outputBlob.length>i; i++) {
 				outputBlob[0].fileNum=i;
@@ -348,7 +342,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
 				formData.append("blob-" + i, blob.data);
-				console.log(blob.fileNum);
 			});
 //			console.log(outputBlob);
 			// 12.11 19:45 - XHR 
@@ -384,12 +377,13 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 이것은 둘다 순서대로 만들어지고 순서대로 data값이 들어온다는 전제하에 작동된다. 
 					// 우리는 그렇게 되어있어서 에러가 안난다.
 
+					console.log(hasBrowser());
 					// 브라우저 체크
 					if (hasBrowser() == "IE") {
 						data = JSON.parse(data);
 						console.log("data IE parser 들어옴");
 					}
-					
+//					console.log(document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]'));
 					for(var i=0;i < data.length; i++){
 						var imgNumList = document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]');
 						for(var j=0; j<imgNumList.length;j++){

@@ -146,12 +146,12 @@ $(document).ready(function(){
 	function insertVerValue(maxInWidth, ratio) {
 		var midVal = parseInt(maxInWidth*0.7);
 		var lowVal = parseInt(maxInWidth*0.5);
-		document.getElementById('imgHi').value=maxInWidth+" x "+parseInt(maxInWidth*ratio);
-		document.getElementById('imgHiSpan').innerHTML=maxInWidth+" x "+parseInt(maxInWidth*ratio);
+		document.getElementById('imgHi').value= maxInWidth+" x "+parseInt(maxInWidth*ratio);
+		document.getElementById('imgHiSpan').innerHTML= "높은화질 (" + maxInWidth+" x "+parseInt(maxInWidth*ratio) + ")";
 		document.getElementById('imgMiddle').value=midVal+" x "+parseInt(midVal*ratio);
-		document.getElementById('imgMiddleSpan').innerHTML=midVal+" x "+parseInt(midVal*ratio);
+		document.getElementById('imgMiddleSpan').innerHTML= "중간화질 (" + midVal+" x "+parseInt(midVal*ratio) + ")";
 		document.getElementById('imgLow').value=lowVal+" x "+parseInt(lowVal*ratio);
-		document.getElementById('imgLowSpan').innerHTML=lowVal+" x "+parseInt(lowVal*ratio);
+		document.getElementById('imgLowSpan').innerHTML= "낮은화질 (" + lowVal+" x "+parseInt(lowVal*ratio) + ")";
 	}
 	
 	// 세로 방향 선택시에 값 넣어주는 함수
@@ -159,11 +159,11 @@ $(document).ready(function(){
 		var midVal = parseInt(maxInHeight*0.7);
 		var lowVal = parseInt(maxHeight*0.5);
 		document.getElementById('imgHi').value=parseInt(maxInHeight*ratio)+"x"+maxInHeight;
-		document.getElementById('imgHiSpan').innerHTML=parseInt(maxInHeight*ratio)+"x"+maxInHeight;
+		document.getElementById('imgHiSpan').innerHTML= "높은화질 (" + parseInt(maxInHeight*ratio)+"x"+maxInHeight + ")";
 		document.getElementById('imgMiddle').value=parseInt(midVal*ratio)+"x"+midVal;
-		document.getElementById('imgMiddleSpan').innerHTML=parseInt(midVal*ratio)+"x"+midVal;
+		document.getElementById('imgMiddleSpan').innerHTML="중간화질 (" +parseInt(midVal*ratio)+"x"+midVal + ")";
 		document.getElementById('imgLow').value=parseInt(lowVal*ratio)+"x"+lowVal;
-		document.getElementById('imgLowSpan').innerHTML=parseInt(lowVal*ratio)+"x"+lowVal;
+		document.getElementById('imgLowSpan').innerHTML= "낮은화질 (" + parseInt(lowVal*ratio)+"x"+lowVal + ")";
 	}
 	
 	// 똑같은 화면 재생을 위한 변수
