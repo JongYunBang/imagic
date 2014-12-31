@@ -170,9 +170,8 @@ $(document).ready(function(){
 	var insertFrame=40;
 	// createvedio 버튼 클릭시 동영상 제작에 들어가는 함수
 	createvideo.addEventListener("click", function() {
-
+		$("#inputText").attr("class", "collapse");
         document.getElementById('status').innerHTML = "영상을 제작중입니다. 선택하신 품질과 <br/> 컴퓨터 성능에 따라 시간이 걸릴수도 있습니다";
-
         document.getElementById('awesome').src = "";
         ctx = 0;
         
