@@ -549,14 +549,3 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		$('#drop_zone').removeData('folder');
 	}
 
-$(document).ready(function() {
-	
-	// EventListener 등록
-	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,false);
-	get('drop_zone').addEventListener('drop', dropzone.handleDragSelect, false);
-	get('drop_zone').addEventListener('click', dropzone.fileClick, false);
-	get('files').addEventListener('change', dropzone.handleFileSelect, false);
-	get('drop_zone').addEventListener('mouseover', dropzone.handleMouseleave, false);
-	get('upload_dropzone').addEventListener('click', dropzone.fileUpload, false);
-	
-});

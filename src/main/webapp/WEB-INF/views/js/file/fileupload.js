@@ -17,7 +17,13 @@ $(document).ready(function() {
 		$("#nextBtnOff").attr("style","display: none;");
 		connDiviceActive = 'click';
 	}
-	console.log(connDiviceActive);
+	// EventListener 등록
+	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,false);
+	get('drop_zone').addEventListener('drop', dropzone.handleDragSelect, false);
+	get('drop_zone').addEventListener('click', dropzone.fileClick, false);
+	get('files').addEventListener('change', dropzone.handleFileSelect, false);
+	get('drop_zone').addEventListener('mouseover', dropzone.handleMouseleave, false);
+	get('upload_dropzone').addEventListener('click', dropzone.fileUpload, false);
 	
 	// 태그 생성 funtion
 	function createFolder(element, dirName){
