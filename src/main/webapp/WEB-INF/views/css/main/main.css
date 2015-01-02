@@ -6,7 +6,7 @@
 	
 	
 /* 	background-image: url("../../img/travieMain1.jpg"); */
-	background: #49525b url("../../img/travieMain1.jpg")  no-repeat 100% 0%;
+	background: #49525b url("../../img/TravieMain7.jpg")  no-repeat 100% 0%;
 /* 	background-repeat: no-repeat 100% 0%; */
 	background-size: cover;
 }
@@ -30,8 +30,8 @@
   }
 }
 
-@media screen and (min-width: 1200px) and (max-width: 1600px) {
+/* @media screen and (min-width: 1200px) and (max-width: 1600px) {
 	.title.lead{
 		color: rgb(25, 25, 25);
 	}
-}
+} */

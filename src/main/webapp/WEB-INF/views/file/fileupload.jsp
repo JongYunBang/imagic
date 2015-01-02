@@ -21,7 +21,7 @@
 	<hr class="colorgraph">
 
 	<div class="row">
-		<div class="col-md-2 nav" id="file_main_aside">
+		<div class="col-md-3 nav" id="file_main_aside">
 
 			<!-- session 로 부터 아이디 얻어오기  -->
 			<div style="text-align: center" class="well" id="file_user_id">
@@ -57,7 +57,7 @@
 		</div>
 		
 		<!--  업로드 버튼 -->
-		<div class="col-md-4 alert">
+		<div class="col-md-3 alert">
 <!-- 			<!-- ******* 뒤로가기 버튼 수정 해야함 ******* --> 
 <!-- 			<div class="alert alert-info"> -->
 <!-- 				<div style="display: inline-block;"> -->

@@ -11,23 +11,45 @@
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 
+<div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="http://www.travislayne.com/images/loading.gif" class="icon" />
+                    <h4>Processing... </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container">
+	<div style="text-align: center">
+		<h2 class="heading">
+			${file.m_id}<span class="text-muted">님의 </span>${file.dirName} <span class="text-muted"> 앨범</span>
+		</h2>
+		<p class="lead"></p>
+		<p class="lead">선택하신 조건으로 동영상을 제작합니다.</p>
+		<p class="lead">제작 후에는 우측 하단의 내려받기 버튼으로 간직하실 수 있습니다.</p>
+	</div>
+	<hr class="colorgraph">
+	
 	<div class="row" style="margin-top:50px;"></div>
 	
 		<div class="row text-center">
 	    	<div>
-		   		<button class="btn btn-jusang" id="userSetBn" ><span class="glyphicon glyphicon-cog"></span> 사용자 임의 지정</button>
+		   		<button class="btn btn-success" id="userSetBn" ><span class="glyphicon glyphicon-cog"></span> 사용자 임의 지정</button>
 		   	</div>
 		   	<br/>
 		   	<div id="userSet" style="display: none;" class="row">
-		   		<div class="custom_page">주상이가 쓰지말래</div>
+		   		<div class="custom_page"><span class="text-muted">원하시는 해상도를 설정해 주세요.</span></div>
 		    	<div class="well col-md-4"><label>너비</label><input id="width" type="number" step="1" value="500" class="form-control"></div>
 		        <div class="well col-md-4"><label>높이</label><input id="height" type="number" step="1" value="300" class="form-control"></div>
 		        <div class="well col-md-4"><label>프레임(초)</label><input id="framerate" type="number" step="1" value="15" class="form-control"></div>
 		   	</div>
 		   	<div>
-		   		<button class="btn btn-jusang" id="userSetClose" style="display: none;">창 닫기</button>
+		   		<button class="btn btn-success" id="userSetClose" style="display: none;">창 닫기</button>
 		   	</div>
     	</div>
     
@@ -116,12 +138,13 @@
 		<br/><br/><br/><br/>
 	</div>	
 	<div class="row text-center">
-		<video id="awesome" style="margin:0 auto;" controls autoplay></video>
+		<video poster="../../img/makeTravie.jpg" id="awesome" controls autoplay></video>
 		<br/>
 		<canvas id="canvas" style="display:none"></canvas><br/>    	
     </div>
     
-<div class="container">    
+<div class="container">   
+	<hr class="colorgraph"> 
     <div class="row">
 		<!--  뒤로가기 버튼 -->
 		<form id="makeBack" method="post" action="<%=request.getContextPath()%>/sortable"> 
@@ -150,5 +173,8 @@
 		</div>
 	</div>
 </div>
+
+
+
 
 <%@ include file="../common/footer.jsp"%>

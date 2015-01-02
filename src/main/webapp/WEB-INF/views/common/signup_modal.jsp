@@ -127,7 +127,7 @@
                         <div  style="margin-top:10px;">
                             <form role="form" class="form-signin" id="signup_form" method="post" action="<%=request.getContextPath()%>/signup">
                                 <fieldset>
-                                    <h3 style="color:dimgray;">iMagic에 가입하세요.</h3>
+                                    <h3 style="color:dimgray;">Travie에 가입하세요.</h3>
                                     <hr class="modalColorgraph">
 									<div class="signCover">
                                     <input class="form-control top signup-id" placeholder="Your ID" name="m_id" type="text" required maxlength="12">

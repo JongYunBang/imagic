@@ -2,5 +2,5 @@
 
     #sortable { list-style-type: none; margin: 10px; padding: 0; width: 710px; }
     #sortable span { margin-left: 20px; float: left; width: 200px; height: 200px;}
-    #sortable li { margin: 10px 100px 20px 0; padding: 1px; float: left;
-        width: 120px; height: 120px; background-size: 100% 120px;}
+    #sortable li { margin: 10px 60px 60px 53px; padding: 1px; float: left;
+        width: 120px; height: 120px; background-size: 100% 100px;}

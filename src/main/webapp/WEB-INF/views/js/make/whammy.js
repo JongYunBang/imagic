@@ -352,7 +352,6 @@ window.Whammy = (function () {
     // here's something else taken verbatim from weppy, awesome rite?
 
     function parseWebP(riff) {
-    	console.log(riff);
         var VP8 = riff.RIFF[0].WEBP[0];
 
         var frame_start = VP8.indexOf('\x9d\x01\x2a'); //A VP8 keyframe starts with the 0x9d012a header

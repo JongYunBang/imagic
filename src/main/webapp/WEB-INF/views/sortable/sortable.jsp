@@ -16,18 +16,17 @@
 <div class="container">
 	<div style="text-align: center">
 		<h2 class="heading">
-			${file.dirName} <span class="text-muted">앨범</span>
+			${file.m_id}<span class="text-muted">님의 </span>${file.dirName} <span class="text-muted"> 앨범</span>
 		</h2>
 		<p class="lead"></p>
 		<p class="lead">동영상에 들어갈 사진의 순서를 정해주세요.</p>
 		<p class="lead">우선순위는 좌측 상단부터 우측으로 진행됩니다.</p>
 	</div>
 	<hr class="colorgraph">
-</div>
 
 
-	<div class="row text-center">
-		<div class="col-md-offset-4">
+	<div class="row" style="display: flex; display: -webkit-flex; display: -ms-flexbox; -ms-flex-pack: center; justify-content: center;">
+		<div class="text-center" style="display: table-cell; margin : 0 auto;">
 			<ul id="sortable">
 				<li id="li1" class="ui-state-default"><img id="img1" class="thumbnail"></li>
 				<li id="li2" class="ui-state-default"><img id="img2" class="thumbnail"></li>
@@ -43,7 +42,7 @@
 	</div>
 	<br/>
 	
-<div class="container">	
+	<hr class="colorgraph">
 	<div class="row">
 		<form id="sortBack" method="post" action="<%=request.getContextPath()%>/edit"> 
 			<!-- <input type="button" value="다음"> -->
