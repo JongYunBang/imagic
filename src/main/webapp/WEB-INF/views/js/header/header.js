@@ -76,8 +76,9 @@ $(document).ready(function() {
 		});
 		event.preventDefault();
 		function onSuccess(data) {
+			console.log(data);
 			if (data=="loginError"){
-				alert("아이디나 비번을 잘못 입력하셨습니다. 다시입력하세요")
+				alert("아이디나 비번을 잘못 입력하셨습니다. 다시입력하세요");
 			} else if(data == "loginSuccess"){
 				window.location.href="/";  // 정상적으로 로그인시 index 페이지 다시로딩
 			}

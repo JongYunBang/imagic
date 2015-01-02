@@ -49,24 +49,28 @@ public class MemberController {
 	
 	// 로그인 처리부분
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(HttpServletRequest request, HttpServletResponse response, 
+	public void login(HttpServletRequest request, HttpServletResponse response, 
 			 @ModelAttribute MemberVO member) throws Exception {
 		PrintWriter pw = response.getWriter();
 		MemberVO storedMember = new MemberVO();
 			try {
 				storedMember = service.login(member);
-				pw.write("loginSuccess");
-				pw.flush();
+				if (storedMember!=null){
+					// 종윤 2014.12.8(10:00) : getSession으로 변경(Session 한개 관리를 위해서)
+					HttpSession session = request.getSession(false);
+					session.setAttribute("member", storedMember);
+					pw.write("loginSuccess");
+					pw.flush();
+				} else {
+					pw.write("loginError");
+					pw.flush();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				pw.write("loginError");
 				pw.flush();
 			}
 		pw.close();
-		// 종윤 2014.12.8(10:00) : getSession으로 변경(Session 한개 관리를 위해서)
-		HttpSession session = request.getSession(false);
-		session.setAttribute("member", storedMember);
-		return "index";
 	}
 	
 	// 로그아웃 처리부분

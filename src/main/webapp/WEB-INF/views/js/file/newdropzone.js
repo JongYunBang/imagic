@@ -111,7 +111,9 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		// 12.11 19:45 - folder가 클릭되어있는지 여부를 확인
 		var dirName = $('#drop_zone').data('folder');
 		if(dirName){
-			get('files').click();
+				$('#files').click();
+		}else {
+			alert("폴더를 선택해 주세요");
 		}
 	}
 
@@ -170,12 +172,10 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			removeFile.addEventListener('click', dropzone.removeFile, false);
 			thumbnail = template.querySelector('[data-dz-thumbnail]');
 			thumbnail.alt = f.name;
-			//console.log( Object.prototype.toString.call(f));
-			/////
+			
 			// 12.11 19:45 - 파일의 종류가 File일때만 output에 넣어준다.
 			// 이것을 통해서 사용자가 직접 올린 파일만 output에 데이터를 담는다!
 			// Object.prototype.toString.call(f) >> ie에서 File인지 알아보려고
-			
 			if (f.constructor.name == "File" || Object.prototype.toString.call(f) == "[object File]"){
 				//console.log("11111");
 				template.querySelector('[data-dz-state]').innerHTML ='upload';
@@ -246,7 +246,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 		}else if(blobReturn instanceof Object){
 			element.src = atob(blobReturn.file);
 		}
-//		element.src = blobReturn;
 		
 	}
 	
@@ -308,23 +307,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	
 		// 데이터 전송을 위해 XHR을 생성한다.
 		var xhr = new XMLHttpRequest();
-//		var xhr=null;
-//		try {
-//			xhr = new HMLHttpRequest();
-//		} catch (trymicrosoft) {
-//			try{
-//				xhr = new ActiveXObject("Msxml2.XMLHTTP");
-//			} catch(othermicrosoft) {
-//				try {
-//					xhr = new ActiveXObject("Microsoft.XMLHTTP");
-//				} catch (failed) {
-//					xhr = null;
-//				}
-//			}
-//		}
-//		if (xhr == null) {
-//			alert("xhr null");
-//		}
+		
 		var progress = document.querySelector('.percent');
 
 		// 12.11 19:45 - 전송될 데이터가 존재하면
@@ -334,8 +317,11 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			$.each(output, function(i, file) {
 				formData.append('file-' + i, file);
 			});
+			// blob 번호에 맞게 정렬
 			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
 			
+			// 파일 삭제시 blob에 번호붙인것이 달라지기에 파일순서에 맞게 번호 다시 매김
+			// spring에서 반반 나눠서 처리하기에 빠진번호가 없어야 하기 때문에 해주는 것임 
 			for(var i=0; outputBlob.length>i; i++) {
 				outputBlob[0].fileNum=i;
 			}

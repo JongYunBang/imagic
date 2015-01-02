@@ -48,8 +48,7 @@
 
 		<!--  드랍존 -->
 		<div class="col-md-6" id="file_main_bside">
-			<input type="file" id="files" name="files []" style="display: none;"
-				multiple />
+			<input type="file" id="files" name="files []"  style="visibility:hidden;position:absolute;top:0;left:0" multiple />
 			<div id="drop_zone" class="dropzone" data-folder>
 			</div>
 			<div id="progress_bar">
