@@ -42,7 +42,7 @@
 	
 }
 
-#drawzone {
+#drawzone, #drawzone2 {
 /* 	display: table-cell; */
 /* 	vertical-align: middle; */
 	display: flex;
@@ -55,7 +55,9 @@
 /* 	border-radius: 4px; */
 }
 
-
+.dropdown{
+	display: inline-block;
+}
 /* radio button 변경  12/31 */
 input[type=radio].css-checkbox {
     position: absolute;
@@ -108,4 +110,8 @@ label.css-label {
 
 .preset{
 	margin-top: 15px;
+}
+
+.loading{
+	display: none;
 }

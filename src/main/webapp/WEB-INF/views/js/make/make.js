@@ -25,9 +25,12 @@ $(document).ready(function(){
 	var ratio=ratio_16x9;
 	// 유저세팅을 선택했을때를 나타낼 변수
 	var userSet=false;
-	
+	var start_time; 
 	var openingCanvas = document.getElementById('opening');
 	var openingCtx = openingCanvas.getContext('2d');
+	
+	var endingCanvas = document.getElementById('ending');
+	var endingCtx = openingCanvas.getContext('2d');
 	var canvasWidth = 0;
 	var canvasHeight = 0;
 	
@@ -38,13 +41,31 @@ $(document).ready(function(){
 	var increaseX = 10;				// X축 이동 증가량
 	var increaseY = 10;				// Y축 이동 증가량
 	var comment;						// Comment
-
+	
+	var fontSize = 50;
 	var textArray = [];
-	var currentFont;
+	var currentFont = "Nanum Myeongjo";
 	var selectFont =0;
 	
-	$('#textFont').on('change', function(e) {
-		currentFont = $('#textFont').val();
+//	$('#titleMenu li').on('click', function(e) {
+//		if(this.previousElementSibling) {
+//			this.previousElementSibling.classList.remove('active');
+//		}else if(this.nextElementSibling){
+//			this.nextElementSibling.classList.remove('active');
+//		}
+//		this.classList.add('active');
+//		console.log(e);
+////		
+//		
+//	});
+	
+	$('#textFont a').on('click', function(e) {
+		e.preventDefault();
+		
+		console.log("text_changed");
+		currentFont = e.currentTarget.dataset['text'];
+		
+		document.getElementById('fontTitle').innerHTML = e.currentTarget.innerHTML;
 		textArray[selectFont].currentFont = currentFont;
 		drawText();
 	});
@@ -52,7 +73,7 @@ $(document).ready(function(){
 	function resetText(){
 		textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
 		fontX = 0;						// 이동 X 좌표
-		fontY = 50;					// 이동 Y 좌표
+		fontY = 50;					    // 이동 Y 좌표
 		comment;						// Comment
 
 		textArray = [];
@@ -66,7 +87,7 @@ $(document).ready(function(){
 			textArray.push({
 				comment : comment,
 				fillStyle : "#FFFFFF",
-				font : "50px ",
+				font : fontSize + "px ",
 				currentFont : currentFont,
 				fontX : fontX,
 				fontY : fontY
@@ -76,9 +97,6 @@ $(document).ready(function(){
 	}
 	
 	$('#titleDialogBtn').on('click', function(e) {
-//		$('#titleDialog').dialog({
-//			dialogClass: "no-close"
-//		});
 		if (!textWorking){
 			addTextArray();
 			drawText();
@@ -127,15 +145,23 @@ $(document).ready(function(){
 	
 	function drawText(){
 		if(textWorking) {
+			console.log("drawText");
 			openingCtx.fillStyle = "#000000";
 			openingCtx.fillRect(0, 0,  openingCanvas.width, openingCanvas.height);
 			for(var i =0; i < textArray.length; i++){
 				openingCtx.fillStyle = textArray[i].fillStyle;
-				openingCtx.font = textArray[i].font +  textArray[i].currentFont;
-				openingCtx.fillText(textArray[i].comment, textArray[i].fontX, textArray[i].fontY, openingCanvas.width);
+				var fontString = textArray[i].font +  textArray[i].currentFont;
+				openingCtx.font = fontString;
+				openingCtx.fillText(textArray[i].comment, textArray[i].fontX, textArray[i].fontY, openingCanvas.width);	
 			}
 		}
 	}
+	
+	$('#openingSaveBtn').on('click', function(e) {
+		
+	});
+	
+	
 	
 	init();
 	
@@ -161,7 +187,7 @@ $(document).ready(function(){
 			fileList = data;
 			 
 			// 받은 이미지 파일의 가로 최대길이와 세로 최대길이 구함    
-			for(var i=0; i<fileList.length-2; i++){
+			for(var i=0; i<fileList.length; i++){
 				var img = new Image();
 				img.src=filesarr[i]=fileList[i].imgBase64;
 				
@@ -207,7 +233,7 @@ $(document).ready(function(){
 		$('input[name="imgDirection"]').change(function() {
 			// 열우가 옮겨놓음으로
 			if(textWorking) {
-				if(!confirm("기존에 있던 오프닝, 엔딩작업은 삭제됩니다. 진행하시겠습니까?")){
+				if(!confirm("저장되지 않은 오프닝, 엔딩작업은 삭제됩니다. 진행하시겠습니까?")){
 					if(imgDirection=="가로방향"){
 						$('input[name=imgDirection]')[0].checked=true;	
 					}else{
@@ -317,6 +343,11 @@ $(document).ready(function(){
 		openingCtx.fillStyle = '#000000';
 		openingCtx.fillRect(0, 0, openingCanvas.width, openingCanvas.height);
 		
+		endingCanvas.width = canvasWidth;
+		endingCanvas.height = canvasHeight;
+		endingCtx.fillStyle = '#000000';
+		endingCtx.fillRect(0, 0, endingCanvas.width, endingCanvas.height);
+		
 		// drawzone 크기도 변경
 		var drawzoneElement = document.getElementById('drawzone');
 		drawzoneElement.width = canvasWidth;
@@ -355,10 +386,15 @@ $(document).ready(function(){
 	// createvedio 버튼 클릭시 동영상 제작에 들어가는 함수
 	createvideo.addEventListener("click", function() {
 		$("#inputText").attr("class", "collapse");
-        document.getElementById('status').innerHTML = "영상을 제작중입니다. 선택하신 품질과 <br/> 컴퓨터 성능에 따라 시간이 걸릴수도 있습니다";
+		this.classList.add('loading');
+        document.getElementById('status').innerHTML = 
+        								"영상을 제작중입니다..... <br/>" +
+        								"선택하신 품질과 컴퓨터 성능에 따라 몇 초에서 몇 분의 시간이 소요됩니다.<br/>" +
+        								"화면이 멈추는 현상이 발생할 수 있습니다.";
         document.getElementById('awesome').src = "";
         ctx = 0;
         
+        start_time = +new Date;
         // 사용자가 프리셋 이용시
         if(!userSet){
         	// 캔버스에 들어갈 이미지 크기 구해오기 위해서
@@ -405,7 +441,7 @@ $(document).ready(function(){
         } else {
         	document.getElementById('status').innerHTML = "파일을 불러오는데 오류가 발생하였습니다.<br/> 다시 시도해 주십시요";
         }
-
+     
     }, false);
 
     /* main process function */
@@ -486,8 +522,7 @@ $(document).ready(function(){
     function finalizeVideo(){
         //check if its ready
         if(ctx==filesarr.length){
-
-            var start_time = +new Date;
+        		document.getElementById("createvideo").classList.remove('loading');
             var output = video.compile();
             var end_time = +new Date;
             var url = webkitURL.createObjectURL(output);
@@ -495,7 +530,7 @@ $(document).ready(function(){
             document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
             document.getElementById('download').style.display = '';
             document.getElementById('download').href = url;
-            document.getElementById('status').innerHTML = "동영상 제작시간 " + (end_time - start_time) + "ms, 파일크기: " + Math.ceil(output.size / 1024) + "KB";
+            document.getElementById('status').innerHTML = "동영상 제작시간 : " + (end_time - start_time) / 1000+ "초, 파일크기: " + Math.ceil(output.size / 1024) + "KB";
 
         }
 

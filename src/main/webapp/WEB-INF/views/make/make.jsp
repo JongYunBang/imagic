@@ -109,59 +109,66 @@
     	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#inputText" id="inputTextBtn"><span class="glyphicon glyphicon-comment"></span> 오프닝 · 엔딩 삽입</button><br/><br/>
 		<div class="collapse"  id="inputText">
 			<div class="well col-md-8">
-				<div id="drawzone"> 
-					<canvas id="opening"></canvas>
+			<div role="tabpanel">
+					  <!-- Nav tabs -->
+					  <ul class="nav nav-tabs nav-justified" role="tablist">
+					    <li role="presentation" class="active"><a href="#openingTab" aria-controls="openingTab" role="tab" data-toggle="tab">오프닝</a></li>
+					    <li role="presentation"><a href="#endingTab" aria-controls="endingTab" role="tab" data-toggle="tab">엔딩</a></li>
+					  </ul>
+					  <!-- Tab panes -->
+					  <div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="openingTab">
+							<div id="drawzone"> 
+								<canvas id="opening"></canvas>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="endingTab">
+							<div id="drawzone2"> 
+								<canvas id="ending"></canvas>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			
 			<div class="well col-md-4">
-				<ul class="nav nav-tabs nav-justified">
-					<li class="active"><a>오프닝</a>
-						<input type="button" value="텍스트 추가"  id="titleDialogBtn"/>
-						<input type="button" value="왼쪽"  id="titleDialogLeft"/>
-						<input type="button" value="오른쪽"  id="titleDialogRight"/>
-						<input type="button" value="위"  id="titleDialogUp"/>
-						<input type="button" value="아래"  id="titleDialogDown"/>
-<!-- 							<div  id="titleDialog" hidden="hidden"> -->
-<!--   								<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p> -->
-<!-- 							</div> -->
-						폰트:<select id="textFont">
-							    <option value="Nanum Myeongjo">나눔 명조</option>
-							    <option value="Nanum Gothic">나눔 고딕</option>
-							    <option value="Nanum Gothic Coding">나눔 고딕 코딩</option>
-							    <option value="Nanum Brush Script">나눔 손 글씨 붓</option>
-							    <option value="Nanum Pen Script">나눔 손 글씨 펜</option>
-							    <option value="Hanna">한나</option>
-							    <option value="Jeju Gothic">제주 고딕</option>
-							    <option value="Jeju Myeongjo">제주 명조</option>
-							    <option value="Jeju Hallasan">제주한라산체</option>
-							    <option value="KoPub Batang">KoPub 바탕</option>
-							    <option value="Titillium Web">Titillium Web</option>
-							    <option value="Roboto Condensed">Roboto Condensed</option>
-							    <option value="Lobster">Lobster</option>
-							    <option value="Droid Serif">Droid Serif</option>
-							    <option value="Sigmar One">Sigmar One</option>
-							    </select>
-					</li>
-					<li><a>엔딩</a>
-						
-					</li>
-				</ul>
+			<ul class="nav nav-tabs nav-justified" role="tablist">
+				<li role="presentation">
+					<a>도구모음</a><br/><br/>
+					<input type="button" value="텍스트 추가"  id="titleDialogBtn"/>
+					<input type="button" value="왼쪽"  id="titleDialogLeft"/>
+					<input type="button" value="오른쪽"  id="titleDialogRight"/>
+					<input type="button" value="위"  id="titleDialogUp"/>
+					<input type="button" value="아래"  id="titleDialogDown"/>
+					<div class="dropdown">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="textFontBtn" data-toggle="dropdown" aria-expanded="true">
+					  	<span id="fontTitle">폰트</span>
+					    <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="textFontBtn" id="textFont" >
+					  	<li role="presentation" class="dropdown-header">한글 폰트</li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Myeongjo">나눔 명조</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic">나눔 고딕</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic Coding">나눔 고딕 코딩</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Brush Script">나눔 손 글씨 붓</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Pen Script">나눔 손 글씨 펜</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Hanna">한나</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Gothic">제주 고딕</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Myeongjo">제주 명조</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Hallasan">제주한라산체</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="KoPub Batang">KoPub 바탕</a></li>
+					    <li role="presentation" class="dropdown-header">영문 폰트</li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Titillium Web">Titillium Web</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Roboto Condensed">Roboto Condensed</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Lobster">Lobster</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Droid Serif">Droid Serif</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Sigmar One">Sigmar One</a></li>
+					  </ul>
+					</div>
+				    <input type="button" value="저장하기" id="openingSaveBtn">
+				</li>
+			</ul>
 			</div>
-<!-- 			<div class="well col-md-3 col-md-offset-3"> -->
-<!-- 				<form> -->
-<!-- 					<label>오프닝 멘트<br/></label> -->
-<!-- 					<textarea rows="4" cols="25" id="startText" placeholder="문장을 입력하세요"></textarea> -->
-<!-- 				</form> -->
-<!-- 				<br/><button class="btn btn-sm btn-info" type="submit" id="startText">적용하기</button>  -->
-<!-- 			</div> -->
-<!-- 			<div class="well col-md-3"> -->
-<!-- 				<form> -->
-<!-- 					<label>엔딩 멘트<br/></label> -->
-<!-- 					<textarea rows="4" cols="25" id="endText" placeholder="문장을 입력하세요"></textarea> -->
-<!-- 				</form> -->
-<!-- 				<br/><button class="btn btn-sm btn-info" type="submit" id="endText">적용하기</button>  -->
-<!-- 			</div> -->
 		</div>
    	</div>
    	<hr class="colorgraph divider">
