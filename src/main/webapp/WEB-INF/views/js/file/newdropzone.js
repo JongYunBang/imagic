@@ -184,7 +184,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			}
 			
 			// 12.11 19:45 - 생성되는 preview에 썸네일을 추가 시켜준다.
-			dropzone.createThumbnail(f, thumbnail, hasFiles - files.length + i); //
+			dropzone.createThumbnail(f, thumbnail, f.name); //
 			
 		}
 	}
@@ -201,7 +201,7 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 	}
 
 	// 12.11 19:45 - 썸네일 이미지를 생성하여 outputBlob에 저장하고 thumbnail src에 이미지 저장
-	dropzone.createThumbnail = function(blobReturn, element, i) {
+	dropzone.createThumbnail = function(blobReturn, element, name) {
 		// 썸네일의 크기를 지정
 		var thumbnailWidth = 100;
 		var thumbnailHeight = 100;
@@ -234,8 +234,9 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 				// Blob 안에는 파일과 배열만이 들어갈수 있다 
 				var bb = new Blob(ab, { 'type': 'image/png' });
 				var blob = {
-						"fileNum" : bNum,
-						"data" : bb 
+						"name" : name,
+						"data" : bb,
+						"num" : 0
 				}
 				bNum++;
 				bb.name = blobReturn.name;
@@ -316,20 +317,25 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			// 12.11 19:45 - 폼 데이터에 파일 저장 
 			$.each(output, function(i, file) {
 				formData.append('file-' + i, file);
+				for(var j=0; j<outputBlob.length; j++){
+					if (file.name == outputBlob[j].name) {
+						outputBlob[j].num = i;
+					}
+				}
 			});
-			// blob 번호에 맞게 정렬
-			outputBlob.sort(function(a,b){return a.fileNum-b.fileNum});
 			
-			// 파일 삭제시 blob에 번호붙인것이 달라지기에 파일순서에 맞게 번호 다시 매김
-			// spring에서 반반 나눠서 처리하기에 빠진번호가 없어야 하기 때문에 해주는 것임 
-			for(var i=0; outputBlob.length>i; i++) {
-				outputBlob[0].fileNum=i;
-			}
+			
+			
+			// blob 번호에 맞게 정렬
+			outputBlob.sort(function(a,b){return a.num-b.num});
+			
+			
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
 				formData.append("blob-" + i, blob.data);
+//				console.log(blob.fileName);
 			});
-//			console.log(outputBlob);
+			
 			// 12.11 19:45 - XHR 
 			xhr.open(method, dzURL, true);
 			xhr.responseType = 'json';
@@ -363,13 +369,13 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 이것은 둘다 순서대로 만들어지고 순서대로 data값이 들어온다는 전제하에 작동된다. 
 					// 우리는 그렇게 되어있어서 에러가 안난다.
 
-					console.log(hasBrowser());
+					
 					// 브라우저 체크
 					if (hasBrowser() == "IE") {
 						data = JSON.parse(data);
 						console.log("data IE parser 들어옴");
 					}
-//					console.log(document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]'));
+					
 					for(var i=0;i < data.length; i++){
 						var imgNumList = document.getElementById("drop_zone").querySelectorAll('[data-dz-imgnum]');
 						for(var j=0; j<imgNumList.length;j++){

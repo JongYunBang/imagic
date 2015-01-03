@@ -2,54 +2,51 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
 
+<script src="../js/jquery-ui.js"></script>
 <script src="../js/make/whammy.js"></script>
 <script src="../js/make/make.js"></script>
 <link rel="stylesheet" href="../css/make/make.css">
+ <script>
+ WebFont.load({
 
+            // For google fonts
+            google: {
+                families: ['Titillium Web', 'Droid Serif', 'Roboto Condensed', 'Lobster', 'Sigmar One']
+            },
+            // For early access or custom font
+            custom: {
+                families: ['Nanum Gothic', 'Hanna', 'Jeju Gothic', 'Jeju Myeongjo', 'Jeju Hallasan', 'KoPub Batang', 'Nanum Gothic Coding', 'Nanum Myeongjo', 'Nanum Brush Script', 'Nanum Pen Script'],
+                urls: ['http://fonts.googleapis.com/earlyaccess/nanumgothic.css', 'http://fonts.googleapis.com/earlyaccess/hanna.css', 'http://fonts.googleapis.com/earlyaccess/jejugothic.css',
+                        'http://fonts.googleapis.com/earlyaccess/jejumyeongjo.css', 'http://fonts.googleapis.com/earlyaccess/jejuhallasan.css', 'http://fonts.googleapis.com/earlyaccess/kopubbatang.css',
+                        'http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css', 'http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css', 'http://fonts.googleapis.com/earlyaccess/nanumbrushscript.css',
+                        'http://fonts.googleapis.com/earlyaccess/nanumpenscript.css'
+                ]
+            }
+
+        });
+ </script>
 
 <input type="hidden" id="sessionID" value="${file.m_id}">
 <input type="hidden" id="sessionDirName" value="${file.dirName}">
 <input type="hidden" id="sessionDirNum" value="${file.dirNum}">
 
-<div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="text-center">
-                    <img src="http://www.travislayne.com/images/loading.gif" class="icon" />
-                    <h4>Processing... </h4>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container">
-	<div style="text-align: center">
-		<h2 class="heading">
-			${file.m_id}<span class="text-muted">님의 </span>${file.dirName} <span class="text-muted"> 앨범</span>
-		</h2>
-		<p class="lead"></p>
-		<p class="lead">선택하신 조건으로 동영상을 제작합니다.</p>
-		<p class="lead">제작 후에는 우측 하단의 내려받기 버튼으로 간직하실 수 있습니다.</p>
-	</div>
-	<hr class="colorgraph">
-	
 	<div class="row" style="margin-top:50px;"></div>
 	
 		<div class="row text-center">
 	    	<div>
-		   		<button class="btn btn-success" id="userSetBn" ><span class="glyphicon glyphicon-cog"></span> 사용자 임의 지정</button>
+		   		<button class="btn btn-jusang" id="userSetBn" ><span class="glyphicon glyphicon-cog"></span> 사용자 임의 지정</button>
 		   	</div>
 		   	<br/>
 		   	<div id="userSet" style="display: none;" class="row">
-		   		<div class="custom_page"><span class="text-muted">원하시는 해상도를 설정해 주세요.</span></div>
+		   		<div class="custom_page">주상이가 쓰지말래</div>
 		    	<div class="well col-md-4"><label>너비</label><input id="width" type="number" step="1" value="500" class="form-control"></div>
 		        <div class="well col-md-4"><label>높이</label><input id="height" type="number" step="1" value="300" class="form-control"></div>
 		        <div class="well col-md-4"><label>프레임(초)</label><input id="framerate" type="number" step="1" value="15" class="form-control"></div>
 		   	</div>
 		   	<div>
-		   		<button class="btn btn-success" id="userSetClose" style="display: none;">창 닫기</button>
+		   		<button class="btn btn-jusang" id="userSetClose" style="display: none;">창 닫기</button>
 		   	</div>
     	</div>
     
@@ -68,11 +65,11 @@
 	    	<div class="well col-md-3" id="step2">
 	    		<span>영상의 비율을 정해주세요</span><br/>
 	    		<div class="ratio_radio_group">
-	    		<input type="radio" name="imgRatio" id="ratio4x3" value="4x3" class="css-checkbox" checked/>
-                <label for="ratio4x3" class="css-label radGroup1"><span id="ratio4x3span">4X3</span></label>
-                <span style="margin-left:10px"></span>
-	    		<input type="radio" name="imgRatio" id="ratio16x9" value="16x9" class="css-checkbox"/>
-                <label for="ratio16x9" class="css-label radGroup1"><span id="ratio16x9span">16X9</span></label>
+	    			<input type="radio" name="imgRatio" id="ratio16x9" value="16x9" class="css-checkbox" checked/>
+                	<label for="ratio16x9" class="css-label radGroup1"><span id="ratio16x9span">16X9</span></label>
+                	<span style="margin-left:10px"></span>
+	    			<input type="radio" name="imgRatio" id="ratio4x3" value="4x3" class="css-checkbox" />
+                	<label for="ratio4x3" class="css-label radGroup1"><span id="ratio4x3span">4X3</span></label>
                 </div>
 	    	</div>
 	    	<div class="well col-md-3" id="step3">
@@ -110,22 +107,62 @@
     
     <!-- 영상의 시작,끝에 멘트 넣는 부분 (추가) -->
     <div class="row text-center">
-    	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#inputText" id="inputTextBtn"><span class="glyphicon glyphicon-comment"></span>오프닝 · 엔딩 삽입</button><br/><br/>
-		<div class="collapse" id="inputText">
-			<div class="well col-md-3 col-md-offset-3">
-				<form>
-					<label>오프닝 멘트<br/></label>
-					<textarea rows="4" cols="25" id="startText" placeholder="문장을 입력하세요"></textarea>
-				</form>
-				<br/><button class="btn btn-sm btn-info" type="submit" id="startText">적용하기</button> 
+    	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#inputText" id="inputTextBtn"><span class="glyphicon glyphicon-comment"></span> 오프닝 · 엔딩 삽입</button><br/><br/>
+		<div class="collapse"  id="inputText">
+			<div class="well col-md-8">
+				<div id="drawzone"> 
+					<canvas id="opening"></canvas>
+				</div>
 			</div>
-			<div class="well col-md-3">
-				<form>
-					<label>엔딩 멘트<br/></label>
-					<textarea rows="4" cols="25" id="endText" placeholder="문장을 입력하세요"></textarea>
-				</form>
-				<br/><button class="btn btn-sm btn-info" type="submit" id="endText">적용하기</button> 
+			
+			<div class="well col-md-4">
+				<ul class="nav nav-tabs nav-justified">
+					<li class="active"><a>오프닝</a>
+						<input type="button" value="텍스트 추가"  id="titleDialogBtn"/>
+						<input type="button" value="왼쪽"  id="titleDialogLeft"/>
+						<input type="button" value="오른쪽"  id="titleDialogRight"/>
+						<input type="button" value="위"  id="titleDialogUp"/>
+						<input type="button" value="아래"  id="titleDialogDown"/>
+<!-- 							<div  id="titleDialog" hidden="hidden"> -->
+<!--   								<p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p> -->
+<!-- 							</div> -->
+						폰트:<select id="textFont">
+							    <option value="Nanum Myeongjo">나눔 명조</option>
+							    <option value="Nanum Gothic">나눔 고딕</option>
+							    <option value="Nanum Gothic Coding">나눔 고딕 코딩</option>
+							    <option value="Nanum Brush Script">나눔 손 글씨 붓</option>
+							    <option value="Nanum Pen Script">나눔 손 글씨 펜</option>
+							    <option value="Hanna">한나</option>
+							    <option value="Jeju Gothic">제주 고딕</option>
+							    <option value="Jeju Myeongjo">제주 명조</option>
+							    <option value="Jeju Hallasan">제주한라산체</option>
+							    <option value="KoPub Batang">KoPub 바탕</option>
+							    <option value="Titillium Web">Titillium Web</option>
+							    <option value="Roboto Condensed">Roboto Condensed</option>
+							    <option value="Lobster">Lobster</option>
+							    <option value="Droid Serif">Droid Serif</option>
+							    <option value="Sigmar One">Sigmar One</option>
+							    </select>
+					</li>
+					<li><a>엔딩</a>
+						
+					</li>
+				</ul>
 			</div>
+<!-- 			<div class="well col-md-3 col-md-offset-3"> -->
+<!-- 				<form> -->
+<!-- 					<label>오프닝 멘트<br/></label> -->
+<!-- 					<textarea rows="4" cols="25" id="startText" placeholder="문장을 입력하세요"></textarea> -->
+<!-- 				</form> -->
+<!-- 				<br/><button class="btn btn-sm btn-info" type="submit" id="startText">적용하기</button>  -->
+<!-- 			</div> -->
+<!-- 			<div class="well col-md-3"> -->
+<!-- 				<form> -->
+<!-- 					<label>엔딩 멘트<br/></label> -->
+<!-- 					<textarea rows="4" cols="25" id="endText" placeholder="문장을 입력하세요"></textarea> -->
+<!-- 				</form> -->
+<!-- 				<br/><button class="btn btn-sm btn-info" type="submit" id="endText">적용하기</button>  -->
+<!-- 			</div> -->
 		</div>
    	</div>
    	<hr class="colorgraph">
@@ -138,13 +175,12 @@
 		<br/><br/><br/><br/>
 	</div>	
 	<div class="row text-center">
-		<video poster="../../img/makeTravie.jpg" id="awesome" controls autoplay></video>
+		<video id="awesome" style="margin:0 auto;" controls autoplay></video>
 		<br/>
 		<canvas id="canvas" style="display:none"></canvas><br/>    	
     </div>
     
-<div class="container">   
-	<hr class="colorgraph"> 
+<div class="container">    
     <div class="row">
 		<!--  뒤로가기 버튼 -->
 		<form id="makeBack" method="post" action="<%=request.getContextPath()%>/sortable"> 
@@ -173,8 +209,5 @@
 		</div>
 	</div>
 </div>
-
-
-
 
 <%@ include file="../common/footer.jsp"%>

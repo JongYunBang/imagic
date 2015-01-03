@@ -17,6 +17,7 @@ $(document).ready(function() {
 		$("#nextBtnOff").attr("style","display: none;");
 		connDiviceActive = 'click';
 	}
+
 	// EventListener 등록
 	get('drop_zone').addEventListener('dragover', dropzone.handleDragOver,false);
 	get('drop_zone').addEventListener('drop', dropzone.handleDragSelect, false);

@@ -1,7 +1,12 @@
+window.onresize = function() {  
+	console.log(window.innerWidth);
+	console.log(window.innerHeight);
+};  
 $(document).ready(function(){
     var drag = document.getElementById("drag");
     var createvideo = document.getElementById("createvideo");
     var files = document.getElementById("filesinput");
+
     var ctx = 0;
 
     var canvas = document.getElementById("canvas");
@@ -11,7 +16,6 @@ $(document).ready(function(){
     var video = new Whammy.Video(15);
 
     var filesarr = [];
-    // 로딩이미지 띄우기 위한 시간 벌기용
     
     // 넘어온 파일 리스트 저장용
     var fileList=[];
@@ -25,36 +29,125 @@ $(document).ready(function(){
 	var ratio=ratio_16x9;
 	// 유저세팅을 선택했을때를 나타낼 변수
 	var userSet=false;
-	$('#processing-modal').modal('show');
+	
+	var openingCanvas = document.getElementById('opening');
+	var openingCtx = openingCanvas.getContext('2d');
+	var canvasWidth = 0;
+	var canvasHeight = 0;
+	
+	
+	var textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
+	var sourceX = 0;					// 처음 X 좌표 
+	var sourceY = 50;				// 처음 Y 좌표
+	var fontX = 0;						// 이동 X 좌표
+	var fontY = 50;					// 이동 Y 좌표
+	var increaseX = 10;				// X축 이동 증가량
+	var increaseY = 10;				// Y축 이동 증가량
+	var comment;						// Comment
+
+	var textArray = [];
+	var currentFont;
+	
+	$('#textFont').on('change', function(e) {
+		currentFont = $('#textFont').val();
+		drawText();
+	});
+	
+	// 2015. 1. 2 열우 
+	function addTextArray(){
+		if(!textWorking){
+			comment = prompt("텍스트를 입력해주세요!");
+			textArray.push({
+				comment : comment,
+				fillStyle : "#FFFFFF",
+				font : "50px " + currentFont,
+				fontX : fontX,
+				fontY : fontY
+			});
+			textWorking = true;
+		}
+	}
+	
+	$('#titleDialogBtn').on('click', function(e) {
+//		$('#titleDialog').dialog({
+//			dialogClass: "no-close"
+//		});
+		if (!textWorking){
+			addTextArray();
+			drawText();
+		}else {
+			if(confirm("기존에 작업하던 텍스트를 저장하고 새로 추가하시겠습니까?")){
+				textWorking = false;
+				fontY = textArray[textArray.length-1].fontY+ 50; 
+				addTextArray();
+				drawText();
+			}
+		}
+	});
+	
+	$('#titleDialogRight').on('click', function() {
+		if(textWorking) {
+			textArray[textArray.length-1].fontX = textArray[textArray.length-1].fontX + increaseX; 
+			drawText();
+		}
+	});
+	
+	$('#titleDialogLeft').on('click', function() {
+		textArray[textArray.length-1].fontX = textArray[textArray.length-1].fontX-increaseX;
+		drawText();
+	});
+	
+	$('#titleDialogUp').on('click', function() {
+		textArray[textArray.length-1].fontY = textArray[textArray.length-1].fontY-increaseY;
+		drawText();
+	});
+	
+	$('#titleDialogDown').on('click', function() {
+		textArray[textArray.length-1].fontY = textArray[textArray.length-1].fontY+increaseY;
+		drawText();
+	});
+	
+	function drawText(){
+		openingCtx.fillStyle = "#000000";
+		openingCtx.fillRect(0, 0,  openingCanvas.width, openingCanvas.height);
+		for(var i =0; i < textArray.length; i++){
+			openingCtx.fillStyle = textArray[i].fillStyle;
+			openingCtx.font = textArray[i].font;
+			openingCtx.fillText(textArray[i].comment, textArray[i].fontX, textArray[i].fontY, openingCanvas.width);
+		}
+	}
 	
 	init();
+	
 	function init() {
-
+		var imgDirection;
+		var imgRatio;
+		
 		$.ajax({
-			type : "POST",
-			url : "/makeFileList",
-			cache : false,
-			async : false,
-			data : {
-				m_id : $('#sessionID').val(),
+	    	type : "POST",
+	    	url : "/makeFileList",
+	    	cache : false,
+	    	async : false,
+	    	data : {
+	    		m_id : $('#sessionID').val(),
 				dirName : $('#sessionDirName').val(),
 				dirNum : $('#sessionDirNum').val()
-			},
-			success : onSuccess,
+	    	},
+	    	success : onSuccess,
 			error : onError
-		})
-
-		function onSuccess(data) {
+	    })
+	    
+	    function onSuccess(data) {
 			fileList = data;
-
+			 
 			// 받은 이미지 파일의 가로 최대길이와 세로 최대길이 구함    
-			for(var i=0; i<fileList.length-2; i++){
+			for(var i=0; i<fileList.length; i++){
 				var img = new Image();
 				img.src=filesarr[i]=fileList[i].imgBase64;
-
+				
 //				width+=img.width;
 //				height+=img.height;
-
+				
 				// 처음 파일을 초기값으로 지정
 				if(i==0){
 					maxWidth=img.width;
@@ -69,26 +162,37 @@ $(document).ready(function(){
 					}
 				}
 			}
-			$('#processing-modal').modal('hide');
+			
 			// 최대 가로와 최대 세로의 길이 비교로 화면에 미리 띄워줄 글과 화면비율 선택하기
 			if(maxWidth>=maxHeight){
 				$("#step1Str").html("'가로방향을 추천드립니다.'");
 				insertVerValue(maxWidth, ratio_16x9);
 				$('input[name=imgDirection]')[0].checked=true;
+				imgRatio = "16x9";
 			} else {
 				$('#step1Str').html("세로방향을 추천드립니다.");
 				insertHorValue(maxHeight, ratio_16x9);
 				$('input[name=imgDirection]')[1].checked=true;
+				imgRatio = "9x16";
 			}
+			changeRadioDirection();
+			
 		}
 		function onError(data) {
 			alert("파일 받아오기 실패");
 		}
-
-
+		
 		// step1 선택에 의해 sept2, step3 내용 보여주기 위해서
-		var imgDirection;
+
 		$('input[name="imgDirection"]').change(function() {
+			// 열우가 옮겨놓음으로
+			changeRadioDirection();
+			changeRadioRatio();
+			resizeCanvas(imgRatio);
+		});
+		
+		// 열우가 옮겨놓음으로
+		function changeRadioDirection(){
 			imgDirection = $('input:radio[name=imgDirection]:checked').val();
 			if(imgDirection=="가로방향") {
 				document.getElementById('ratio16x9').value="16x9";
@@ -100,6 +204,9 @@ $(document).ready(function(){
 				} else if ($('input[name=imgRatio]:checked').val()=="4x3") {
 					insertVerValue(maxWidth, ratio_4x3);
 				}
+				
+				// TODO : 오프닝/엔딩 페이지 가로 세로 방향에 맞는  미리 보기 CANVAS 크기 변경
+				
 			} else if(imgDirection=="세로방향") {
 				document.getElementById('ratio16x9').value="9x16";
 				document.getElementById('ratio16x9span').innerHTML="9x16";
@@ -111,11 +218,15 @@ $(document).ready(function(){
 					insertHorValue(maxHeight, ratio_4x3);
 				} 
 			}
-		});
-
+		}
 		// step 의 선택에 의해 상수 대입값 변화시켜주기위해
-		var imgRatio;
 		$('input[name=imgRatio]').change(function() {
+			//열우 옮김
+			changeRadioRatio();
+			resizeCanvas(imgRatio);
+		});
+		// 열우 옮김 
+		function changeRadioRatio(){
 			imgRatio=$('input[name=imgRatio]:checked').val();
 			if(imgRatio=="16x9") {
 				insertVerValue(maxWidth, ratio_16x9);
@@ -126,7 +237,7 @@ $(document).ready(function(){
 			} else if (imgRatio=="3x4") {
 				insertHorValue(maxHeight, ratio_4x3);
 			}
-		});
+		}
 
 		// 유저가 직접 입력하는 버튼을 눌렀을때 
 		$('#userSetBn').click(function() {
@@ -135,7 +246,7 @@ $(document).ready(function(){
 			$("#userSetClose").attr("style","");
 			$("#userSet").attr("style","");
 			$("#userSetBn").attr("style", "display: none;");
-
+			
 		});
 		// 유저지정 창 닫기 버튼 클릭시
 		$('#userSetClose').click(function() {
@@ -144,10 +255,46 @@ $(document).ready(function(){
 			$("#userSet").attr("style","display: none;");
 			$("#userSetClose").attr("style","display: none;");
 			$("#userSetBn").attr("style", "");
-
+			
 		});
-
+		
+		/* 열우 1월 2일 작업  */
+		// 선택된 방향에 맞게 CANVAS 크기 지정
+		resizeCanvas(imgRatio);
 	}
+    
+	function resizeCanvas(imgRatio){
+//		var openingCanvas = document.getElementById('opening');
+//		var openingCtx = openingCanvas.getContext('2d');
+//		var canvasWidth = 0;
+//		var canvasHeight = 0;
+		if(imgRatio=="16x9"){
+			canvasWidth = 740;
+			canvasHeight = 416.25;
+		}else if(imgRatio=="4x3"){
+			canvasWidth = 740;
+			canvasHeight =555;			
+		}else if(imgRatio=="9x16"){
+			canvasWidth = 416.25;
+			canvasHeight =740;
+		}else if(imgRatio=="3x4"){
+			canvasWidth = 555;
+			canvasHeight =740;			
+		}
+		openingCanvas.width = canvasWidth;
+		openingCanvas.height = canvasHeight;
+		openingCtx.fillStyle = '#000000';
+		openingCtx.fillRect(0, 0, openingCanvas.width, openingCanvas.height);
+		
+		// drawzone 크기도 변경
+		var drawzoneElement = document.getElementById('drawzone');
+		drawzoneElement.width = canvasWidth;
+		drawzoneElement.height = canvasHeight;
+	}
+	/****여기까지*******/
+	
+	
+	
 	// 가로 방향 선택시에 값 넣어주는 함수 
 	function insertVerValue(maxInWidth, ratio) {
 		var midVal = parseInt(maxInWidth*0.7);
@@ -165,11 +312,11 @@ $(document).ready(function(){
 		var midVal = parseInt(maxInHeight*0.7);
 		var lowVal = parseInt(maxHeight*0.5);
 		document.getElementById('imgHi').value=parseInt(maxInHeight*ratio)+"x"+maxInHeight;
-		document.getElementById('imgHiSpan').innerHTML= "높은화질 (" + parseInt(maxInHeight*ratio)+"x"+maxInHeight + ")";
+		document.getElementById('imgHiSpan').innerHTML= "높은화질 (" + parseInt(maxInHeight*ratio)+" x "+maxInHeight + ")";
 		document.getElementById('imgMiddle').value=parseInt(midVal*ratio)+"x"+midVal;
-		document.getElementById('imgMiddleSpan').innerHTML="중간화질 (" +parseInt(midVal*ratio)+"x"+midVal + ")";
+		document.getElementById('imgMiddleSpan').innerHTML="중간화질 (" +parseInt(midVal*ratio)+" x "+midVal + ")";
 		document.getElementById('imgLow').value=parseInt(lowVal*ratio)+"x"+lowVal;
-		document.getElementById('imgLowSpan').innerHTML= "낮은화질 (" + parseInt(lowVal*ratio)+"x"+lowVal + ")";
+		document.getElementById('imgLowSpan').innerHTML= "낮은화질 (" + parseInt(lowVal*ratio)+" x "+lowVal + ")";
 	}
 	
 	// 똑같은 화면 재생을 위한 변수
@@ -238,6 +385,9 @@ $(document).ready(function(){
     	//load image and drop into canvas
     	img.onload = function() {
 
+    		
+    		// 오프닝 삽입 부분
+    		
     	
     		context.clearRect(0,0,context.canvas.width,context.canvas.height);
     		context.globalAlpha = 0.75;
@@ -290,6 +440,10 @@ $(document).ready(function(){
     		context.clearRect(0,0,context.canvas.width,context.canvas.height);
     		
 
+    		// 엔딩 삽입 부분
+    		
+    		
+    		
     		ctx++;
     		finalizeVideo();
     	};
@@ -301,6 +455,7 @@ $(document).ready(function(){
     function finalizeVideo(){
         //check if its ready
         if(ctx==filesarr.length){
+
             var start_time = +new Date;
             var output = video.compile();
             var end_time = +new Date;
@@ -310,6 +465,7 @@ $(document).ready(function(){
             document.getElementById('download').style.display = '';
             document.getElementById('download').href = url;
             document.getElementById('status').innerHTML = "동영상 제작시간 " + (end_time - start_time) + "ms, 파일크기: " + Math.ceil(output.size / 1024) + "KB";
+
         }
 
     }

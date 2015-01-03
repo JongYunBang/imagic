@@ -126,6 +126,8 @@ public class ImagicUtil {
 		
 		if(type.equals("gif")) {
 			res = "gif";
+		}else if(type.equals("jpeg")){
+			res = "jpeg";
 		}else if(type.equals("jpg")){
 			res = "jpeg";
 		}else if(type.equals("png")) {
