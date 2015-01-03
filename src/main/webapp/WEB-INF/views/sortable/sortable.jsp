@@ -22,10 +22,10 @@
 		<p class="lead">동영상에 들어갈 사진의 순서를 정해주세요.</p>
 		<p class="lead">우선순위는 좌측 상단부터 우측으로 진행됩니다.</p>
 	</div>
-	<hr class="colorgraph">
+	<hr class="colorgraph divider">
 
 
-	<div class="row" style="display: flex; display: -webkit-flex; display: -ms-flexbox; -ms-flex-pack: center; justify-content: center;">
+	<div class="row sortable" style="display: flex; display: -webkit-flex; display: -ms-flexbox; -ms-flex-pack: center; justify-content: center;">
 		<div class="text-center" style="display: table-cell; margin : 0 auto;">
 			<ul id="sortable">
 				<li id="li1" class="ui-state-default"><img id="img1" class="thumbnail"></li>
@@ -42,7 +42,7 @@
 	</div>
 	<br/>
 	
-	<hr class="colorgraph">
+	<hr class="colorgraph divider">
 	<div class="row">
 		<form id="sortBack" method="post" action="<%=request.getContextPath()%>/edit"> 
 			<!-- <input type="button" value="다음"> -->

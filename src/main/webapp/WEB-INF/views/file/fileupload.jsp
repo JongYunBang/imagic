@@ -18,7 +18,7 @@
             <p class="lead">연인과 함께! 동료와 함께! 사랑하는 사람들과 함께!</p>	 
             <p class="lead">사진을 모바일과 PC에서 자유롭게 올리세요!</p>
          </div>
-	<hr class="colorgraph">
+	<hr class="colorgraph divider">
 
 	<div class="row">
 		<div class="col-md-3 nav" id="file_main_aside">

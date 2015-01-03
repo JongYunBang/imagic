@@ -177,7 +177,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			// 이것을 통해서 사용자가 직접 올린 파일만 output에 데이터를 담는다!
 			// Object.prototype.toString.call(f) >> ie에서 File인지 알아보려고
 			if (f.constructor.name == "File" || Object.prototype.toString.call(f) == "[object File]"){
-				//console.log("11111");
 				template.querySelector('[data-dz-state]').innerHTML ='upload';
 				template.querySelector('[data-dz-state]').parentElement.style.backgroundPosition ="-40px 0px";
 				output.push(f);
@@ -333,7 +332,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 			// 12.11 19:45 - 폼 데이터 썸네일 저장
 			$.each(outputBlob, function(i, blob) {
 				formData.append("blob-" + i, blob.data);
-//				console.log(blob.fileName);
 			});
 			
 			// 12.11 19:45 - XHR 
@@ -373,7 +371,6 @@ var fieldsString = "<input type=\"file\" name=\"files []\" multiple=\"multiple\"
 					// 브라우저 체크
 					if (hasBrowser() == "IE") {
 						data = JSON.parse(data);
-						console.log("data IE parser 들어옴");
 					}
 					
 					for(var i=0;i < data.length; i++){

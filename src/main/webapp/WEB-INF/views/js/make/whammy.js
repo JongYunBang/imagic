@@ -434,7 +434,6 @@ window.Whammy = (function () {
         }
         if (frame.toDataURL) {
             frame = frame.toDataURL('image/webp', this.quality)
-//            console.log(frame);
         } else if (typeof frame != "string") {
             throw "frame must be a a HTMLCanvasElement, a CanvasRenderingContext2D or a DataURI formatted string"
         }

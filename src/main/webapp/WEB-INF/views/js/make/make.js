@@ -1,7 +1,3 @@
-window.onresize = function() {  
-	console.log(window.innerWidth);
-	console.log(window.innerHeight);
-};  
 $(document).ready(function(){
     var drag = document.getElementById("drag");
     var createvideo = document.getElementById("createvideo");
@@ -37,8 +33,6 @@ $(document).ready(function(){
 	
 	
 	var textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
-	var sourceX = 0;					// 처음 X 좌표 
-	var sourceY = 50;				// 처음 Y 좌표
 	var fontX = 0;						// 이동 X 좌표
 	var fontY = 50;					// 이동 Y 좌표
 	var increaseX = 10;				// X축 이동 증가량
@@ -47,12 +41,24 @@ $(document).ready(function(){
 
 	var textArray = [];
 	var currentFont;
+	var selectFont =0;
 	
 	$('#textFont').on('change', function(e) {
 		currentFont = $('#textFont').val();
+		textArray[selectFont].currentFont = currentFont;
 		drawText();
 	});
 	
+	function resetText(){
+		textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
+		fontX = 0;						// 이동 X 좌표
+		fontY = 50;					// 이동 Y 좌표
+		comment;						// Comment
+
+		textArray = [];
+		currentFont;
+		selectFont =0;
+	}
 	// 2015. 1. 2 열우 
 	function addTextArray(){
 		if(!textWorking){
@@ -60,7 +66,8 @@ $(document).ready(function(){
 			textArray.push({
 				comment : comment,
 				fillStyle : "#FFFFFF",
-				font : "50px " + currentFont,
+				font : "50px ",
+				currentFont : currentFont,
 				fontX : fontX,
 				fontY : fontY
 			});
@@ -77,43 +84,56 @@ $(document).ready(function(){
 			drawText();
 		}else {
 			if(confirm("기존에 작업하던 텍스트를 저장하고 새로 추가하시겠습니까?")){
-				textWorking = false;
-				fontY = textArray[textArray.length-1].fontY+ 50; 
-				addTextArray();
-				drawText();
+				if(selectFont < 2){
+					textWorking = false;
+					fontY = textArray[selectFont].fontY+ 50;
+					selectFont++;
+					addTextArray();
+					drawText();	
+				}else{
+					alert("최대 3개의 문자열만 입력하실 수 있습니다.");
+				}
 			}
 		}
 	});
 	
 	$('#titleDialogRight').on('click', function() {
 		if(textWorking) {
-			textArray[textArray.length-1].fontX = textArray[textArray.length-1].fontX + increaseX; 
+			textArray[selectFont].fontX = textArray[selectFont].fontX + increaseX; 
 			drawText();
 		}
 	});
 	
 	$('#titleDialogLeft').on('click', function() {
-		textArray[textArray.length-1].fontX = textArray[textArray.length-1].fontX-increaseX;
-		drawText();
+		if(textWorking) {
+			textArray[selectFont].fontX = textArray[selectFont].fontX-increaseX;
+			drawText();
+		}
 	});
 	
 	$('#titleDialogUp').on('click', function() {
-		textArray[textArray.length-1].fontY = textArray[textArray.length-1].fontY-increaseY;
-		drawText();
+		if(textWorking) {
+			textArray[selectFont].fontY = textArray[selectFont].fontY-increaseY;
+			drawText();
+		}
 	});
 	
 	$('#titleDialogDown').on('click', function() {
-		textArray[textArray.length-1].fontY = textArray[textArray.length-1].fontY+increaseY;
-		drawText();
+		if(textWorking) {
+			textArray[selectFont].fontY = textArray[selectFont].fontY+increaseY;
+			drawText();
+		}
 	});
 	
 	function drawText(){
-		openingCtx.fillStyle = "#000000";
-		openingCtx.fillRect(0, 0,  openingCanvas.width, openingCanvas.height);
-		for(var i =0; i < textArray.length; i++){
-			openingCtx.fillStyle = textArray[i].fillStyle;
-			openingCtx.font = textArray[i].font;
-			openingCtx.fillText(textArray[i].comment, textArray[i].fontX, textArray[i].fontY, openingCanvas.width);
+		if(textWorking) {
+			openingCtx.fillStyle = "#000000";
+			openingCtx.fillRect(0, 0,  openingCanvas.width, openingCanvas.height);
+			for(var i =0; i < textArray.length; i++){
+				openingCtx.fillStyle = textArray[i].fillStyle;
+				openingCtx.font = textArray[i].font +  textArray[i].currentFont;
+				openingCtx.fillText(textArray[i].comment, textArray[i].fontX, textArray[i].fontY, openingCanvas.width);
+			}
 		}
 	}
 	
@@ -141,7 +161,7 @@ $(document).ready(function(){
 			fileList = data;
 			 
 			// 받은 이미지 파일의 가로 최대길이와 세로 최대길이 구함    
-			for(var i=0; i<fileList.length; i++){
+			for(var i=0; i<fileList.length-2; i++){
 				var img = new Image();
 				img.src=filesarr[i]=fileList[i].imgBase64;
 				
@@ -186,9 +206,20 @@ $(document).ready(function(){
 
 		$('input[name="imgDirection"]').change(function() {
 			// 열우가 옮겨놓음으로
+			if(textWorking) {
+				if(!confirm("기존에 있던 오프닝, 엔딩작업은 삭제됩니다. 진행하시겠습니까?")){
+					if(imgDirection=="가로방향"){
+						$('input[name=imgDirection]')[0].checked=true;	
+					}else{
+						$('input[name=imgDirection]')[1].checked=true;
+					};	
+					return;
+				}
+			}
 			changeRadioDirection();
 			changeRadioRatio();
 			resizeCanvas(imgRatio);
+			resetText();
 		});
 		
 		// 열우가 옮겨놓음으로

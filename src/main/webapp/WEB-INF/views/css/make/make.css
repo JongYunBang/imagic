@@ -100,3 +100,12 @@ label.css-label {
 #titleDialog {
 	background: #FFFFFF;
 }
+
+#status{
+	display:block;
+	margin-bottom: 30px;
+}
+
+.preset{
+	margin-top: 15px;
+}

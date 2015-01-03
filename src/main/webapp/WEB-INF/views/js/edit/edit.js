@@ -52,7 +52,6 @@ $(document).ready(function() {
 	            			filterValue : filterValue
 	            			}
             		_applyFilter(type);
-//	            	console.log(e);
             }
         }, false);
     }
@@ -96,13 +95,9 @@ $(document).ready(function() {
     			activePreset = type.presetName;
         }
         
-        console.log("click");
-        console.log("preset = " + activePreset);
-        console.log(filterList);
         logicCtx.putImageData(copyImage, 0, 0);
         // 논리 canvas에 값을 적용한다.
         Caman(logicCanvas, function () {
-//            console.log("render Start");
     	
             logicCanvas.id = canvas_name;
             if (activePreset != null) {
@@ -116,7 +111,6 @@ $(document).ready(function() {
             };	
             inputDisable();
             this.render(function() {
-//            		console.log("render End");
             		cPush(this.canvas, type);
             		inputEnable();
 			});
@@ -124,7 +118,6 @@ $(document).ready(function() {
         
         // 렌더링하는 시간이 있기 때문에 replace를 지연해준다.
         var b = function () {
-//        console.log("replace");
         	drawzoneElement.replaceChild(logicCanvas, document.getElementById(canvas_name));
 	        	if(element) {
 	        		element.innerHTML = type.text;
@@ -349,8 +342,6 @@ $(document).ready(function() {
                 initWidth = copyCanvas.width;
                 initHeight = copyCanvas.height;
 
-//                console.log(initWidth);
-//                console.log(initHeight);
                 // 생성된 copyCanvas를 initCanvas로 putImageData를 이용하여 복사한다.
                 initCanvas = document.createElement('canvas');
                 initCtx = initCanvas.getContext('2d');
@@ -391,8 +382,6 @@ $(document).ready(function() {
 		var down = document.getElementById('saveCanvasDown');
 		down.href = sourceImage.src;
 		down.download = currentFile.imgOriName;
-		
-		console.log(down);
 	});
 	
 	// 변경내용 저장 버튼
@@ -423,11 +412,9 @@ $(document).ready(function() {
 				}
 			}
 			this.render(function() {
-				console.log("render end");
 				
 				// 캔버스 이미지를 base64 형태로 받아옴
 				var imgData = sourceCanvas.toDataURL("image/" + currentFile.imgFormat);
-				console.log(currentFile.imgFormat);
 				// 썸네일을 만들어줄 canvas를 생성한다.
 				var canvas = document.createElement('canvas');
 				var ctx = canvas.getContext('2d');
@@ -438,7 +425,6 @@ $(document).ready(function() {
 				var img = new Image();
 				img.onload = function() {
 //						document.body.appendChild(img);
-//						console.log("source");
 						// base64형태의 앞부분 제거
 						imgData = imgData.replace(/^data:image\/(png|jpeg|gif|tiff);base64,/, "");
 						// 캔버스로 이미지 그린다(원본 파일을 썸네일로 바꾸기 위해)
@@ -457,7 +443,6 @@ $(document).ready(function() {
 						var filePath = [currentFile.m_id + "/" + currentFile.dirName + "/" + currentFile.imgName];
 						var pathSource = new Blob(filePath, { 'type': 'text/*' });
 							
-//						console.log(filePath);
 						var formData = new FormData();
 						formData.append("imgBase64", imgSource);
 						formData.append("filePath", pathSource);
@@ -487,7 +472,6 @@ $(document).ready(function() {
 						 */
 					
 						function onSuccess(data) {
-//							console.log(data);
 							if(data==4){
 								var xhr = new XMLHttpRequest();
 								var dzURL = "/imgFile";
@@ -499,7 +483,6 @@ $(document).ready(function() {
 									// 12.11 19:45 - 응답 완료 - 4
 									if (xhr.readyState == 4) {
 										data = xhr.response;
-//										console.log("data : " + data);
 										if (data == 4){
 											alert("파일을 정상적으로 저장했습니다.");
 											thumbnailSrc.src = dataURL;
@@ -547,7 +530,6 @@ $(document).ready(function() {
 			dataURL : canvas.toDataURL()
 		});
 		
-//		console.log(cPushArray);
 		btnAble();
 	}
 	
@@ -577,7 +559,6 @@ $(document).ready(function() {
 		var currentType = cPushArray[cStep].type.name;
 		if(currentType == "filter") {
 			var dataFilter = "[data-filter=" + cPushArray[cStep].type.filterName + "]";
-//			console.log("filter Value : " + cPushArray[cStep].type.filterValue);
 			$(dataFilter)[0].value = cPushArray[cStep].type.filterValue;
 			$(dataFilter)[0].nextElementSibling.innerHTML = cPushArray[cStep].type.filterValue;
 			filterList[cPushArray[cStep].type.filterName] = cPushArray[cStep].type.filterValue;
@@ -586,9 +567,6 @@ $(document).ready(function() {
 			filterList = {};
 			activePreset = cPushArray[cStep].type.presetName;
 		}
-//		console.log("activePreset : " + activePreset);
-//		console.log("filterList");
-//		console.log(filterList);
 		var canvasPic = new Image();
 		canvasPic.src = cPushArray[cStep].dataURL;
 		canvasPic.onload = function() {
@@ -633,15 +611,12 @@ $(document).ready(function() {
 				minusStep++;
 			}
 
-//			console.log("cStep = " + cStep);
-//			console.log("minusStep = " + minusStep);
 			
 			// cStep-minusStep은 init이나 preset을 찾은 위치이다. 거기에 +1을 더하면 init이나 preset의 바로 전이라고 생각하면 된다.
 			// 거기서부터 현재 step의 전까지니까
 			// preset이나 init이 아닌 중간 사이 지점을 말한다.
 			// 그 사이에서 적용된 최종값들을 화면에 표시해준다.
 			for(var i= cStep- minusStep +1; i<cStep; i++) {
-//				console.log("i = " + i);
 				var dataFilter = "[data-filter=" + cPushArray[i].type.filterName + "]";
 				$(dataFilter)[0].value = cPushArray[i].type.filterValue;
 				$(dataFilter)[0].nextElementSibling.innerHTML = cPushArray[i].type.filterValue;
@@ -649,9 +624,6 @@ $(document).ready(function() {
 			}
 		}
 		// 이 작업을 해야하는 이유는 이 상태에서 save를 누르면 그 전에 적용된 내용도 적용이 되어야하기 때문이다.
-		console.log("activePreset : " + activePreset);
-		console.log("filterList");
-		console.log(filterList);
 		
 		var canvasPic = new Image();
 		canvasPic.src = cPushArray[cStep-1].dataURL;
@@ -668,8 +640,6 @@ $(document).ready(function() {
 		var undoBtn = document.getElementById("undo");
 		var redoBtn = document.getElementById("redo");
 		var saveCanvas = document.getElementById("saveCanvas");
-//		console.log(cStep);
-//		console.log(cPushArray.length);
 		clearBtn.disabled = false;
         saveCanvas.disabled = false;
 	    if ((cStep == 1 && cPushArray.length == 1) || cStep ==0 || cPushArray.length==0) {

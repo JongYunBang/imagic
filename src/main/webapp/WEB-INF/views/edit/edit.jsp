@@ -22,13 +22,13 @@
 		<p class="lead">동영상에 들어갈 사진을 꾸며보세요.</p>
 		<p class="lead">Filter와 Preset Filter를 이용하면 더 멋진 사진으로 만들 수 있습니다.</p>
 	</div>
-	<hr class="colorgraph">
+	<hr class="colorgraph divider">
 
 	<div class="row well">
 
 		<!-- Preset 필터 드롭다운 -->
 		<div class="col-md-2 btn-group" id="PresetFilters">
-			<button type="button" class="btn btn-success dropdown-toggle"
+			<button type="button" class="btn btn-yellow dropdown-toggle"
 				data-toggle="dropdown">Preset Filter <span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu">
@@ -57,7 +57,7 @@
 		<!-- 필터 드롭다운 -->
 		<div class="col-md-2" id="Filterdown">
 			<div class="Filter btn-group">
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#filterList">Filter <span class="caret"></span></button>
+				<button type="button" class="btn btn-green" data-toggle="collapse" data-target="#filterList">Filter <span class="caret"></span></button>
 			</div>
 		</div>
 
@@ -228,7 +228,7 @@
 
 
 <div class="container">
-	<hr class="colorgraph">
+	<hr class="colorgraph divider">
 	<!-- BACK 버튼 -->
 	<div>
 		<div class="alert alert-warning pull-left">

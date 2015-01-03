@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
 
-<script src="../js/jquery-ui.js"></script>
 <script src="../js/make/whammy.js"></script>
 <script src="../js/make/make.js"></script>
 <link rel="stylesheet" href="../css/make/make.css">
@@ -36,17 +35,17 @@
 	
 		<div class="row text-center">
 	    	<div>
-		   		<button class="btn btn-jusang" id="userSetBn" ><span class="glyphicon glyphicon-cog"></span> 사용자 임의 지정</button>
+		   		<button class="btn btn-blue" id="userSetBn" ><span class="glyphicon glyphicon-cog"></span> 사용자 임의 지정</button>
 		   	</div>
 		   	<br/>
 		   	<div id="userSet" style="display: none;" class="row">
-		   		<div class="custom_page">주상이가 쓰지말래</div>
+<div class="custom_page"><span class="text-muted">원하시는 해상도를 설정해 주세요.</span></div>
 		    	<div class="well col-md-4"><label>너비</label><input id="width" type="number" step="1" value="500" class="form-control"></div>
 		        <div class="well col-md-4"><label>높이</label><input id="height" type="number" step="1" value="300" class="form-control"></div>
 		        <div class="well col-md-4"><label>프레임(초)</label><input id="framerate" type="number" step="1" value="15" class="form-control"></div>
 		   	</div>
 		   	<div>
-		   		<button class="btn btn-jusang" id="userSetClose" style="display: none;">창 닫기</button>
+		   		<button class="btn btn-blue" id="userSetClose" style="display: none;">창 닫기</button>
 		   	</div>
     	</div>
     
@@ -165,11 +164,11 @@
 <!-- 			</div> -->
 		</div>
    	</div>
-   	<hr class="colorgraph">
+   	<hr class="colorgraph divider">
 </div>
     
     <div class="row text-center">
-		<span class="" id="status">설정을 완료하셨으면 제작버튼을 클릭해주세요</span><br/><br/>
+		<span id="status">설정을 완료하셨으면 제작버튼을 클릭해주세요</span>
 		<button class="btn btn-lg btn-primary" id="createvideo"><span class="glyphicon glyphicon-film"></span> 동영상 제작</button>
 		<!-- <button class="btn btn-lg btn-warning" disabled="disabled"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> 기다리세요!</button> -->
 		<br/><br/><br/><br/>
@@ -202,8 +201,8 @@
 		<div class="alert alert-success pull-right">
 			<strong>알림:</strong> 동영상 제작 후 다운로드 받을 수 있습니다.
 			<div style="display: inline-block;">
-				<a class="btn btn-success" style="width: 108px; display: none;" id="download" download="video.webm"> <span
-					class="glyphicon glyphicon-download-alt"></span> 내려받기
+				<a class="btn btn-success" style="width: 108px; display: none;" id="download" download="video.mkv"> 
+				<span class="glyphicon glyphicon-download-alt"></span> 내려받기
 				</a>
 			</div>
 		</div>

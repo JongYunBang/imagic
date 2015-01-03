@@ -14,19 +14,6 @@ public class MyInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-//		String requestURI = request.getContextPath();
-//		System.out.println(requestURI);
-//		if (requestURI.indexOf("/") > -1) { // 세션체크 예외페이지
-//			return true;
-//		} else if (requestURI.indexOf("/login") > -1) {
-//			return true;
-//		} else if (requestURI.indexOf("/signup") > -1) {
-//			return true;
-//		} else {// 위의 예외페이지 외에는 세션값을 체크해서 있으면 그냥 페이지표시
-//
-//			
-//			}
-//		}
 		
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");

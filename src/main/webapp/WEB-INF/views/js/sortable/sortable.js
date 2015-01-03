@@ -23,7 +23,6 @@ $(document).ready(function() {
 
 	function onSuccess(data) {
 		fileList = data;
-		console.log(fileList);
 		// sort페이지의 'li'태그의 리스트를 구하고
 		var liList= $('.ui-state-default');
 		// liList의 자식노드를 추가(자식노드에 imgNum 넣어주기위해서)
@@ -69,7 +68,7 @@ $(document).ready(function() {
 						if(data==1){
 							//alert("db 값 넣기성공ㅂ")
 						} else {
-							console.log("번호저장 실패");
+							alert("번호저장 실패");
 						}
 					}
 					function onError(data) {
