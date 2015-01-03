@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head lang="ko">
-	<title>Project Travie</title>
-	<link rel="icon" href="/img/travie.ico">
+	<title>Travie</title>
+	<link rel="icon" href="/img/travie.png">
 	<script src="../js/jquery2.1.1.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/header/header.js"></script>
