@@ -487,6 +487,14 @@ $(document).ready(function() {
 											alert("파일을 정상적으로 저장했습니다.");
 											thumbnailSrc.src = dataURL;
 											sourceImage.src = sourceCanvas.toDataURL("image/" + currentFile.imgFormat);
+											// 원본 파일 외에도 Slider는 썸네일을 미리 clone해놓기 때문에 clone된 썸네일도 바꿔줘야한다.
+											// imgNum을 비교해서 같은 값인 clone썸네일의 값도 바꿔준다.
+											var cloneThumbs = $('[data-tv-imgnum]');
+											for (var i =0; i<cloneThumbs.length;i++){
+												if(cloneThumbs[i].innerHTML == currentFile.imgNum){
+													cloneThumbs[i].parentElement.parentElement.querySelector('img').src = dataURL;
+												}
+											}
 										}
 									}
 								};

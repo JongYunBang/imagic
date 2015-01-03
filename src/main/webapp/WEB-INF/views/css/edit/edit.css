@@ -91,14 +91,18 @@
 
 
 .FilterName {
-  width: 200px;
-  margin: 100px auto;
+  width: 190px;
+  margin: 0 auto;
+}
+
+.FilterValue {
+	margin-left:2px;
 }
 
 input[type="range"] {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  width: 100%;
+  width: 70%;
   height: 5px;
   margin: 0;
   border: none;
