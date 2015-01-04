@@ -163,6 +163,11 @@ $(document).ready(function(){
 		}
 		activeCtx = activeCanvas.getContext('2d');
 		selectFont =0;
+		if(activeTextArray.length==0){
+			textWorking = false;
+			fontY= fontSize;
+		}
+		fontY = activeTextArray[activeTextArray.length-1].fontY+fontSize;
 	});
 	
 	
@@ -199,52 +204,69 @@ $(document).ready(function(){
 	
 	// 텍스트 추가 버튼 클릭 시
 	$('#titleDialogBtn').on('click', function(e) {
-		if (!textWorking){
-			addTextArray();
-			drawText();
-		}else {
-//			if(confirm("기존에 작업하던 텍스트를 저장하고 새로 추가하시겠습니까?")){
-				if(selectFont < 2){
-					textWorking = false;
-					fontY = activeTextArray[selectFont].fontY+ 50;
-					selectFont++;
-					addTextArray();
-					drawText();	
+			if(addTextArray()==true){
+				if (!textWorking){
+					textWorking = true;
 				}else{
-					alert("최대 3개의 문자열만 입력하실 수 있습니다.");
+					selectFont++;
 				}
+				console.log(activeTextArray);
+				console.log(selectFont);
+				fontY = activeTextArray[selectFont].fontY+ 50;
+				drawText();
+				
 			}
+		
+//		if (!textWorking){
+//			if(addTextArray()==true){
+//				drawText();
+//			}
+//		}else {
+//			if(confirm("기존에 작업하던 텍스트를 저장하고 새로 추가하시겠습니까?")){
+//				if(selectFont < 2){
+//					textWorking = false;
+//					fontY = activeTextArray[selectFont].fontY+ 50;
+//					if(addTextArray()==true){
+//						selectFont++;
+//						drawText();	
+//					}
+//					
+//				}else{
+//					alert("최대 3개의 문자열만 입력하실 수 있습니다.");
+//				}
+//			}
 //		}
 	});
 	
-	// 오프닝, 엔딩 저장하기 버튼 눌렀을 때 
-	$('#openingSaveBtn').on('click', function(e) {
-		// 실제 화면 비율대로 저장하기 위한 논리 Canvas
-		var saveTitleCanvas = document.createElement('canvas');
-		var saveTitleCtx = saveTitleCanvas.getContext('2d');
-		
-		// 미리보기와 실제 화면의 차이 비율
-		var expandRatio = (parseInt((imgSize[0]/maxSizeNum)*1000)+1)/1000;
-		console.log(expandRatio);
-		if(expandRatio < 1){
-			expandRatio = 1;
-		}
-		saveTitleCanvas.width = imgSize[0];
-		saveTitleCanvas.height =imgSize[1];
-		
-		// 오프닝 저장
-		activeCanvas = saveTitleCanvas;
-		activeCtx = saveTitleCtx;
-		activeTextArray = openingTextArray;
-		drawText(expandRatio);
-		filesarr.unshift(saveTitleCanvas.toDataURL("image/png"));
-		
-		// 엔딩 저장
-		activeTextArray = endingTextArray;
-		drawText(expandRatio);
-		filesarr.push(saveTitleCanvas.toDataURL("image/png"));
-		console.log(filesarr);
-	});
+//	
+//	// 오프닝, 엔딩 저장하기 버튼 눌렀을 때 
+//	$('#openingSaveBtn').on('click', function(e) {
+//		// 실제 화면 비율대로 저장하기 위한 논리 Canvas
+//		var saveTitleCanvas = document.createElement('canvas');
+//		var saveTitleCtx = saveTitleCanvas.getContext('2d');
+//		
+//		// 미리보기와 실제 화면의 차이 비율
+//		var expandRatio = (parseInt((imgSize[0]/maxSizeNum)*1000)+1)/1000;
+//		console.log(expandRatio);
+//		if(expandRatio < 1){
+//			expandRatio = 1;
+//		}
+//		saveTitleCanvas.width = imgSize[0];
+//		saveTitleCanvas.height =imgSize[1];
+//		
+//		// 오프닝 저장
+//		activeCanvas = saveTitleCanvas;
+//		activeCtx = saveTitleCtx;
+//		activeTextArray = openingTextArray;
+//		drawText(expandRatio);
+//		filesarr.unshift(saveTitleCanvas.toDataURL("image/png"));
+//		
+//		// 엔딩 저장
+//		activeTextArray = endingTextArray;
+//		drawText(expandRatio);
+//		filesarr.push(saveTitleCanvas.toDataURL("image/png"));
+//		console.log(filesarr);
+//	});
 	
 	
 	// 오른쪽 버튼 이벤트
@@ -449,34 +471,32 @@ $(document).ready(function(){
 	// 오프닝, 엔딩 텍스트 값들 초기화
 	function resetText(){
 		textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
-		fontX = 0;						// 이동 X 좌표
-		fontY = 50;					    // 이동 Y 좌표
+		fontX = 0;						// X 좌표
+		fontY = 50;					    // Y 좌표
 		comment;						// Comment
 
-		activeTextArray = [];
 		openingTextArray = [];
 		endingTextArray = [];
+		activeTextArray = null;
 		currentFont;
 		selectFont =0;
 	}
 	
 	// 텍스트 추가하는 함수
 	function addTextArray(){
-		if(!textWorking){
-			comment = prompt("텍스트를 입력해주세요!");
-			if(comment.trim() == null || comment == null) {
-				return;
-			}
-			activeTextArray.push({
-				comment : comment,
-				fillStyle : "#FFFFFF",
-				font : fontSize,
-				currentFont : currentFont,
-				fontX : fontX,
-				fontY : fontY
-			});
-			textWorking = true;
+		comment = prompt("텍스트를 입력해주세요!");
+		if(comment.trim() == "" || comment == "") {
+			return false;
 		}
+		activeTextArray.push({
+			comment : comment,
+			fillStyle : "#FFFFFF",
+			font : fontSize,
+			currentFont : currentFont,
+			fontX : fontX,
+			fontY : fontY
+		});
+		return true;
 	}
 	
 	// 텍스트 그리는 함수

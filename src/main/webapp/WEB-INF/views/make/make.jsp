@@ -135,11 +135,12 @@
 			<ul class="nav nav-tabs nav-justified" role="tablist">
 				<li role="presentation">
 					<a>도구모음</a><br/><br/>
-					<input type="button" value="텍스트 추가"  id="titleDialogBtn" class="btn btn-default"/>
+					<input type="button" value="텍스트 추가"  id="titleDialogBtn" class="btn btn-default"/><br/>
 					<input type="button" value="왼쪽"  id="titleDialogLeft" class="btn btn-default"/>
 					<input type="button" value="오른쪽"  id="titleDialogRight" class="btn btn-default"/>
 					<input type="button" value="위"  id="titleDialogUp" class="btn btn-default"/>
 					<input type="button" value="아래"  id="titleDialogDown" class="btn btn-default"/>
+					<br/>
 					<div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" id="textFontBtn" data-toggle="dropdown" aria-expanded="true">
 					  	<span id="fontTitle">폰트</span>
@@ -165,7 +166,7 @@
 					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Sigmar One">Sigmar One</a></li>
 					  </ul>
 					</div>
-				    <input type="button" value="저장하기" id="openingSaveBtn">
+<!-- 				    <input type="button" value="저장하기" id="openingSaveBtn"> -->
 				</li>
 			</ul>
 			</div>
