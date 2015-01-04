@@ -109,7 +109,7 @@
     	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#inputText" id="inputTextBtn"><span class="glyphicon glyphicon-comment"></span> 오프닝 · 엔딩 삽입</button><br/><br/>
 		<div class="collapse"  id="inputText">
 			<div class="well col-md-8">
-			<div role="tabpanel">
+			<div role="tabpanel" id="canvasPanel">
 					  <!-- Nav tabs -->
 					  <ul class="nav nav-tabs nav-justified" role="tablist">
 					    <li role="presentation" class="active"><a href="#openingTab" aria-controls="openingTab" role="tab" data-toggle="tab">오프닝</a></li>
@@ -135,11 +135,11 @@
 			<ul class="nav nav-tabs nav-justified" role="tablist">
 				<li role="presentation">
 					<a>도구모음</a><br/><br/>
-					<input type="button" value="텍스트 추가"  id="titleDialogBtn"/>
-					<input type="button" value="왼쪽"  id="titleDialogLeft"/>
-					<input type="button" value="오른쪽"  id="titleDialogRight"/>
-					<input type="button" value="위"  id="titleDialogUp"/>
-					<input type="button" value="아래"  id="titleDialogDown"/>
+					<input type="button" value="텍스트 추가"  id="titleDialogBtn" class="btn btn-default"/>
+					<input type="button" value="왼쪽"  id="titleDialogLeft" class="btn btn-default"/>
+					<input type="button" value="오른쪽"  id="titleDialogRight" class="btn btn-default"/>
+					<input type="button" value="위"  id="titleDialogUp" class="btn btn-default"/>
+					<input type="button" value="아래"  id="titleDialogDown" class="btn btn-default"/>
 					<div class="dropdown">
 					  <button class="btn btn-default dropdown-toggle" type="button" id="textFontBtn" data-toggle="dropdown" aria-expanded="true">
 					  	<span id="fontTitle">폰트</span>
@@ -155,7 +155,7 @@
 					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Hanna">한나</a></li>
 					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Gothic">제주 고딕</a></li>
 					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Myeongjo">제주 명조</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Hallasan">제주한라산체</a></li>
+					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Hallasan">제주한라산</a></li>
 					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="KoPub Batang">KoPub 바탕</a></li>
 					    <li role="presentation" class="dropdown-header">영문 폰트</li>
 					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Titillium Web">Titillium Web</a></li>

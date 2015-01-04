@@ -83,7 +83,6 @@
 						</a>
 					</div><br/>
 					<strong>알림:</strong> 다음 페이지로 이동 합니다.
-
 				</div>
 				<!-- 모바일 기기에서 접속하면 보여지는 안내문 -->
 				<div id="nextBtnOff" class="alert alert-success">
@@ -96,6 +95,7 @@
 		</div>
 	</div>
 </div>
+
 
 
 	<%@ include file="../common/footer.jsp"%>

@@ -310,6 +310,14 @@ $(document).ready(function() {
 		// 폴더 선택없이 편집하러가기 눌렀을때
 		if(currentDir==null){
 			alert("폴더를 선택해 주세요");
+			
+			// alert 대신 경고창 띄워주려다가 고만 한거ㅋㅋㅋ
+//			var a = document.createElement('div');
+//			a.innerHTML = '<div class="alert alert-warning" data-dismiss="alert" role="alert" >폴더를 선택해주세요!</div>';
+//			a = a.childNodes[0];
+//			a.style.position = 'fixed';
+//			a.style.bottom = 0;
+//			document.body.appendChild(a);
 			return;
 		}
 		if(!output.length==0){
