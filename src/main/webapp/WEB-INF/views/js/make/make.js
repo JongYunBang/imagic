@@ -80,7 +80,7 @@ $(document).ready(function(){
 	// 기본 폰트
 	var currentFont = "Nanum Myeongjo";
 	// 기본 폰트 사이즈
-	var fontSize = 50;
+	var fontSize = 32;
 	// 선택된 폰트 번호
 	var selectFont =0;
 	
@@ -95,6 +95,8 @@ $(document).ready(function(){
 	// 활성화 되어있는 텍스트
 	var activeTextArray = openingTextArray;
 	
+	// 드래그를 하기 위한 interval 이벤트
+	var dragEvent;
 	
 //////////////////////////////////////// 이벤트 리스너 ///////////////////////////////////////////
 	
@@ -171,7 +173,6 @@ $(document).ready(function(){
 			fontY = activeTextArray[activeTextArray.length-1].fontY+fontSize;
 			selectFont = activeTextArray.length-1;
 		}
-		
 		if(openingTextArray.length ==0 || endingTextArray.length ==0){
 			textAdding = false;
 		}
@@ -186,14 +187,32 @@ $(document).ready(function(){
 	// 폰트 선택할 때
 	$('#textFont a').on('click', function(e) {
 		e.preventDefault();
-		
-		console.log("text_changed");
-		currentFont = e.currentTarget.dataset['text'];
-		
-		document.getElementById('fontTitle').innerHTML = e.currentTarget.innerHTML;
-		activeTextArray[selectFont].currentFont = currentFont;
-		drawText();
+		if(textWorking){
+			console.log("text_changed");
+			currentFont = e.currentTarget.dataset['text'];
+			document.getElementById('fontTitle').innerHTML = e.currentTarget.innerHTML;
+			activeTextArray[selectFont].currentFont = currentFont;
+			
+			textUp();
+			textDown();
+		}
 	});
+	
+	// 폰트 사이즈 선택할 때
+	$('#textSize a').on('click', function(e) {
+		e.preventDefault();
+		console.log("textsize");
+		if(textWorking){
+			currentSize = e.currentTarget.dataset['text'];
+			console.log("currentSize" + currentSize);
+			document.getElementById('fontSize').innerHTML = e.currentTarget.innerHTML;
+			activeTextArray[selectFont].font = currentSize;
+			
+			textUp();
+			textDown();
+		}
+	});
+	
 	
 	// 유저가 직접 입력하는 버튼을 눌렀을때 
 	$('#userSetBn').on('click', function(e) {
@@ -273,35 +292,63 @@ $(document).ready(function(){
 	});
 	
 	// 오른쪽 버튼 이벤트
-	$('#titleDialogRight').on('click', function() {
-		if(textWorking) {
-			activeTextArray[selectFont].fontX = activeTextArray[selectFont].fontX + increaseX; 
-			drawText();
-		}
+	$('#titleDialogRight').on('mousedown', function(e) {
+		e.preventDefault();
+		dragEvent = setInterval(textRight, 100);
+	}).on('click', function(e){
+		e.preventDefault();
+		textRight();
+	}).on('mouseup', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
+	}).on('mouseout', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
 	});
 	
 	// 왼쪽 버튼 이벤트
-	$('#titleDialogLeft').on('click', function() {
-		if(textWorking) {
-			activeTextArray[selectFont].fontX = activeTextArray[selectFont].fontX-increaseX;
-			drawText();
-		}
+	$('#titleDialogLeft').on('mousedown', function(e) {
+		e.preventDefault();
+		dragEvent = setInterval(textLeft, 100);
+	}).on('click', function(e){
+		e.preventDefault();
+		textLeft();
+	}).on('mouseup', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
+	}).on('mouseout', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
 	});
 	
 	// 위 버튼 이벤트
-	$('#titleDialogUp').on('click', function() {
-		if(textWorking) {
-			activeTextArray[selectFont].fontY = activeTextArray[selectFont].fontY-increaseY;
-			drawText();
-		}
+	$('#titleDialogUp').on('mousedown', function(e) {
+		e.preventDefault();
+		dragEvent = setInterval(textUp, 100);
+	}).on('click', function(e){
+		e.preventDefault();
+		textUp();
+	}).on('mouseup', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
+	}).on('mouseout', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
 	});
 	
 	// 아래 버튼 이벤트
-	$('#titleDialogDown').on('click', function() {
-		if(textWorking) {
-			activeTextArray[selectFont].fontY = activeTextArray[selectFont].fontY+increaseY;
-			drawText();
-		}
+	$('#titleDialogDown').on('mousedown', function(e) {
+		e.preventDefault();
+		dragEvent = setInterval(textDown, 100);
+	}).on('click', function(e){
+		e.preventDefault();
+		textDown();
+	}).on('mouseup', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
+	}).on('mouseout', function(e) {
+		e.preventDefault();
+		clearInterval(dragEvent);
 	});
 	
 	// createvedio 버튼 클릭시 동영상 제작에 들어가는 함수
@@ -390,6 +437,36 @@ $(document).ready(function(){
 	
 //////////////////////////////////////// 함수 선언부 ////////////////////////////////////////////////////////
 	
+    
+    function textRight(){
+    	if(textWorking) {
+			activeTextArray[selectFont].fontX = activeTextArray[selectFont].fontX + increaseX; 
+			drawText();
+		}
+    }
+    
+    function textLeft() {
+		if(textWorking) {
+			activeTextArray[selectFont].fontX = activeTextArray[selectFont].fontX-increaseX;
+			drawText();
+		}
+    }
+    
+    function textUp(){
+		if(textWorking) {
+			activeTextArray[selectFont].fontY = activeTextArray[selectFont].fontY-increaseY;
+			drawText();
+		}
+    }
+    
+    function textDown(){
+		if(textWorking) {
+			activeTextArray[selectFont].fontY = activeTextArray[selectFont].fontY+increaseY;
+			drawText();
+		}
+    }
+    
+    
 	// 오프닝, 엔딩 저장하기 버튼 눌렀을 때 
 	function openEndingSave() {
 		// 오프닝과 엔딩이 이전에 들어가 있으면 먼저 제거 해준다.
@@ -497,6 +574,7 @@ $(document).ready(function(){
 	// 오프닝, 엔딩 텍스트 값들 초기화
 	function resetText(){
 		textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
+		textAdding = false;
 		fontX = 0;						// X 좌표
 		fontY = 50;					    // Y 좌표
 		comment;						// Comment
@@ -506,11 +584,13 @@ $(document).ready(function(){
 		
 		currentFont;
 		selectFont =0;
+		
+		activeCanvas = ($('#canvasPanel li.active a')[0].innerHTML=='오프닝' ? openingCanvas : endingCanvas);
+		activeCtx = activeCanvas.getContext('2d');
 	}
 	
 	// 텍스트 추가하는 함수
 	function addTextArray(){
-		
 		if(textAdding){
 			if(!confirm("텍스트를 추가 하시면 더이상 수정하실 수 없습니다. 계속 추가하시겠습니까?")){
 				return;
@@ -545,12 +625,19 @@ $(document).ready(function(){
 //				activeCtx.fillText(activeTextArray[i].comment, activeTextArray[i].fontX, activeTextArray[i].fontY, activeCanvas.width);	
 //			}
 //		}
+		
+		
+		console.log(activeTextArray);
+		console.log(openingTextArray);
+		console.log(endingTextArray);
+		
 			if(textWorking) {
 //				if(!userSet){
 					console.log("drawText");
 					if(!expandRatio || expandRatio < 1) {
 						expandRatio = 1;
 					}
+					
 					activeCtx.fillStyle = "#000000";
 					activeCtx.fillRect(0, 0, activeCanvas.width, activeCanvas.height);
 					for(var i =0; i < activeTextArray.length; i++){

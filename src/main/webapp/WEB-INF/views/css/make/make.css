@@ -22,8 +22,17 @@
 	margin-top : 40px;
 }
 
-.ratio_radio_group, .runtime_radio_group {
+.ratio_radio_group {
 	margin-top : 60px;
+}
+
+.runtime_radio_group{
+	margin-top : 15px;	
+}
+
+.runtime_radio_group > div {
+	text-align: left;
+	margin-left:20px;
 }
 
 .quality_radio_group {
@@ -58,6 +67,18 @@
 .dropdown{
 	display: inline-block;
 }
+
+#fontComment{
+	margin-top: 30px;	
+	
+}
+
+#fontComment > p {
+	color: red; 
+	font-size: 12px;
+}
+
+
 /* radio button 변경  12/31 */
 input[type=radio].css-checkbox {
     position: absolute;
@@ -114,4 +135,19 @@ label.css-label {
 
 .loading{
 	display: none;
+}
+
+
+.dropdown-header {
+  color: #428bca;
+  font-size: 18px;
+}
+
+span.glyphicon-circle-arrow-up, .glyphicon-circle-arrow-left, .glyphicon-circle-arrow-right, .glyphicon-circle-arrow-down{
+    font-size: 3em;
+    color: #5bc0de;
+}
+span.glyphicon-plus-sign {
+	 font-size: 3em;
+	 color: #357ebd;
 }

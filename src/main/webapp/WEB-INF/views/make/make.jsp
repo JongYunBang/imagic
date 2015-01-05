@@ -89,16 +89,24 @@
 	    		</div>
 	    	</div>
 	    	<div class="well col-md-3" id="step4">
-	    		<span> 제작할 영상의 시간을 선택해 주세요</span><br/>
+	    		<span> 제작할 영상의 시간을 선택해 주세요.</span><br/>
 	    		<div class="runtime_radio_group">
-	    		<input type="radio" id="imgRT15" name="imgRunTime" value="16" class="css-checkbox" checked/>
-                <label for="imgRT15" class="css-label radGroup1"><span id="imgRT15">15초</span></label>
-	    		<input type="radio" id="imgRT30" name="imgRunTime" value="9" class="css-checkbox" />
-                <label for="imgRT30" class="css-label radGroup1"><span id="imgRT30">30초</span></label>
-	    		<input type="radio" id="imgRT60" name="imgRunTime" value="6" class="css-checkbox" />
-                <label for="imgRT60" class="css-label radGroup1"><span id="imgRT60">60초</span></label>
-	    		<input type="radio" id="imgRT90" name="imgRunTime" value="5" class="css-checkbox" />
-                <label for="imgRT90" class="css-label radGroup1"><span id="imgRT90">90초</span></label>
+		    		<div>
+			    		<input type="radio" id="imgRT15" name="imgRunTime" value="16" class="css-checkbox" checked/>
+		                <label for="imgRT15" class="css-label radGroup1"><span id="imgRT15">20초</span><span style="font-size:12px">  (오프닝 엔딩 추가시 24초)</span></label>
+	                </div>
+	                <div>
+			    		<input type="radio" id="imgRT30" name="imgRunTime" value="9" class="css-checkbox" />
+		                <label for="imgRT30" class="css-label radGroup1"><span id="imgRT30">39초</span><span style="font-size:12px">  (오프닝 엔딩 추가시 48초)</span></label>
+	                </div>
+	                <div>
+			    		<input type="radio" id="imgRT60" name="imgRunTime" value="6" class="css-checkbox" />
+		                <label for="imgRT60" class="css-label radGroup1"><span id="imgRT60">79초</span><span style="font-size:12px">  (오프닝 엔딩 추가시 96초)</span></label>
+	                </div>
+	                <div>
+		    			<input type="radio" id="imgRT90" name="imgRunTime" value="5" class="css-checkbox" />
+	                	<label for="imgRT90" class="css-label radGroup1"><span id="imgRT90">116초</span><span style="font-size:12px">  (오프닝 엔딩 추가시 142초)</span></label>
+                	</div>
 	    		</div>
 	    	</div>
     	</div>
@@ -109,7 +117,7 @@
     	<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#inputText" id="inputTextBtn"><span class="glyphicon glyphicon-comment"></span> 오프닝 · 엔딩 삽입</button><br/><br/>
 		<div class="collapse"  id="inputText">
 			<div class="well col-md-8">
-			<div role="tabpanel" id="canvasPanel">
+				<div role="tabpanel" id="canvasPanel">
 					  <!-- Nav tabs -->
 					  <ul class="nav nav-tabs nav-justified" role="tablist">
 					    <li role="presentation" class="active"><a href="#openingTab" aria-controls="openingTab" role="tab" data-toggle="tab">오프닝</a></li>
@@ -134,42 +142,82 @@
 			<div class="well col-md-4">
 			<ul class="nav nav-tabs nav-justified" role="tablist">
 				<li role="presentation">
-					<a>도구모음</a><br/><br/>
-					<input type="button" value="텍스트 추가"  id="titleDialogBtn" class="btn btn-default"/><br/>
-					<input type="button" value="왼쪽"  id="titleDialogLeft" class="btn btn-default"/>
-					<input type="button" value="오른쪽"  id="titleDialogRight" class="btn btn-default"/>
-					<input type="button" value="위"  id="titleDialogUp" class="btn btn-default"/>
-					<input type="button" value="아래"  id="titleDialogDown" class="btn btn-default"/>
+					<a>텍스트 추가 및 이동 설정</a><br/><br/>
+					<!-- <button type="button" value="위"  id="titleDialogUp" class="btn btn-default"/><span class="glyphicon glyphicon-chevron-up"></button><br/>
+					<button type="button" value="왼쪽"  id="titleDialogLeft" class="btn btn-default"/><span class="glyphicon glyphicon-chevron-left"></button>
+					<button type="button" value="텍스트 추가"  id="titleDialogBtn" class="btn btn-default"/><span class="glyphicon glyphicon-plus"></button>
+					<button type="button" value="오른쪽"  id="titleDialogRight" class="btn btn-default"/><span class="glyphicon glyphicon-chevron-right"></button><br/>
+					<button type="button" value="아래"  id="titleDialogDown" class="btn btn-default"/><span class="glyphicon glyphicon-chevron-down"></button> -->
+					<div class="col-md-7">
+						<a href="#" id="titleDialogUp"><span class="glyphicon glyphicon-circle-arrow-up"></span></a><br/>
+						<a href="#" id="titleDialogLeft"><span class="glyphicon glyphicon-circle-arrow-left"></span></a>
+						<a href="#" id="titleDialogBtn"><span class="glyphicon glyphicon-plus-sign"></span></a>
+						<a href="#" id="titleDialogRight"><span class="glyphicon glyphicon-circle-arrow-right"></span></a><br/>
+						<a href="#" id="titleDialogDown"><span class="glyphicon glyphicon-circle-arrow-down"></span></a>
 					<br/>
-					<div class="dropdown">
-					  <button class="btn btn-default dropdown-toggle" type="button" id="textFontBtn" data-toggle="dropdown" aria-expanded="true">
-					  	<span id="fontTitle">폰트</span>
-					    <span class="caret"></span>
-					  </button>
-					  <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="textFontBtn" id="textFont" >
-					  	<li role="presentation" class="dropdown-header">한글 폰트</li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Myeongjo">나눔 명조</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic">나눔 고딕</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic Coding">나눔 고딕 코딩</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Brush Script">나눔 손 글씨 붓</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Pen Script">나눔 손 글씨 펜</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Hanna">한나</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Gothic">제주 고딕</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Myeongjo">제주 명조</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Hallasan">제주한라산</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="KoPub Batang">KoPub 바탕</a></li>
-					    <li role="presentation" class="dropdown-header">영문 폰트</li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Titillium Web">Titillium Web</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Roboto Condensed">Roboto Condensed</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Lobster">Lobster</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Droid Serif">Droid Serif</a></li>
-					    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Sigmar One">Sigmar One</a></li>
-					  </ul>
+					</div>
+					<div class="col-md-5">
+						<div class="dropdown ">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="textFontBtn" data-toggle="dropdown" aria-expanded="true">
+						  	<span id="fontTitle">글씨체</span>
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="textFontBtn" id="textFont" >
+						  	<li role="presentation" class="dropdown-header">한글 폰트</li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Myeongjo">나눔 명조</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic">나눔 고딕</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic Coding">나눔 고딕 코딩</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Brush Script">나눔 손 글씨 붓</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Pen Script">나눔 손 글씨 펜</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Hanna">한나</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Gothic">제주 고딕</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Myeongjo">제주 명조</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Hallasan">제주한라산</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="KoPub Batang">KoPub 바탕</a></li>
+						    <li class="divider"></li>
+						    <li role="presentation" class="dropdown-header">영문 폰트</li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Titillium Web">Titillium Web</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Roboto Condensed">Roboto Condensed</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Lobster">Lobster</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Droid Serif">Droid Serif</a></li>
+						    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Sigmar One">Sigmar One</a></li>
+						  </ul>
+						</div>
+						
+						<div class="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="textSizeBtn" data-toggle="dropdown" aria-expanded="true">
+						  	<span id="fontSize">사이즈</span>
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="textSizeBtn" id="textSize">
+<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="7">7포인트</a></li> -->
+<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="9">9포인트</a></li> -->
+<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="10">10포인트</a></li> -->
+<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="11">11포인트</a></li> -->
+<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="12">12포인트</a></li> -->
+<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="14">14포인트</a></li> -->
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="16">16포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="18">18포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="24">24포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="32">32포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="40">40포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="48">48포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="56">56포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="64">64포인트</a></li>
+						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="72">72포인트</a></li>
+						  </ul>
 					</div>
 <!-- 				    <input type="button" value="저장하기" id="openingSaveBtn"> -->
 				</li>
 			</ul>
+				<div id="fontComment">
+					<p>
+						폰트의 경우 웹 폰트 로딩으로 바로 적용되지 않을 수 있습니다.<br /> 적용되지 않는 경우 위치를 변경하시면
+						적용됩니다.
+					</p>
+				</div>
 			</div>
+
 		</div>
    	</div>
    	<hr class="colorgraph divider">
