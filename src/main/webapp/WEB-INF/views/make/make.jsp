@@ -206,8 +206,9 @@
 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="64">64포인트</a></li>
 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="72">72포인트</a></li>
 						  </ul>
-					</div>
+						</div>
 <!-- 				    <input type="button" value="저장하기" id="openingSaveBtn"> -->
+					</div>
 				</li>
 			</ul>
 				<div id="fontComment">

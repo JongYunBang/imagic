@@ -361,9 +361,16 @@ $(document).ready(function(){
 			}
 		}
 		
+		// 오프닝과 엔딩이 이전에 들어가 있으면 먼저 제거 해준다.
+		if(filesarr.length == 11) {
+			filesarr.pop();
+			filesarr.shift();
+		}
+		
 		if(textWorking){
 			openEndingSave();
 		}
+		
 		
 		$("#inputText").attr("class", "collapse");
 		this.classList.add('loading');
@@ -469,11 +476,7 @@ $(document).ready(function(){
     
 	// 오프닝, 엔딩 저장하기 버튼 눌렀을 때 
 	function openEndingSave() {
-		// 오프닝과 엔딩이 이전에 들어가 있으면 먼저 제거 해준다.
-		if(filesarr.length == 11) {
-			filesarr.pop();
-			filesarr.shift();
-		}
+		
 		// 실제 화면 비율대로 저장하기 위한 논리 Canvas
 		var saveTitleCanvas = document.createElement('canvas');
 		var saveTitleCtx = saveTitleCanvas.getContext('2d');
@@ -614,47 +617,21 @@ $(document).ready(function(){
 	
 	// 텍스트 그리는 함수
 	function drawText(expandRatio){
-//		if(textWorking) {
-//			console.log("drawText");
-//			activeCtx.fillStyle = "#000000";
-//			activeCtx.fillRect(0, 0,  activeCanvas.width, activeCanvas.height);
-//			for(var i =0; i < activeTextArray.length; i++){
-//				activeCtx.fillStyle = activeTextArray[i].fillStyle;
-//				var fontString = activeTextArray[i].font + "px " +  activeTextArray[i].currentFont;
-//				activeCtx.font = fontString;
-//				activeCtx.fillText(activeTextArray[i].comment, activeTextArray[i].fontX, activeTextArray[i].fontY, activeCanvas.width);	
-//			}
-//		}
-		
-		
-		console.log(activeTextArray);
-		console.log(openingTextArray);
-		console.log(endingTextArray);
-		
-			if(textWorking) {
-//				if(!userSet){
-					console.log("drawText");
-					if(!expandRatio || expandRatio < 1) {
-						expandRatio = 1;
-					}
-					
-					activeCtx.fillStyle = "#000000";
-					activeCtx.fillRect(0, 0, activeCanvas.width, activeCanvas.height);
-					for(var i =0; i < activeTextArray.length; i++){
-						activeCtx.fillStyle = activeTextArray[i].fillStyle;
-						var fontString = parseInt(activeTextArray[i].font * expandRatio)  + "px " +  activeTextArray[i].currentFont;
-						activeCtx.font = fontString;
-						activeCtx.fillText(activeTextArray[i].comment, parseInt(activeTextArray[i].fontX * expandRatio), parseInt(activeTextArray[i].fontY * expandRatio), activeCanvas.width);	
-					}
-//				}else{
-//					console.log("useSetdrawText");
-//					var userSetRatio = (parseInt(($('#width').val()/maxSizeNum)*1000)+1)/1000;
-//					var userSetRatio2 = (parseInt(($('#height').val()/maxSizeNum)*1000)+1)/1000;
-//					
-//					console.log(userSetRatio);
-//					console.log(userSetRatio2);
-//				}
+		if(textWorking) {
+			console.log("drawText");
+			if(!expandRatio || expandRatio < 1) {
+				expandRatio = 1;
 			}
+			
+			activeCtx.fillStyle = "#000000";
+			activeCtx.fillRect(0, 0, activeCanvas.width, activeCanvas.height);
+			for(var i =0; i < activeTextArray.length; i++){
+				activeCtx.fillStyle = activeTextArray[i].fillStyle;
+				var fontString = parseInt(activeTextArray[i].font * expandRatio)  + "px " +  activeTextArray[i].currentFont;
+				activeCtx.font = fontString;
+				activeCtx.fillText(activeTextArray[i].comment, parseInt(activeTextArray[i].fontX * expandRatio), parseInt(activeTextArray[i].fontY * expandRatio), activeCanvas.width);	
+			}
+		}
 	}	
 	
 	// 미리보기 사이즈 리사이징
@@ -906,7 +883,7 @@ $(document).ready(function(){
             var output = video.compile();
             var end_time = +new Date;
             var url = webkitURL.createObjectURL(output);
-
+            
             document.getElementById('awesome').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
             document.getElementById('download').style.display = '';
             document.getElementById('download').href = url;
