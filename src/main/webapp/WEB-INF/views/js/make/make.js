@@ -166,8 +166,9 @@ $(document).ready(function(){
 		if(activeTextArray.length==0){
 			textWorking = false;
 			fontY= fontSize;
+		}else{
+			fontY = activeTextArray[activeTextArray.length-1].fontY+fontSize;
 		}
-		fontY = activeTextArray[activeTextArray.length-1].fontY+fontSize;
 	});
 	
 	
@@ -204,70 +205,17 @@ $(document).ready(function(){
 	
 	// 텍스트 추가 버튼 클릭 시
 	$('#titleDialogBtn').on('click', function(e) {
-			if(addTextArray()==true){
-				if (!textWorking){
-					textWorking = true;
-				}else{
-					selectFont++;
-				}
-				console.log(activeTextArray);
-				console.log(selectFont);
-				fontY = activeTextArray[selectFont].fontY+ 50;
-				drawText();
-				
+		if(addTextArray()==true){
+			if (!textWorking){
+				textWorking = true;
+			}else{
+				selectFont++;
 			}
-		
-//		if (!textWorking){
-//			if(addTextArray()==true){
-//				drawText();
-//			}
-//		}else {
-//			if(confirm("기존에 작업하던 텍스트를 저장하고 새로 추가하시겠습니까?")){
-//				if(selectFont < 2){
-//					textWorking = false;
-//					fontY = activeTextArray[selectFont].fontY+ 50;
-//					if(addTextArray()==true){
-//						selectFont++;
-//						drawText();	
-//					}
-//					
-//				}else{
-//					alert("최대 3개의 문자열만 입력하실 수 있습니다.");
-//				}
-//			}
-//		}
+			fontY = activeTextArray[selectFont].fontY+ 50;
+			drawText();
+		}
+	
 	});
-	
-//	
-//	// 오프닝, 엔딩 저장하기 버튼 눌렀을 때 
-//	$('#openingSaveBtn').on('click', function(e) {
-//		// 실제 화면 비율대로 저장하기 위한 논리 Canvas
-//		var saveTitleCanvas = document.createElement('canvas');
-//		var saveTitleCtx = saveTitleCanvas.getContext('2d');
-//		
-//		// 미리보기와 실제 화면의 차이 비율
-//		var expandRatio = (parseInt((imgSize[0]/maxSizeNum)*1000)+1)/1000;
-//		console.log(expandRatio);
-//		if(expandRatio < 1){
-//			expandRatio = 1;
-//		}
-//		saveTitleCanvas.width = imgSize[0];
-//		saveTitleCanvas.height =imgSize[1];
-//		
-//		// 오프닝 저장
-//		activeCanvas = saveTitleCanvas;
-//		activeCtx = saveTitleCtx;
-//		activeTextArray = openingTextArray;
-//		drawText(expandRatio);
-//		filesarr.unshift(saveTitleCanvas.toDataURL("image/png"));
-//		
-//		// 엔딩 저장
-//		activeTextArray = endingTextArray;
-//		drawText(expandRatio);
-//		filesarr.push(saveTitleCanvas.toDataURL("image/png"));
-//		console.log(filesarr);
-//	});
-	
 	
 	// 오른쪽 버튼 이벤트
 	$('#titleDialogRight').on('click', function() {
@@ -391,10 +339,8 @@ $(document).ready(function(){
 	function openEndingSave() {
 		// 오프닝과 엔딩이 이전에 들어가 있으면 먼저 제거 해준다.
 		if(filesarr.length == 11) {
-			console.log(filesarr);
 			filesarr.pop();
 			filesarr.shift();
-			console.log(filesarr);
 		}
 		// 실제 화면 비율대로 저장하기 위한 논리 Canvas
 		var saveTitleCanvas = document.createElement('canvas');
@@ -420,7 +366,6 @@ $(document).ready(function(){
 		activeTextArray = endingTextArray;
 		drawText(expandRatio);
 		filesarr.push(saveTitleCanvas.toDataURL("image/png"));
-		console.log(filesarr);
 	}
     
     
@@ -470,6 +415,11 @@ $(document).ready(function(){
 	
 	// 오프닝, 엔딩 텍스트 값들 초기화
 	function resetText(){
+		console.log(activeTextArray);
+		console.log(openingTextArray);
+		console.log(endingTextArray);
+		console.log(textWorking);
+		
 		textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
 		fontX = 0;						// X 좌표
 		fontY = 50;					    // Y 좌표
@@ -477,17 +427,19 @@ $(document).ready(function(){
 
 		openingTextArray = [];
 		endingTextArray = [];
-		activeTextArray = null;
+		
 		currentFont;
 		selectFont =0;
 	}
 	
 	// 텍스트 추가하는 함수
 	function addTextArray(){
+		
 		comment = prompt("텍스트를 입력해주세요!");
-		if(comment.trim() == "" || comment == "") {
+		if(comment == null || comment.trim() == "" || comment == "") {
 			return false;
 		}
+		activeTextArray = ($('#canvasPanel li.active a')[0].innerHTML=='오프닝' ? openingTextArray : endingTextArray);
 		activeTextArray.push({
 			comment : comment,
 			fillStyle : "#FFFFFF",
@@ -512,6 +464,10 @@ $(document).ready(function(){
 //				activeCtx.fillText(activeTextArray[i].comment, activeTextArray[i].fontX, activeTextArray[i].fontY, activeCanvas.width);	
 //			}
 //		}
+		console.log(activeTextArray);
+		console.log(openingTextArray);
+		console.log(endingTextArray);
+		console.log(textWorking);
 			if(textWorking) {
 			console.log("drawText");
 			if(!expandRatio || expandRatio < 1) {
@@ -548,8 +504,6 @@ $(document).ready(function(){
 			canvasHeight = (imgSize[1] > canvasHeight) ? canvasHeight : imgSize[1];
 			canvasWidth = canvasHeight * ratio_4x3;
 		}
-		console.log(canvasWidth);
-		console.log(canvasHeight);
 		openingCanvas.width = canvasWidth;
 		openingCanvas.height = canvasHeight;
 		openingCtx.fillStyle = '#000000';

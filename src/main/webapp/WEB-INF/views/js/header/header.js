@@ -52,6 +52,8 @@ function wordCheckSpace(strValue){
 	return flag;
 }
 	
+
+
 $(document).ready(function() {
 	
 	// 백스페이스 막기

@@ -194,15 +194,6 @@ public class FileUploadController {
 	// Multipart 파일을 바아오기 위한 MultipartHttpServletRequest 인자 사용
 	public @ResponseBody List<FileVO> upload(@ModelAttribute("member") MemberVO member,MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//		try {
-//			HttpSession session = request.getSession(false);
-//			if (session.isNew()){
-//			}
-//		} catch (NullPointerException e) {
-//			response.sendRedirect("/upload");
-//		}
-		
-
 		Iterator<String> itr = request.getFileNames();
 		String userID=member.getM_id();
 		int fileCount = request.getFileMap().size();
@@ -222,7 +213,6 @@ public class FileUploadController {
 			// 2014.12.06(11:13) : 실제 파일 시스템에 저장될 유일한 이름을 위한 id 생성
 			String genId = UUID.randomUUID().toString();
 			String fileName = itr.next();
-			System.out.println(fileName);
 			mpf = request.getFile(fileName);
 			
 			// 각 파일에 대한 정보 가져와서 임시로 저장
