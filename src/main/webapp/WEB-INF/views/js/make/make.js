@@ -70,6 +70,7 @@ $(document).ready(function(){
 	var canvasHeight = 0;
 	
 	var textWorking = false;		// 오프닝 엔딩 텍스트를 입력해서 작업중인지 여부
+	var textAdding = false;
 	var fontX = 0;						// 텍스트 X 좌표
 	var fontY = 50;					// 텍스트 Y 좌표
 	var increaseX = 10;				// X축 이동 증가량
@@ -162,13 +163,23 @@ $(document).ready(function(){
 			activeTextArray = endingTextArray;
 		}
 		activeCtx = activeCanvas.getContext('2d');
-		selectFont =0;
+		
 		if(activeTextArray.length==0){
-			textWorking = false;
 			fontY= fontSize;
+			selectFont = 0;
 		}else{
 			fontY = activeTextArray[activeTextArray.length-1].fontY+fontSize;
+			selectFont = activeTextArray.length-1;
 		}
+		
+		if(openingTextArray.length ==0 || endingTextArray.length ==0){
+			textAdding = false;
+		}
+		
+		if(openingTextArray.length ==0 && endingTextArray.length ==0){
+			textWorking = false;
+		}
+		
 	});
 	
 	
@@ -186,27 +197,71 @@ $(document).ready(function(){
 	
 	// 유저가 직접 입력하는 버튼을 눌렀을때 
 	$('#userSetBn').on('click', function(e) {
+		if(textWorking) {
+			if(!confirm("기존의 오프닝, 엔딩작업은 삭제됩니다. 진행하시겠습니까?")){
+//				$('#' + prevQualityBtnName)[0].checked = true;
+				return;
+			}
+			resetText();
+		}
 		userSet=true;
 		$("#preset").attr("style","display: none;");
 		$("#userSetClose").attr("style","");
 		$("#userSet").attr("style","");
 		$("#userSetBn").attr("style", "display: none;");
+		
+		
+		resizeCanvas();
+	});
+	
+	// 유저지정 너비 값 변경 될 때
+	$('#width').on('change', function(e) {
+		if(textWorking) {
+			if(!confirm("기존의 오프닝, 엔딩작업은 삭제됩니다. 진행하시겠습니까?")){
+//				$('#' + prevQualityBtnName)[0].checked = true;
+				return;
+			}
+			resetText();
+		}
+		resizeCanvas();
+	});
+	
+	// 유저지정 높이 값 변경 될 때
+	$('#height').on('change', function(e) {
+		if(textWorking) {
+			if(!confirm("기존의 오프닝, 엔딩작업은 삭제됩니다. 진행하시겠습니까?")){
+//				$('#' + prevQualityBtnName)[0].checked = true;
+				return;
+			}
+			resetText();
+		}
+		resizeCanvas();
 	});
 	
 	// 유저지정 창 닫기 버튼 클릭시
 	$('#userSetClose').on('click',function(e) {
+		if(textWorking) {
+			if(!confirm("기존의 오프닝, 엔딩작업은 삭제됩니다. 진행하시겠습니까?")){
+//				$('#' + prevQualityBtnName)[0].checked = true;
+				return;
+			}
+			resetText();
+		}
+		
 		userSet=false;
 		$("#preset").attr("style","");
 		$("#userSet").attr("style","display: none;");
 		$("#userSetClose").attr("style","display: none;");
 		$("#userSetBn").attr("style", "");
 		
+		resizeCanvas(imgRatio);
 	});
 	
 	// 텍스트 추가 버튼 클릭 시
 	$('#titleDialogBtn').on('click', function(e) {
 		if(addTextArray()==true){
-			if (!textWorking){
+			if (!textAdding){
+				textAdding = true;
 				textWorking = true;
 			}else{
 				selectFont++;
@@ -346,14 +401,40 @@ $(document).ready(function(){
 		var saveTitleCanvas = document.createElement('canvas');
 		var saveTitleCtx = saveTitleCanvas.getContext('2d');
 		
-		// 미리보기와 실제 화면의 차이 비율
-		var expandRatio = (parseInt((imgSize[0]/maxSizeNum)*1000)+1)/1000;
-		console.log(expandRatio);
-		if(expandRatio < 1){
-			expandRatio = 1;
+		var expandRatio = 1;
+		var expandRatio2 = 1;
+		
+		if(!userSet){
+			// 미리보기와 실제 화면의 차이 비율
+			expandRatio = (parseInt((imgSize[0]/maxSizeNum)*1000)+1)/1000;
+			expandRatio2 = (parseInt((imgSize[1]/maxSizeNum)*1000)+1)/1000;
+			
+			if(expandRatio2 > expandRatio) {
+				expandRatio = expandRatio2;
+			}
+			
+			if(expandRatio < 1){
+				expandRatio = 1;
+			}
+			
+			saveTitleCanvas.width  = imgSize[0];
+			saveTitleCanvas.height = imgSize[1];
+		}else{
+			// 미리보기와 실제 화면의 차이 비율
+			expandRatio = (parseInt(($('#width').val()/maxSizeNum)*1000)+1)/1000;
+			expandRatio2 = (parseInt(($('#height').val()/maxSizeNum)*1000)+1)/1000;
+			
+			if(expandRatio2 > expandRatio) {
+				expandRatio = expandRatio2;
+			}
+			
+			if(expandRatio < 1){
+				expandRatio = 1;
+			}
+			
+			saveTitleCanvas.width  = $('#width').val();
+			saveTitleCanvas.height = $('#height').val();
 		}
-		saveTitleCanvas.width = imgSize[0];
-		saveTitleCanvas.height =imgSize[1];
 		
 		// 오프닝 저장
 		activeCanvas = saveTitleCanvas;
@@ -415,11 +496,6 @@ $(document).ready(function(){
 	
 	// 오프닝, 엔딩 텍스트 값들 초기화
 	function resetText(){
-		console.log(activeTextArray);
-		console.log(openingTextArray);
-		console.log(endingTextArray);
-		console.log(textWorking);
-		
 		textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
 		fontX = 0;						// X 좌표
 		fontY = 50;					    // Y 좌표
@@ -435,6 +511,11 @@ $(document).ready(function(){
 	// 텍스트 추가하는 함수
 	function addTextArray(){
 		
+		if(textAdding){
+			if(!confirm("텍스트를 추가 하시면 더이상 수정하실 수 없습니다. 계속 추가하시겠습니까?")){
+				return;
+			}
+		}
 		comment = prompt("텍스트를 입력해주세요!");
 		if(comment == null || comment.trim() == "" || comment == "") {
 			return false;
@@ -464,53 +545,69 @@ $(document).ready(function(){
 //				activeCtx.fillText(activeTextArray[i].comment, activeTextArray[i].fontX, activeTextArray[i].fontY, activeCanvas.width);	
 //			}
 //		}
-		console.log(activeTextArray);
-		console.log(openingTextArray);
-		console.log(endingTextArray);
-		console.log(textWorking);
 			if(textWorking) {
-			console.log("drawText");
-			if(!expandRatio || expandRatio < 1) {
-				expandRatio = 1;
+//				if(!userSet){
+					console.log("drawText");
+					if(!expandRatio || expandRatio < 1) {
+						expandRatio = 1;
+					}
+					activeCtx.fillStyle = "#000000";
+					activeCtx.fillRect(0, 0, activeCanvas.width, activeCanvas.height);
+					for(var i =0; i < activeTextArray.length; i++){
+						activeCtx.fillStyle = activeTextArray[i].fillStyle;
+						var fontString = parseInt(activeTextArray[i].font * expandRatio)  + "px " +  activeTextArray[i].currentFont;
+						activeCtx.font = fontString;
+						activeCtx.fillText(activeTextArray[i].comment, parseInt(activeTextArray[i].fontX * expandRatio), parseInt(activeTextArray[i].fontY * expandRatio), activeCanvas.width);	
+					}
+//				}else{
+//					console.log("useSetdrawText");
+//					var userSetRatio = (parseInt(($('#width').val()/maxSizeNum)*1000)+1)/1000;
+//					var userSetRatio2 = (parseInt(($('#height').val()/maxSizeNum)*1000)+1)/1000;
+//					
+//					console.log(userSetRatio);
+//					console.log(userSetRatio2);
+//				}
 			}
-			activeCtx.fillStyle = "#000000";
-			activeCtx.fillRect(0, 0,  activeCanvas.width, activeCanvas.height);
-			for(var i =0; i < activeTextArray.length; i++){
-				activeCtx.fillStyle = activeTextArray[i].fillStyle;
-				var fontString = parseInt(activeTextArray[i].font * expandRatio)  + "px " +  activeTextArray[i].currentFont;
-				activeCtx.font = fontString;
-				activeCtx.fillText(activeTextArray[i].comment, parseInt(activeTextArray[i].fontX * expandRatio), parseInt(activeTextArray[i].fontY * expandRatio), activeCanvas.width);	
-			}
-		}
-	}
+	}	
 	
 	// 미리보기 사이즈 리사이징
 	function resizeCanvas(imgRatio){
-		imgSize = $('input[name=imgQuality]:checked').val().split("x");
-		if(imgRatio=="16x9"){
+		if(!userSet){
+			imgSize = $('input[name=imgQuality]:checked').val().split("x");
+			if(imgRatio=="16x9"){
+				canvasWidth = maxSizeNum;
+				canvasWidth = (imgSize[0] > canvasWidth) ? canvasWidth : imgSize[0] ;
+				canvasHeight = canvasWidth * ratio_16x9;
+			}else if(imgRatio=="4x3"){
+				canvasWidth = maxSizeNum;
+				canvasWidth = (imgSize[0] > canvasWidth) ? canvasWidth : imgSize[0];
+				canvasHeight = canvasWidth * ratio_4x3;			
+			}else if(imgRatio=="9x16"){
+				canvasHeight = maxSizeNum;
+				canvasHeight = (imgSize[1] > canvasHeight) ? canvasHeight : imgSize[1] ;
+				canvasWidth = canvasHeight * ratio_16x9;
+			}else if(imgRatio=="3x4"){
+				canvasHeight = maxSizeNum;
+				canvasHeight = (imgSize[1] > canvasHeight) ? canvasHeight : imgSize[1];
+				canvasWidth = canvasHeight * ratio_4x3;
+			}
+		}else{
 			canvasWidth = maxSizeNum;
-			canvasWidth = (imgSize[0] > canvasWidth) ? canvasWidth : imgSize[0] ;
-			canvasHeight = canvasWidth * ratio_16x9;
-		}else if(imgRatio=="4x3"){
-			canvasWidth = maxSizeNum;
-			canvasWidth = (imgSize[0] > canvasWidth) ? canvasWidth : imgSize[0];
-			canvasHeight = canvasWidth * ratio_4x3;			
-		}else if(imgRatio=="9x16"){
 			canvasHeight = maxSizeNum;
-			canvasHeight = (imgSize[1] > canvasHeight) ? canvasHeight : imgSize[1] ;
-			canvasWidth = canvasHeight * ratio_16x9;
-		}else if(imgRatio=="3x4"){
-			canvasHeight = maxSizeNum;
-			canvasHeight = (imgSize[1] > canvasHeight) ? canvasHeight : imgSize[1];
-			canvasWidth = canvasHeight * ratio_4x3;
+			canvasWidth = ($('#width').val() > canvasWidth) ? canvasWidth : $('#width').val() ;
+			canvasHeight = ($('#height').val() > canvasHeight) ? canvasHeight : $('#height').val() ;
 		}
 		openingCanvas.width = canvasWidth;
 		openingCanvas.height = canvasHeight;
+		openingCanvas.height = canvasHeight+1;
+		openingCanvas.height = canvasHeight-1;
 		openingCtx.fillStyle = '#000000';
 		openingCtx.fillRect(0, 0, openingCanvas.width, openingCanvas.height);
 		
 		endingCanvas.width = canvasWidth;
 		endingCanvas.height = canvasHeight;
+		endingCanvas.height = canvasHeight+1;
+		endingCanvas.height = canvasHeight-1;
 		endingCtx.fillStyle = '#000000';
 		endingCtx.fillRect(0, 0, endingCanvas.width, endingCanvas.height);
 		
