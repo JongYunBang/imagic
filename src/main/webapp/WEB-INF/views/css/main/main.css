@@ -6,7 +6,7 @@
 	
 	
 /* 	background-image: url("../../img/travieMain1.jpg"); */
-	background: #49525b url("../../img/TravieMain7.jpg")  no-repeat 100% 0%;
+	background: #49525b url("../../img/cc2.jpg")  no-repeat 100% 0%;
 /* 	background-repeat: no-repeat 100% 0%; */
 	background-size: cover;
 }
@@ -21,13 +21,27 @@
 	margin-top: 200px;
 }
 
+@media screen and (min-width: 461px) and (max-width: 730px){
+	.TravieMain{
+		background: #49525b url("../../img/cc3.jpg")  no-repeat 100% 0%;
+	}
+}
+
+@media screen and (max-width: 460px) {
+
+	.TravieMain{
+		background: #49525b url("../../img/cc5.jpg")  no-repeat 100% 0%;
+	}
+}
+
 @media screen and (max-width: 767px) {
-  .heading {
-  	font-size: 30px;
-  }
-  .text-muted{
-  font-size: 20px;
-  }
+
+	.heading {
+		font-size: 30px;
+	}
+	.text-muted{
+	font-size: 20px;
+	}
 }
 
 /* @media screen and (min-width: 1200px) and (max-width: 1600px) {
