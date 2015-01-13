@@ -232,6 +232,7 @@
 	</div>	
 	<div class="row text-center">
 		<video id="awesome" style="margin:0 auto;" controls autoplay></video>
+		<audio id="awesome_audio" style="display:none"></audio>
 		<br/>
 		<canvas id="canvas" style="display:none"></canvas><br/>    	
     </div>

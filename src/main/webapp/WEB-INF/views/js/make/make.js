@@ -98,7 +98,42 @@ $(document).ready(function(){
 	// 드래그를 하기 위한 interval 이벤트
 	var dragEvent;
 	
+	// 오디오 태그 처리하는 부분 
+	var audioElement = document.getElementById('awesome_audio');
+	
 //////////////////////////////////////// 이벤트 리스너 ///////////////////////////////////////////
+	
+	// 동영상이 재생될때 이벤트
+	$('#awesome').on('canplay', function(e) {
+		audioElement.setAttribute("src", "common/1.mp3");
+		audioElement.currentTime = document.getElementById('awesome').currentTime;
+		if(!audioElement.played){
+			audioElement.play();
+		}
+	});
+	
+	// 동영상이 중지될때 이벤트
+	$('#awesome').on('timeupdate', function(e) {
+		console.log("timeupdate");
+	});
+	
+	// 동영상이 중지될때 이벤트
+	$('#awesome').on('pause', function(e) {
+		audioElement.currentTime = document.getElementById('awesome').currentTime;
+		audioElement.pause();
+	});
+	
+	// 동영상 재생 버튼 누를 때 이벤트
+	$('#awesome').on('play', function(e) {
+		audioElement.currentTime = document.getElementById('awesome').currentTime;
+		audioElement.play();
+	});
+	
+	// 동영상이 끝났을 때 이벤트
+	$('#awesome').on('ended', function(e) {
+		audioElement.stop();
+	});
+	
 	
 	// 가로, 세로 방향 radio버튼 이벤트
 	$('input[name=imgDirection]').on('change', function(e) {
