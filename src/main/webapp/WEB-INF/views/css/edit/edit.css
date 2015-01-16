@@ -10,7 +10,7 @@
 	display: -ms-flexbox;
 	-ms-flex-pack : center;
 	justify-content: center;
-	 
+	position : relative;
 }
 
 #drawzone {
@@ -170,6 +170,24 @@ input[type="range"]::-ms-thumb {
     width: 16px;
     border-radius: 50%;
     background: #A5BD64;
+}
+
+
+span.glyphicon-circle-arrow-up, .glyphicon-circle-arrow-left, .glyphicon-circle-arrow-right, .glyphicon-circle-arrow-down{
+    font-size: 3em;
+    color: #5bc0de;
+}
+span.glyphicon-plus-sign {
+	 font-size: 3em;
+	 color: #357ebd;
+}
+
+#textTool{
+	position: absolute; 
+	width:200px; 
+	height:100px; 
+	right:0; 
+	top:0;
 }
 
 

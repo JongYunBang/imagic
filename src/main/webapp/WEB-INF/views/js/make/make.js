@@ -101,39 +101,10 @@ $(document).ready(function(){
 	// 오디오 태그 처리하는 부분 
 	var audioElement = document.getElementById('awesome_audio');
 	
+	// 초기 실행 함수
+	init();
+	
 //////////////////////////////////////// 이벤트 리스너 ///////////////////////////////////////////
-	
-	// 동영상이 재생될때 이벤트
-	$('#awesome').on('canplay', function(e) {
-		audioElement.setAttribute("src", "common/1.mp3");
-		audioElement.currentTime = document.getElementById('awesome').currentTime;
-		if(!audioElement.played){
-			audioElement.play();
-		}
-	});
-	
-	// 동영상이 중지될때 이벤트
-	$('#awesome').on('timeupdate', function(e) {
-		console.log("timeupdate");
-	});
-	
-	// 동영상이 중지될때 이벤트
-	$('#awesome').on('pause', function(e) {
-		audioElement.currentTime = document.getElementById('awesome').currentTime;
-		audioElement.pause();
-	});
-	
-	// 동영상 재생 버튼 누를 때 이벤트
-	$('#awesome').on('play', function(e) {
-		audioElement.currentTime = document.getElementById('awesome').currentTime;
-		audioElement.play();
-	});
-	
-	// 동영상이 끝났을 때 이벤트
-	$('#awesome').on('ended', function(e) {
-		audioElement.stop();
-	});
-	
 	
 	// 가로, 세로 방향 radio버튼 이벤트
 	$('input[name=imgDirection]').on('change', function(e) {
@@ -219,36 +190,6 @@ $(document).ready(function(){
 	});
 	
 	
-	// 폰트 선택할 때
-	$('#textFont a').on('click', function(e) {
-		e.preventDefault();
-		if(textWorking){
-			console.log("text_changed");
-			currentFont = e.currentTarget.dataset['text'];
-			document.getElementById('fontTitle').innerHTML = e.currentTarget.innerHTML;
-			activeTextArray[selectFont].currentFont = currentFont;
-			
-			textUp();
-			textDown();
-		}
-	});
-	
-	// 폰트 사이즈 선택할 때
-	$('#textSize a').on('click', function(e) {
-		e.preventDefault();
-		console.log("textsize");
-		if(textWorking){
-			currentSize = e.currentTarget.dataset['text'];
-			console.log("currentSize" + currentSize);
-			document.getElementById('fontSize').innerHTML = e.currentTarget.innerHTML;
-			activeTextArray[selectFont].font = currentSize;
-			
-			textUp();
-			textDown();
-		}
-	});
-	
-	
 	// 유저가 직접 입력하는 버튼을 눌렀을때 
 	$('#userSetBn').on('click', function(e) {
 		if(textWorking) {
@@ -309,6 +250,35 @@ $(document).ready(function(){
 		$("#userSetBn").attr("style", "");
 		
 		resizeCanvas(imgRatio);
+	});
+	
+	// 폰트 선택할 때
+	$('#textFont a').on('click', function(e) {
+		e.preventDefault();
+		if(textWorking){
+			console.log("text_changed");
+			currentFont = e.currentTarget.dataset['text'];
+			document.getElementById('fontTitle').innerHTML = e.currentTarget.innerHTML;
+			activeTextArray[selectFont].currentFont = currentFont;
+			
+			textUp();
+			textDown();
+		}
+	});
+	
+	// 폰트 사이즈 선택할 때
+	$('#textSize a').on('click', function(e) {
+		e.preventDefault();
+		console.log("textsize");
+		if(textWorking){
+			currentSize = e.currentTarget.dataset['text'];
+			console.log("currentSize" + currentSize);
+			document.getElementById('fontSize').innerHTML = e.currentTarget.innerHTML;
+			activeTextArray[selectFont].font = currentSize;
+			
+			textUp();
+			textDown();
+		}
 	});
 	
 	// 텍스트 추가 버튼 클릭 시
@@ -471,14 +441,39 @@ $(document).ready(function(){
     }, false);
 	
 	
+
+	// 동영상이 재생될때 이벤트
+	$('#awesome').on('canplay', function(e) {
+		audioElement.setAttribute("src", "common/1.mp3");
+		audioElement.currentTime = document.getElementById('awesome').currentTime;
+		if(!audioElement.played){
+			audioElement.play();
+		}
+	});
+	
+	// 동영상이 중지될때 이벤트
+	$('#awesome').on('pause', function(e) {
+		audioElement.currentTime = document.getElementById('awesome').currentTime;
+		audioElement.pause();
+	});
+	
+	// 동영상 재생 버튼 누를 때 이벤트
+	$('#awesome').on('play', function(e) {
+		audioElement.currentTime = document.getElementById('awesome').currentTime;
+		audioElement.play();
+	});
+	
+	// 동영상이 끝났을 때 이벤트
+	$('#awesome').on('ended', function(e) {
+		audioElement.stop();
+	});
+	
     // BACK 버튼
     $('#makeBackBtn').on('click', function(e) {
 		document.getElementById('makeBack').submit();
 	});
-    
 	
 //////////////////////////////////////// 함수 선언부 ////////////////////////////////////////////////////////
-	
     
     function textRight(){
     	if(textWorking) {
@@ -563,52 +558,8 @@ $(document).ready(function(){
 		drawText(expandRatio);
 		filesarr.push(saveTitleCanvas.toDataURL("image/png"));
 	}
-    
-    
 
-	// 가로 뱡향 세로 방향 변경 시 값 변경
-	function changeRadioDirection(){
-		imgDirection = $('input:radio[name=imgDirection]:checked').val();
-		if(imgDirection=="가로방향") {
-			document.getElementById('ratio16x9').value="16x9";
-			document.getElementById('ratio16x9span').innerHTML="16x9";
-			document.getElementById('ratio4x3').value="4x3";
-			document.getElementById('ratio4x3span').innerHTML="4x3";
-			if($('input[name=imgRatio]:checked').val()=="16x9") {
-				insertVerValue(maxWidth, ratio_16x9);
-			} else if ($('input[name=imgRatio]:checked').val()=="4x3") {
-				insertVerValue(maxWidth, ratio_4x3);
-			}
-			
-			// TODO : 오프닝/엔딩 페이지 가로 세로 방향에 맞는  미리 보기 CANVAS 크기 변경
-			
-		} else if(imgDirection=="세로방향") {
-			document.getElementById('ratio16x9').value="9x16";
-			document.getElementById('ratio16x9span').innerHTML="9x16";
-			document.getElementById('ratio4x3').value="3x4";
-			document.getElementById('ratio4x3span').innerHTML="3x4";
-			if($('input[name=imgRatio]:checked').val()=="9x16") {
-				insertHorValue(maxHeight, ratio_16x9);
-			} else if ($('input[name=imgRatio]:checked').val()=="3x4") {
-				insertHorValue(maxHeight, ratio_4x3);
-			} 
-		}
-	}
-    
-	// 비율 Radio버튼 변경시 값 변경
-	function changeRadioRatio(){
-		imgRatio=$('input[name=imgRatio]:checked').val();
-		if(imgRatio=="16x9") {
-			insertVerValue(maxWidth, ratio_16x9);
-		} else if (imgRatio=="4x3") {
-			insertVerValue(maxWidth, ratio_4x3);
-		} else if (imgRatio=="9x16") {
-			insertHorValue(maxHeight, ratio_16x9);
-		} else if (imgRatio=="3x4") {
-			insertHorValue(maxHeight, ratio_4x3);
-		}
-	}
-	
+
 	// 오프닝, 엔딩 텍스트 값들 초기화
 	function resetText(){
 		textWorking = false;		// 오프닝 텍스트를 입력해서 작업중인지 여부
@@ -669,6 +620,7 @@ $(document).ready(function(){
 		}
 	}	
 	
+	
 	// 미리보기 사이즈 리사이징
 	function resizeCanvas(imgRatio){
 		if(!userSet){
@@ -715,9 +667,47 @@ $(document).ready(function(){
 		drawzoneElement.width = canvasWidth;
 		drawzoneElement.height = canvasHeight;
 	}
-	/****여기까지*******/
 	
-	
+	// 가로 뱡향 세로 방향 변경 시 값 변경
+	function changeRadioDirection(){
+		imgDirection = $('input:radio[name=imgDirection]:checked').val();
+		if(imgDirection=="가로방향") {
+			document.getElementById('ratio16x9').value="16x9";
+			document.getElementById('ratio16x9span').innerHTML="16x9";
+			document.getElementById('ratio4x3').value="4x3";
+			document.getElementById('ratio4x3span').innerHTML="4x3";
+			if($('input[name=imgRatio]:checked').val()=="16x9") {
+				insertVerValue(maxWidth, ratio_16x9);
+			} else if ($('input[name=imgRatio]:checked').val()=="4x3") {
+				insertVerValue(maxWidth, ratio_4x3);
+			}
+			
+		} else if(imgDirection=="세로방향") {
+			document.getElementById('ratio16x9').value="9x16";
+			document.getElementById('ratio16x9span').innerHTML="9x16";
+			document.getElementById('ratio4x3').value="3x4";
+			document.getElementById('ratio4x3span').innerHTML="3x4";
+			if($('input[name=imgRatio]:checked').val()=="9x16") {
+				insertHorValue(maxHeight, ratio_16x9);
+			} else if ($('input[name=imgRatio]:checked').val()=="3x4") {
+				insertHorValue(maxHeight, ratio_4x3);
+			} 
+		}
+	}
+    
+	// 비율 Radio버튼 변경시 값 변경
+	function changeRadioRatio(){
+		imgRatio=$('input[name=imgRatio]:checked').val();
+		if(imgRatio=="16x9") {
+			insertVerValue(maxWidth, ratio_16x9);
+		} else if (imgRatio=="4x3") {
+			insertVerValue(maxWidth, ratio_4x3);
+		} else if (imgRatio=="9x16") {
+			insertHorValue(maxHeight, ratio_16x9);
+		} else if (imgRatio=="3x4") {
+			insertHorValue(maxHeight, ratio_4x3);
+		}
+	}
 	
 	// 가로 방향 선택시에 값 넣어주는 함수 
 	function insertVerValue(maxInWidth, ratio) {
@@ -742,8 +732,6 @@ $(document).ready(function(){
 		document.getElementById('imgLow').value=parseInt(lowVal*ratio)+"x"+lowVal;
 		document.getElementById('imgLowSpan').innerHTML= "낮은화질 (" + parseInt(lowVal*ratio)+" x "+lowVal + ")";
 	}
-	
-	init();
 	
 	function init() {
 		$.ajax({

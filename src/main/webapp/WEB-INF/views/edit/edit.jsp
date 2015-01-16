@@ -5,6 +5,26 @@
 <script src="../js/edit/edit.js"></script>
 <script src="../js/edit/jquery.bxslider.min.js"></script>
 
+<script>
+ WebFont.load({
+
+            // For google fonts
+            google: {
+                families: ['Titillium Web', 'Droid Serif', 'Roboto Condensed', 'Lobster', 'Sigmar One']
+            },
+            // For early access or custom font
+            custom: {
+                families: ['Nanum Gothic', 'Hanna', 'Jeju Gothic', 'Jeju Myeongjo', 'Jeju Hallasan', 'KoPub Batang', 'Nanum Gothic Coding', 'Nanum Myeongjo', 'Nanum Brush Script', 'Nanum Pen Script'],
+                urls: ['http://fonts.googleapis.com/earlyaccess/nanumgothic.css', 'http://fonts.googleapis.com/earlyaccess/hanna.css', 'http://fonts.googleapis.com/earlyaccess/jejugothic.css',
+                        'http://fonts.googleapis.com/earlyaccess/jejumyeongjo.css', 'http://fonts.googleapis.com/earlyaccess/jejuhallasan.css', 'http://fonts.googleapis.com/earlyaccess/kopubbatang.css',
+                        'http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css', 'http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css', 'http://fonts.googleapis.com/earlyaccess/nanumbrushscript.css',
+                        'http://fonts.googleapis.com/earlyaccess/nanumpenscript.css'
+                ]
+            }
+
+        });
+ </script>
+
 <link rel="stylesheet" href="../css/edit/edit.css">
 <link rel="stylesheet" href="../css/edit/jquery.bxslider.css">
 
@@ -74,6 +94,10 @@
 				<span class="glyphicon glyphicon-arrow-right"></span> Redo
 			</button>
 			
+			
+			<!--  텍스트 드롭다운  --> 
+			<button type="button" class="btn btn-default" id="text_drop" data-toggle="collapse" data-target="#textTool" disabled="disabled">텍스트 추가 <span class="caret"></span></button>
+			
 			<a type="button" class="btn btn-default pull-right disabled"
 				id="saveCanvasDown">
 				<span class="glyphicon glyphicon-download-alt"></span>다운로드
@@ -87,10 +111,8 @@
 
 	</div>
 
-
 	<!-- 필터 collapse -->
-	<div class="collapse row well" id="filterList"
-		style="margin-top: 10px;">
+	<div class="collapse row well" id="filterList" style="margin-top: 10px;">
 		<div class="row">
 			<div class="FilterName col-md-2">
 				<p>brightness</p>
@@ -202,9 +224,11 @@
 						data-filter="stackBlur"> <span class="FilterValue">0</span>
 				</div>
 			</div>
-
 		</div>
 	</div>
+	
+	<!-- Text Collapse -->
+
 </div>
 
 	<div class="drawArea">
@@ -212,6 +236,78 @@
 				<!-- 캔버스 -->
 				<div id="drawzone"> 
 					<canvas id="draw"></canvas>
+					<div class="collapse well" id="textTool">
+						<div class="row">
+							<a href="#" id="titleDialogUp"><span class="glyphicon glyphicon-circle-arrow-up"></span></a><br/>
+							<a href="#" id="titleDialogLeft"><span class="glyphicon glyphicon-circle-arrow-left"></span></a>
+							<a href="#" id="titleDialogBtn"><span class="glyphicon glyphicon-plus-sign"></span></a>
+							<a href="#" id="titleDialogRight"><span class="glyphicon glyphicon-circle-arrow-right"></span></a><br/>
+							<a href="#" id="titleDialogDown"><span class="glyphicon glyphicon-circle-arrow-down"></span></a><br/>
+							<!-- <button class="btn btn-default" id="text" disabled="disabled">텍스트</button> -->
+						</div>
+						<br/>
+<!-- 						<div class="row">
+							<div class="dropdown">
+								<button class="btn btn-default dropdown-toggle" type="button" id="textFontBtn" data-toggle="dropdown" aria-expanded="true">
+								  	<span id="fontTitle">폰트색상변경</span>
+								    <span class="caret"></span>
+								</button>
+							</div>
+						</div> -->
+<!-- 						<br/> -->
+						<div class="row">
+							<div class="dropdown ">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="textFontBtn" data-toggle="dropdown" aria-expanded="true">
+							  	<span id="fontTitle">글씨체</span>
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="textFontBtn" id="textFont" >
+							  	<li role="presentation" class="dropdown-header">한글 폰트</li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Myeongjo">나눔 명조</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic">나눔 고딕</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Gothic Coding">나눔 고딕 코딩</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Brush Script">나눔 손 글씨 붓</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Nanum Pen Script">나눔 손 글씨 펜</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Hanna">한나</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Gothic">제주 고딕</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Myeongjo">제주 명조</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Jeju Hallasan">제주한라산</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="KoPub Batang">KoPub 바탕</a></li>
+							    <li class="divider"></li>
+							    <li role="presentation" class="dropdown-header">영문 폰트</li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Titillium Web">Titillium Web</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Roboto Condensed">Roboto Condensed</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Lobster">Lobster</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Droid Serif">Droid Serif</a></li>
+							    <li role="presentation"><a role="menuitem " tabindex="-1" href="#" data-text="Sigmar One">Sigmar One</a></li>
+							  </ul>
+							</div>
+							<br/>
+							<div class="dropdown">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="textSizeBtn" data-toggle="dropdown" aria-expanded="true">
+							  	<span id="fontSize">사이즈</span>
+							    <span class="caret"></span>
+							  </button>
+							  <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="textSizeBtn" id="textSize">
+	<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="7">7포인트</a></li> -->
+	<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="9">9포인트</a></li> -->
+	<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="10">10포인트</a></li> -->
+	<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="11">11포인트</a></li> -->
+	<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="12">12포인트</a></li> -->
+	<!-- 						  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="14">14포인트</a></li> -->
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="16">16포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="18">18포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="24">24포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="32">32포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="40">40포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="48">48포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="56">56포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="64">64포인트</a></li>
+							  	<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-text="72">72포인트</a></li>
+							  </ul>
+							</div>
+						</div>
+					</div>
 				</div>
 		</div>
 	</div>
